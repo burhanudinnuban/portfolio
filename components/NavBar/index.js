@@ -38,8 +38,6 @@ export const NavBar = () => {
               aria-expanded="false"
               onClick={handleClick}
             >
-              <h1 className="">Open main menu</h1>
-
               <svg
                 className="block h-6 w-6"
                 xmlns="http://www.w3.org/2000/svg"
