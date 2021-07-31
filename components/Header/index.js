@@ -20,11 +20,11 @@ export default function Header() {
     );
   }
   return (
-    <div class="relative bg-white overflow-hidden">
-      <div class="max-w-7xl mx-auto">
-        <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+    <div className="relative bg-white overflow-hidden">
+      <div className="max-w-7xl mx-auto">
+        <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
           <svg
-            class="hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-white transform translate-x-1/2"
+            className="hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-white transform translate-x-1/2"
             fill="currentColor"
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
@@ -34,34 +34,38 @@ export default function Header() {
           </svg>
 
           <div>
-            <div class="relative pt-6 px-4 sm:px-6 lg:px-8"></div>
+            <div className="relative pt-6 px-4 sm:px-6 lg:px-8"></div>
           </div>
 
-          <main class="mt-2 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-10">
-            <div class="sm:text-center lg:text-left">
-              <figure class="md:flex  rounded-xl p-8 md:p-0">
+          <main className="mt-2 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-10">
+            <div className="sm:text-center lg:text-left">
+              <figure className="md:flex  rounded-xl p-8 md:p-0">
                 <img
-                  class="w-32 h-32 md:w-48 md:h-auto md:rounded-2xl rounded-full mx-auto"
+                  className="w-32 h-32 md:w-48 md:h-auto md:rounded-2xl rounded-full mx-auto"
                   src="/bg-blue-photo.png"
                   alt=""
                 />
-                <div class="pt-6 md:p-8 text-center md:text-left space-y-4">
+                <div className="pt-6 md:p-8 text-center md:text-left space-y-4">
                   <blockquote>
-                    <p class="text-lg font-semibold">
+                    <p className="text-lg font-semibold">
                       “I'm 23 years old and i'm an Fullstack Developer. I have
                       expertise in some technology : React Native, React JS,
                       Next JS, Express JS, Swift 5, Android Studio. And also in
                       Design Graphics with Adobe Ilustrator..”
                     </p>
                   </blockquote>
-                  <figcaption class="font-medium">
-                    <div class="text-cyan-600">Burhanudin Nuban</div>
-                    <div class="text-gray-500">Mobile Developer, Jakarta</div>
+                  <figcaption className="font-medium">
+                    <div className="text-purple-600 text-base">
+                      Burhanudin Nuban
+                    </div>
+                    <div className="text-gray-500">
+                      Mobile Developer, Jakarta
+                    </div>
                   </figcaption>
                 </div>
               </figure>
-              <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                <div class="rounded-md shadow">
+              <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+                <div className="rounded-md shadow">
                   <button
                     onClick={() =>
                       openInNewTab(
@@ -69,16 +73,16 @@ export default function Header() {
                       )
                     }
                     href="#"
-                    class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
+                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
                   >
                     Send Mail
                   </button>
                 </div>
-                <div class="mt-3 sm:mt-0 sm:ml-3">
+                <div className="mt-3 sm:mt-0 sm:ml-3">
                   <button
                     onClick={getLinkWhastapp}
                     href="#"
-                    class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10"
+                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10"
                   >
                     Send Whatsapp
                   </button>
@@ -88,9 +92,9 @@ export default function Header() {
           </main>
         </div>
       </div>
-      <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+      <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
         <img
-          class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
+          className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
           src="./bg-header.jpg"
           alt=""
         />
