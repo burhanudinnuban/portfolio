@@ -13,21 +13,21 @@ export const NavBar = () => {
     setActive(!active);
   };
 
-  function barClick(params) {
-    setbarActive({
-      ...barActive,
-      dashboard: params === "dashboard" ? true : false,
-      projects: params === "projects" ? true : false,
-      aboutme: params === "aboutme" ? true : false,
-    });
-  }
+  // function barClick(params) {
+  //   setbarActive({
+  //     ...barActive,
+  //     dashboard: params === "dashboard" ? true : false,
+  //     projects: params === "projects" ? true : false,
+  //     aboutme: params === "aboutme" ? true : false,
+  //   });
+  // }
 
   function maintanance() {
-    alert("This page is maintanance.");
+    alert("This function is maintanance.");
   }
 
   return (
-    <nav className="bg-white sticky top-0">
+    <nav className="bg-gray-700 relative top-0">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-16">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -72,39 +72,36 @@ export const NavBar = () => {
             </button>
           </div>
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex-shrink-0 flex items-center">
+            <button className="flex-shrink-0 flex items-center">
               <img src="./portfolio.png" />
-              <h1
-                href="#"
+              <a
+                href="/"
                 className="text-purple-700 px-3 rounded-md text-2xl font-bold"
                 aria-current="page"
               >
                 Portfolio
-              </h1>
-            </div>
+              </a>
+            </button>
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
                 <a
-                  href="#"
-                  className="text-black hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  href="/"
+                  className="text-white hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   aria-current="page"
-                  onClick={maintanance}
                 >
-                  Dashboard
+                  Home
                 </a>
 
                 <a
-                  href="#"
-                  onClick={maintanance}
-                  className="text-black hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  href="/projects"
+                  className="text-white hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
                   Projects
                 </a>
 
                 <a
-                  href="#"
-                  onClick={maintanance}
-                  className="text-black hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  href="/about"
+                  className="text-white hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
                   About Me
                 </a>
@@ -117,28 +114,18 @@ export const NavBar = () => {
         <div className="sm:hidden" id="mobile-menu">
           <div className="px-2 pt-2 pb-3 space-y-1">
             <button
-              onClick={maintanance}
-              href="#"
-              className="text-black hover:bg-black hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+              className="text-white hover:bg-black hover:text-white block px-3 py-2 rounded-md text-base font-medium"
               aria-current="page"
             >
-              Dashboard
+              <a href="/">Home</a>
             </button>
 
-            <button
-              onClick={maintanance}
-              href="#"
-              className="text-black hover:bg-black hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-            >
-              Projects
+            <button className="text-white hover:bg-black hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+              <a href="/projects">Projects</a>
             </button>
 
-            <button
-              onClick={maintanance}
-              href="#"
-              className="text-black hover:bg-black hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-            >
-              About Me
+            <button className="text-white hover:bg-black hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+              <a href="/about">About Me</a>
             </button>
           </div>
         </div>
