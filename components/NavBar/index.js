@@ -1,0 +1,150 @@
+/*  ./components/Navbar.jsx     */
+import { useState } from "react";
+
+export const NavBar = () => {
+  const [active, setActive] = useState(false);
+  const [barActive, setbarActive] = useState({
+    dashboard: false,
+    projects: false,
+    aboutme: false,
+  });
+
+  const handleClick = () => {
+    setActive(!active);
+  };
+
+  function barClick(params) {
+    setbarActive({
+      ...barActive,
+      dashboard: params === "dashboard" ? true : false,
+      projects: params === "projects" ? true : false,
+      aboutme: params === "aboutme" ? true : false,
+    });
+  }
+
+  function maintanance() {
+    alert("This page is maintanance.");
+  }
+
+  return (
+    <nav className="bg-white sticky top-0">
+      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+        <div className="relative flex items-center justify-between h-16">
+          <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+            <button
+              type="button"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+              aria-controls="mobile-menu"
+              aria-expanded="false"
+              onClick={handleClick}
+            >
+              <h1 className="">Open main menu</h1>
+
+              <svg
+                className="block h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+
+              <svg
+                className="hidden h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+          <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+            <div className="flex-shrink-0 flex items-center">
+              <img src="./portfolio.png" />
+              <h1
+                href="#"
+                className="text-purple-700 px-3 rounded-md text-2xl font-bold"
+                aria-current="page"
+              >
+                Portfolio
+              </h1>
+            </div>
+            <div className="hidden sm:block sm:ml-6">
+              <div className="flex space-x-4">
+                <a
+                  href="#"
+                  className="text-black hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  aria-current="page"
+                  onClick={maintanance}
+                >
+                  Dashboard
+                </a>
+
+                <a
+                  href="#"
+                  onClick={maintanance}
+                  className="text-black hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Projects
+                </a>
+
+                <a
+                  href="#"
+                  onClick={maintanance}
+                  className="text-black hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  About Me
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {active && (
+        <div className="sm:hidden" id="mobile-menu">
+          <div className="px-2 pt-2 pb-3 space-y-1">
+            <button
+              onClick={maintanance}
+              href="#"
+              className="text-black hover:bg-black hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+              aria-current="page"
+            >
+              Dashboard
+            </button>
+
+            <button
+              onClick={maintanance}
+              href="#"
+              className="text-black hover:bg-black hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+            >
+              Projects
+            </button>
+
+            <button
+              onClick={maintanance}
+              href="#"
+              className="text-black hover:bg-black hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+            >
+              About Me
+            </button>
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+};
