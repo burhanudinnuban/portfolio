@@ -5,7 +5,7 @@ import Section from "../Section";
 export default function VerticalRowProjects() {
   return (
     <Section
-      title="Lets me help your company to growt up."
+      title="Let me help your company to grow up."
       description="So if you were waiting for the perfect time to hire me the time is NOW......"
       title2="Projects"
     >
@@ -45,7 +45,7 @@ export default function VerticalRowProjects() {
       />
       <VerticalFeatureRow
         title="E-Recycle"
-        description="The E-Recycle mobile app for Android and IOS official release to the public. In this app, I'm a frot end developer using Android Studio and java language."
+        description="The E-Recycle mobile app for Android and IOS official release to the public. In this app, I'm a front end developer using Android Studio and java language."
         description2="Android Studio, Swift, Cedeigniter, AZURE, ERP"
         description3="PT.Multi Inti Digital Lestari"
         image="./erecycle.png"
