@@ -51,8 +51,12 @@ export default function VerticalFeatureRow({
           <button onClick={() => openInNewTab(linkIOS)}>{linkIOS}</button>
         </div>
       </div>
-      <div className="w-full sm:w-1/2 p-6">
-        <img src={`${router.basePath}${image}`} alt={imageAlt} />
+      <div className="w-full sm:w-1/2 ">
+        <img
+          className="rounded-lg"
+          src={`${router.basePath}${image}`}
+          alt={imageAlt}
+        />
       </div>
     </div>
   );
