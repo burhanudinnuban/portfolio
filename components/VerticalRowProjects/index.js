@@ -11,7 +11,7 @@ export default function VerticalRowProjects() {
     >
       <VerticalFeatureRow
         title="SiPitung"
-        description="The SiPitung app for Android Official and IOS was release to the public. In this App, I'm a React Native Developer with javascript language"
+        description="The SiPitung app for Android Official and IOS was release to the public. In this App, I'm as React Native Developer with javascript language"
         description2="The tool i use is React Native/Javascript"
         description3="PT.Generasi Informasi Optima"
         image="./sipitung.png"
@@ -22,8 +22,8 @@ export default function VerticalRowProjects() {
       />
       <VerticalFeatureRow
         title="IndiHome Smart"
-        description="The Indihome Smart mobile app for Android and IOS official release to the public. I'm a IOS native developer using Swift5 and Xcode"
-        description2="the tool i use is Swift5/Xcode"
+        description="The Indihome Smart mobile app for Android and IOS official release to the public. I'm as IOS native developer using Swift5 and Xcode"
+        description2="The tool i use is Swift5/Xcode"
         description3="PT.Telkom"
         image="./indihomesmart.png"
         imageAlt="indihomesmart"
@@ -34,7 +34,7 @@ export default function VerticalRowProjects() {
       />
       <VerticalFeatureRow
         title="Genioo"
-        description="The Genioo mobile app for Android official release to the public and IOS is currently pending to release. In this app, I'm a Android Studio Developer and java language."
+        description="The Genioo mobile app for Android official release to the public and IOS is currently pending to release. In this app, I'm as Android Studio Developer and java language."
         description2="The tool i use is React Native/Javascript, CPanel, Cedeigniter, MySQL"
         description3="PT.Generasi Informasi Optima"
         image="./genioo.png"
@@ -45,7 +45,7 @@ export default function VerticalRowProjects() {
       />
       <VerticalFeatureRow
         title="E-Recycle"
-        description="The E-Recycle mobile app for Android and IOS official release to the public. In this app, I'm a front end developer using Android Studio and java language."
+        description="The E-Recycle mobile app for Android and IOS official release to the public. In this app, I'm as mobile developer using Android Studio and java language."
         description2="The tool i use is Android Studio"
         description3="PT.Multi Inti Digital Lestari"
         image="./erecycle.png"
