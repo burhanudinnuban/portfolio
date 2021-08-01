@@ -1,5 +1,5 @@
 import React from "react";
-import { Footer, FormInformation, Head, Main } from "../components";
+import { Footer, FormInformation, Head } from "../components";
 import Banner from "../components/Banner";
 import { NavBar } from "../components/NavBar";
 

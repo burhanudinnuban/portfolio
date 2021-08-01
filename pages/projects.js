@@ -1,5 +1,5 @@
 import React from "react";
-import { Footer, Head, Main } from "../components";
+import { Banner, Footer, Head, VerticalRowProjects } from "../components";
 import { NavBar } from "../components/NavBar";
 
 function Projects() {
@@ -7,7 +7,8 @@ function Projects() {
     <>
       <Head page={"Projects"} />
       <NavBar />
-      <Main />
+      <VerticalRowProjects />
+      <Banner />
       <Footer />
     </>
   );

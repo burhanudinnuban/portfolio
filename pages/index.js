@@ -1,4 +1,11 @@
-import { Footer, Head, Header, Main } from "../components";
+import {
+  Banner,
+  Footer,
+  FormInformation,
+  Head,
+  Header,
+  VerticalRowProjects,
+} from "../components";
 import { NavBar } from "../components/NavBar";
 export default function Home() {
   return (
@@ -6,7 +13,9 @@ export default function Home() {
       <Head page={"Home"} />
       <NavBar />
       <Header />
-      <Main />
+      <VerticalRowProjects />
+      <FormInformation />
+      <Banner />
       <Footer />
     </div>
   );
