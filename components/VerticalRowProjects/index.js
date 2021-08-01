@@ -6,7 +6,8 @@ export default function VerticalRowProjects() {
   return (
     <Section
       title="Lets me help your company to growt up."
-      description="So if you were waiting for the perfect time to hire me the time is NOW."
+      description="So if you were waiting for the perfect time to hire me the time is NOW......"
+      title2="Projects"
     >
       <VerticalFeatureRow
         title="SiPitung"

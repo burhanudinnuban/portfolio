@@ -15,13 +15,16 @@ export default function VerticalFeatureRow({
 }) {
   const router = useRouter();
   const verticalFeatureClass = className(
-    "mt-20",
+    "mt-5",
     "flex",
     "flex-wrap",
     "items-center",
     {
       "flex-row-reverse": reverse,
-    }
+    },
+    "rounded-lg",
+    "border-2",
+    "p-8"
   );
 
   function openInNewTab(url) {

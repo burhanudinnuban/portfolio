@@ -76,7 +76,7 @@ export const NavBar = () => {
               <img src="./portfolio.png" />
               <a
                 href="/"
-                className="text-purple-700 px-3 rounded-md text-2xl font-bold"
+                className="text-white px-3 rounded-md text-2xl font-bold"
                 aria-current="page"
               >
                 Portfolio
@@ -97,6 +97,13 @@ export const NavBar = () => {
                   className="text-white hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
                   Projects
+                </a>
+
+                <a
+                  href="/contact"
+                  className="text-white hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Contact Me
                 </a>
 
                 <a
@@ -122,6 +129,10 @@ export const NavBar = () => {
 
             <button className="text-white hover:bg-black hover:text-white block px-3 py-2 rounded-md text-base font-medium">
               <a href="/projects">Projects</a>
+            </button>
+
+            <button className="text-white hover:bg-black hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+              <a href="/contact">Contact</a>
             </button>
 
             <button className="text-white hover:bg-black hover:text-white block px-3 py-2 rounded-md text-base font-medium">

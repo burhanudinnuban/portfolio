@@ -20,9 +20,9 @@ export default function Header() {
     );
   }
   return (
-    <div className="relative bg-white overflow-hidden">
+    <div className="relative bg-gray-700 overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+        <div className="relative z-10 pb-8 bg-gray-500 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
           <svg
             className="hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-white transform translate-x-1/2"
             fill="currentColor"
@@ -33,15 +33,13 @@ export default function Header() {
             <polygon points="50,0 100,0 50,100 0,100" />
           </svg>
 
-          <div>
-            <div className="relative pt-6 px-4 sm:px-6 lg:px-8"></div>
-          </div>
+          <div className="relative pt-6 px-4 sm:px-6 lg:px-8"></div>
 
           <main className="mt-2 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-10">
             <div className="sm:text-center lg:text-left">
               <figure className="md:flex  rounded-xl p-8 md:p-0">
                 <img
-                  className="w-32 h-32 md:w-48 md:h-auto md:rounded-2xl rounded-full mx-auto"
+                  className="w-32 h-42 md:w-48 md:h-auto md:rounded-2xl rounded-full mx-auto"
                   src="/bg-blue-photo.png"
                   alt=""
                 />
@@ -55,10 +53,8 @@ export default function Header() {
                     </p>
                   </blockquote>
                   <figcaption className="font-medium">
-                    <div className="text-purple-600 text-base">
-                      Burhanudin Nuban
-                    </div>
-                    <div className="text-gray-500">
+                    <div className="text-white  text-lg">Burhanudin Nuban</div>
+                    <div className="text-gray-100">
                       Mobile Developer, Jakarta
                     </div>
                   </figcaption>
@@ -73,7 +69,7 @@ export default function Header() {
                       )
                     }
                     href="#"
-                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
+                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-800 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
                   >
                     Send Mail
                   </button>

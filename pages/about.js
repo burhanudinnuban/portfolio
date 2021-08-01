@@ -6,9 +6,8 @@ import { NavBar } from "../components/NavBar";
 function About() {
   return (
     <>
-      <Head page={"About Me"} />
+      <Head page={"About"} />
       <NavBar />
-      <Banner />
       <FormInformation />
       <Banner />
       <Footer />

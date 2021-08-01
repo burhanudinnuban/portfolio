@@ -1,4 +1,10 @@
-export default function Section({ title, description, yPadding, children }) {
+export default function Section({
+  title,
+  description,
+  yPadding,
+  children,
+  title2,
+}) {
   return (
     <div
       className={`max-w-screen-lg mx-auto px-3 ${
@@ -8,10 +14,13 @@ export default function Section({ title, description, yPadding, children }) {
       {(title || description) && (
         <div className="mb-12 text-center">
           {title && (
-            <h2 className="text-4xl text-gray-900 font-bold">{title}</h2>
+            <h2 className="text-4xl text-gray-900 font-bold">"{title}"</h2>
           )}
           {description && (
-            <div className="mt-4 text-xl md:px-20">{description}</div>
+            <div className="mt-4 text-xl md:px-20">"{description}"</div>
+          )}
+          {title2 && (
+            <h1 className="text-4xl text-gray-900 font-bold pt-8">{title2}</h1>
           )}
         </div>
       )}

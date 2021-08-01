@@ -1,13 +1,13 @@
 import { Footer, Head, Header, Main } from "../components";
+import Banner from "../components/Banner";
 import { NavBar } from "../components/NavBar";
 export default function Home() {
   return (
-    <div className="bg-gray-300">
-      <Head page={"Home"} />
+    <>
+      <Head page={"Contact"} />
       <NavBar />
-      <Header />
-      <Main />
+      <Banner />
       <Footer />
-    </div>
+    </>
   );
 }

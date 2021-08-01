@@ -2,10 +2,10 @@ import React from "react";
 
 export default function Button({ title, subtitle, button, button2, button3 }) {
   return (
-    <div className="text-center flex flex-col p-2 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-12 bg-primary-100 rounded-lg bg-purple-700">
+    <div className="text-center flex flex-col p-2 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-12 bg-primary-100 rounded-lg bg-purple-700 ">
       <div className="text-2xl font-semibold">
         <div className="text-white">{title}</div>
-        <div className="text-gray-700">{subtitle}</div>
+        <div className="text-black">{subtitle}</div>
       </div>
 
       <div className="flex flex-col text-center text-2xl font-semibold items-center   sm:justify-end sm:items-end">
