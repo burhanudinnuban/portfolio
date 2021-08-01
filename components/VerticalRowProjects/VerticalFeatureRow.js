@@ -22,8 +22,8 @@ export default function VerticalFeatureRow({
     {
       "flex-row-reverse": reverse,
     },
-    "rounded-lg",
-    "border-2",
+    "rounded-xl",
+    "border-4",
     "p-8"
   );
 
