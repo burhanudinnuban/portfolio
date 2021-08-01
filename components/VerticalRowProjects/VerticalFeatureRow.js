@@ -42,13 +42,22 @@ export default function VerticalFeatureRow({
           {description2}
         </div>
         <div className="mt-2 text-black text-sm leading-9">{description3}</div>
-        <div className="mt-2 text-purple-700 text-xs leading-9">
-          <button onClick={() => openInNewTab(linkAndroid)}>
-            {linkAndroid}
-          </button>
-        </div>
-        <div className="mt-2 text-purple-700 text-xs leading-9">
-          <button onClick={() => openInNewTab(linkIOS)}>{linkIOS}</button>
+
+        <div className="flex flex-row justify-around">
+          {linkAndroid && (
+            <div className="mt-2  text-purple-700 text-xs leading-9">
+              <button onClick={() => openInNewTab(linkAndroid)}>
+                <img src="/playstore.png" />
+              </button>
+            </div>
+          )}
+          {linkIOS && (
+            <div className="mt-2 text-purple-700 text-xs leading-9">
+              <button onClick={() => openInNewTab(linkIOS)}>
+                <img src="/app-store.png" />
+              </button>
+            </div>
+          )}
         </div>
       </div>
       <div className="w-full sm:w-1/2 ">

@@ -27,7 +27,7 @@ export default function Header() {
             <div className="sm:text-center lg:text-left mt-10">
               <figure className="md:flex  rounded-xl p-8 md:p-0">
                 <img
-                  className="w-32 h-42 md:w-48 md:h-auto md:rounded-2xl rounded-full mx-auto"
+                  className="w-30 h-40 md:w-48 md:h-auto md:rounded-2xl rounded-full mx-auto"
                   src="/bg-blue-photo.png"
                   alt=""
                 />
