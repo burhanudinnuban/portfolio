@@ -81,10 +81,12 @@ function FormInformation() {
             </dd>
           </div>
           <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Attachments</dt>
+            <dt className="text-sm font-medium text-gray-500">
+              Curriculum Vitae
+            </dt>
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
               <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
-                <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                {/* <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
                   <div className="w-0 flex-1 flex items-center">
                     <svg
                       className="flex-shrink-0 h-5 w-5 text-gray-400"
@@ -94,9 +96,9 @@ function FormInformation() {
                       aria-hidden="true"
                     >
                       <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z"
-                        clip-rule="evenodd"
+                        clipRule="evenodd"
                       />
                     </svg>
                     <span className="ml-2 flex-1 w-0 truncate">
@@ -118,7 +120,7 @@ function FormInformation() {
                       Download
                     </a>
                   </button>
-                </li>
+                </li> */}
                 <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
                   <div className="w-0 flex-1 flex items-center">
                     <svg
@@ -129,17 +131,19 @@ function FormInformation() {
                       aria-hidden="true"
                     >
                       <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z"
-                        clip-rule="evenodd"
+                        clipRule="evenodd"
                       />
                     </svg>
-                    <span className="ml-2 flex-1 w-0 truncate">resume.pdf</span>
+                    <span className="ml-2 flex-1 w-0 truncate">
+                      BURHANUDINNUBAN-CV.pdf
+                    </span>
                   </div>
                   <button
                     onClick={() =>
                       openInNewTab(
-                        "https://drive.google.com/file/d/16_Tb3HPOAWoNUNhWaT3pUdD5wNxy7tTk/view?usp=sharing"
+                        "https://drive.google.com/file/d/1Gb1SedjuAyM2td2iJM4UY9dlRNS3GhZ_/view?usp=sharing"
                       )
                     }
                     className="ml-4 flex-shrink-0"

@@ -5,7 +5,7 @@ export default function Footer() {
     <div>
       <footer className="flex items-center justify-center w-full h-24 border-t bg-gray-900 absolute">
         <a
-          className="flex items-center justify-center text-white font-display"
+          className="flex items-center justify-center text-white font-display text-center"
           href="/"
           target="_top"
           rel="noopener noreferrer"
