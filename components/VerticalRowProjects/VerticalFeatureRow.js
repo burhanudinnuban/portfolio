@@ -47,14 +47,14 @@ export default function VerticalFeatureRow({
           {linkAndroid && (
             <div className="mt-2  text-purple-700 text-xs leading-9">
               <button onClick={() => openInNewTab(linkAndroid)}>
-                <img src="/playstore.png" />
+                <img className="w-10 h-10" src="/playstore.png" />
               </button>
             </div>
           )}
           {linkIOS && (
             <div className="mt-2 text-purple-700 text-xs leading-9">
               <button onClick={() => openInNewTab(linkIOS)}>
-                <img src="/app-store.png" />
+                <img className="w-10 h-10" src="/app-store.png" />
               </button>
             </div>
           )}

@@ -33,7 +33,7 @@ export default function Banner() {
             className={"flex row-auto justify-center items-center"}
           >
             <a className={"text-sm m-2 text-white"}>+62-8211-8992-254</a>
-            <img src={"./whatsapp.png"} />
+            <img className="w-10 h-10" src={"./whatsapp.png"} />
           </button>
         }
         button3={
@@ -48,7 +48,7 @@ export default function Banner() {
             <a className={"text-sm m-2 text-white"}>
               burhanudinnuban@gmail.com
             </a>
-            <img src={"./gmail.png"} />
+            <img className="w-10 h-10" src={"./gmail.png"} />
           </button>
         }
       />
