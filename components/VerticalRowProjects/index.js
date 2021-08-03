@@ -17,7 +17,7 @@ export default function VerticalRowProjects() {
         image="./sipitung.png"
         imageAlt="sipitung"
         linkAndroid="https://play.google.com/store/apps/details?id=com.genio.sipitung"
-        linkIOS=""
+        linkIOS="https://apps.apple.com/us/app/sipitung/id1576839531"
         link="https://sipitung.co.id"
       />
       <VerticalFeatureRow
