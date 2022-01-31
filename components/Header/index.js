@@ -22,7 +22,7 @@ export default function Header() {
   return (
     <div className="relative bg-gray-900 overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        <div className="abolute z-10 pb-8 bg-gray-300 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+        <div className="abolute z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
           <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
             <div className="sm:text-center lg:text-left mt-10">
               <figure className="md:flex  rounded-xl p-8 md:p-0">
@@ -76,13 +76,13 @@ export default function Header() {
           </main>
         </div>
       </div>
-      {/* <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 ">
+      <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 ">
         <img
           className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
           src="./bg-header.png"
           alt=""
         />
-      </div> */}
+      </div>
     </div>
   );
 }
