@@ -41,7 +41,7 @@ function FormInformation() {
           <div className="bg-gray-100 rounded-lg px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt className="text-sm font-medium text-gray-500">Age</dt>
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              23 Years
+              24 Years
             </dd>
           </div>
           <div className="bg-gray-300 rounded-lg px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -55,13 +55,13 @@ function FormInformation() {
               Salary expectation
             </dt>
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              Rp 12.500.000 | Negotiable
+              Rp 17.500.000 | Negotiable
             </dd>
           </div>
           <div className="bg-gray-300 rounded-lg px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt className="text-sm font-medium text-gray-500">About</dt>
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              I'm is 23 years old and i'm is an Fullstack Developer. I have
+              I'm is 24 years old and i'm is an Fullstack Developer. I have
               expertise in some technology : React Native, React JS, Next JS,
               Express JS, Swift 5, Android Studio. And also in Design Graphics
               with Adoble Ilustrator.

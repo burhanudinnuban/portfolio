@@ -10,8 +10,31 @@ export default function VerticalRowProjects() {
       title2="Projects"
     >
       <VerticalFeatureRow
+        title="Trac To Go"
+        description="The Trac To Go app available for mobile Android and IOS. In this App, I'm as React Native Developer with javascript language"
+        description2="The tool i use is React Native/Javascript"
+        description3="PT.Serasi Autoraya"
+        image="./trac.png"
+        imageAlt="tractogo"
+        linkAndroid="https://play.google.com/store/apps/details?id=com.trac.tractogo&hl=id"
+        linkIOS="https://apps.apple.com/id/app/tractogo-rental-mobil-terbaik/id1459840738?l=id"
+        link="https://www.trac.astra.co.id/"
+      />
+      <VerticalFeatureRow
+        title="ProSpark - Transforms Learning"
+        description="The ProSpark - Transforms Learning app available for mobile Android and IOS. In this App, I'm as React Native Developer with javascript language"
+        description2="The tool i use is React Native/Javascript"
+        description3="PT.Prospark"
+        image="./prospark.png"
+        imageAlt="sipitung"
+        linkAndroid="https://play.google.com/store/apps/details?id=com.prospark.demo"
+        linkIOS="https://apps.apple.com/id/app/prospark-transforms-learning/id1438625157"
+        link="https://www.trac.astra.co.id/"
+        reverse
+      />
+      <VerticalFeatureRow
         title="SiPitung"
-        description="The SiPitung app for Android Official and IOS was release to the public. In this App, I'm as React Native Developer with javascript language"
+        description="The SiPitung app available for mobile Android and IOS. In this App, I'm as React Native Developer with javascript language"
         description2="The tool i use is React Native/Javascript"
         description3="PT.Generasi Informasi Optima"
         image="./sipitung.png"
@@ -22,7 +45,7 @@ export default function VerticalRowProjects() {
       />
       <VerticalFeatureRow
         title="IndiHome Smart"
-        description="The Indihome Smart mobile app for Android and IOS official release to the public. I'm as IOS native developer using Swift5 and Xcode"
+        description="The IndoHome Smart app available for mobile Android and IOS. I'm as IOS native developer using Swift5 and Xcode"
         description2="The tool i use is Swift5/Xcode"
         description3="PT.Telkom"
         image="./indihomesmart.png"
@@ -34,7 +57,7 @@ export default function VerticalRowProjects() {
       />
       <VerticalFeatureRow
         title="Genioo"
-        description="The Genioo mobile app for Android official release to the public and IOS is currently pending to release. In this app, I'm as Android Studio Developer and java language."
+        description="The Genioo app available for mobile Android. In this app, I'm as FullStack Developer."
         description2="The tool i use is React Native/Javascript, CPanel, Cedeigniter, MySQL"
         description3="PT.Generasi Informasi Optima"
         image="./genioo.png"
