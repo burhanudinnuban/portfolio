@@ -34,7 +34,7 @@ export default function Header() {
                 <div className="pt-6 md:p-8 text-center md:text-left space-y-4">
                   <blockquote>
                     <p className="text-lg font-semibold">
-                      “I'm 23 years old and i'm an Fullstack Developer. I have
+                      “I'm 24 years old and i'm an Fullstack Developer. I have
                       expertise in some technology : React Native, React JS,
                       Next JS, Express JS, Swift 5, Android Studio. And also in
                       Design Graphics with Adobe Ilustrator..”
