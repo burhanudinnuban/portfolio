@@ -26,26 +26,26 @@ export default function Header() {
           <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
             <div className="sm:text-center lg:text-left mt-10">
               <figure className="md:flex  rounded-xl p-8 md:p-0">
-                <img
+                {/* <img
                   className="w-30 h-40 md:w-48 md:h-auto md:rounded-2xl rounded-full mx-auto"
                   src="/bg-blue-photo.png"
                   alt=""
-                />
+                /> */}
                 <div className="pt-6 md:p-8 text-center md:text-left space-y-4">
                   <blockquote>
                     <p className="text-lg text-white font-semibold">
-                      “Mobile App Developer with 4 years experience. Capable of working with a variety of technology and software solutions. Extensive expertise in React Native for Android and IOS application.”
+                      “Hi, I’m Burhanudin Nuban, a 27-year-old Fullstack Developer and DevSecOps Engineer with 6+ years of experience. I specialize in building secure, scalable, and high-performing systems with expertise in ReactJS, React Native, Laravel, .NET, and Spring Boot. On the DevSecOps side, I leverage Wazuh for threat detection, Grafana/Prometheus for real-time monitoring, and BurpSuite for black-box security testing. Highly adaptive and quick to master new technologies, I thrive in dynamic environments and consistently deliver robust, secure, and efficient solutions.”
                     </p>
                   </blockquote>
                   <figcaption className="font-medium">
                     <div className="text-purple-700  text-lg">
                       Burhanudin Nuban
                     </div>
-                    <div className="text-white">Mobile Developer, Jakarta</div>
+                    <div className="text-white">Fullstack Developer, Jakarta</div>
                   </figcaption>
                 </div>
               </figure>
-              <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+              <div className="mt-5 ml-8 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                 <div className="rounded-md shadow">
                   <button
                     onClick={() =>
