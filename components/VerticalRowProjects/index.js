@@ -15,7 +15,7 @@ export default function VerticalRowProjects() {
         description2="The tool i use is React Native/Javascript and Java Springboot"
         description3="PT.Eka Bogainti"
         image="./trac.png"
-        imageAlt="tractogo"
+        imageAlt="hokben"
         linkAndroid="https://play.google.com/store/apps/details?id=com.trac.tractogo&hl=id"
         linkIOS="https://apps.apple.com/id/app/tractogo-rental-mobil-terbaik/id1459840738?l=id"
         link="https://www.trac.astra.co.id/"
