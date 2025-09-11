@@ -6,57 +6,128 @@ import { Calendar, MapPin } from "lucide-react";
 export function Experience() {
   const experiences = [
     {
-      title: "Senior Full Stack Developer",
-      company: "TechCorp Solutions",
-      location: "San Francisco, CA",
-      period: "2022 - Present",
-      description: "Lead a team of 4 developers in building scalable web applications. Implemented microservices architecture and improved application performance by 40%.",
+      title: "DevSecOps (Ahli Muda Bidang IT)",
+      company: "PT. Waskita Karya (Persero) Tbk",
+      location: "East Jakarta, Indonesia",
+      period: "Sep 2024 - Present",
+      description:
+        "Leading and managing mobile and web application projects over 25 applications, ensuring robust DevSecOps practices and secure deployments.",
       achievements: [
-        "Architected and developed 3 major client applications using React and Node.js",
-        "Mentored junior developers and established code review processes",
-        "Reduced deployment time by 60% through CI/CD pipeline optimization"
+        "Led development of mobile and web applications",
+        "Built CI/CD pipelines with vulnerability scanning (GitLab & SonarQube)",
+        "Migrated VM and databases to new servers",
+        "Implemented Docker containerization",
+        "Developed server & DB monitoring with Prometheus and Grafana",
+        "Improved security for servers, mobile apps, and web apps",
+        "Migrated systems to automation",
+        "Solved technical issues and optimized architecture"
       ],
-      technologies: ["React", "Node.js", "TypeScript", "AWS", "Docker", "PostgreSQL"]
+      technologies: [
+        "React Native",
+        "React.js",
+        "Spring Boot",
+        "Laravel",
+        "CodeIgniter",
+        "ASP.NET Core",
+        "DevOps",
+        "Grafana",
+        "SonarQube",
+        "Prometheus",
+        "Git",
+        "CI/CD"
+      ]
     },
     {
-      title: "Full Stack Developer",
-      company: "StartupXYZ",
-      location: "Austin, TX",
-      period: "2020 - 2022",
-      description: "Developed and maintained multiple web applications for various clients. Collaborated closely with design teams to implement pixel-perfect UI components.",
+      title: "Developer Specialist",
+      company: "PT. Eka Boga Inti (HokBen)",
+      location: "Ciracas, Jakarta, Indonesia",
+      period: "May 2022 - Sep 2024",
+      description:
+        "Worked as a Specialist Developer managing multiple projects, leading teams, and improving system architecture.",
       achievements: [
-        "Built responsive web applications serving 10,000+ daily active users",
-        "Integrated third-party APIs including payment gateways and social media platforms",
-        "Improved website loading speed by 35% through performance optimization"
+        "Managed projects and led development teams",
+        "Solved bugs and technical challenges",
+        "Improved technology stack and system architecture"
       ],
-      technologies: ["Vue.js", "Python", "Django", "MongoDB", "Redis"]
+      technologies: [
+        "MongoDB",
+        "Express.js",
+        "React.js",
+        "React Native",
+        "Node.js",
+        "Docker",
+        "AWS EC2",
+        "AWS ECS",
+        "AWS S3",
+        "AWS ECR",
+        "Firebase",
+        "Heroku",
+        "Microsoft Dynamics ERP",
+        "JavaScript"
+      ]
     },
     {
-      title: "Frontend Developer",
-      company: "Digital Agency Pro",
-      location: "Remote",
-      period: "2019 - 2020",
-      description: "Focused on creating engaging user interfaces and improving user experience across various client projects.",
+      title: "React Native Developer",
+      company: "Indocyber Global Teknologi (SERA Astra)",
+      location: "Jakarta, Indonesia",
+      period: "Aug 2021 - Jul 2022",
+      description:
+        "Enhanced and maintained the Trac To Go app (iOS & Android) with React Native, focusing on performance and scalability.",
       achievements: [
-        "Developed 15+ responsive websites with excellent cross-browser compatibility",
-        "Implemented modern CSS techniques and JavaScript frameworks",
-        "Collaborated with UX designers to enhance user engagement by 25%"
+        "Implemented CI/CD pipelines",
+        "Upgraded packages to latest versions",
+        "Introduced Atomic Design for modular UI",
+        "Improved app performance and fixed bugs",
+        "Developed new features for iOS & Android"
       ],
-      technologies: ["HTML5", "CSS3", "JavaScript", "React", "Sass", "Webpack"]
+      technologies: ["React Native", "CI/CD", "Atomic Design", "JavaScript", "TypeScript"]
+    },
+    {
+      title: "Information Technology Consultant",
+      company: "GenIO",
+      location: "Jakarta, Indonesia",
+      period: "Feb 2020 - Aug 2021",
+      description:
+        "Developed mobile and web applications for various clients, integrating features and maintaining systems.",
+      achievements: [
+        "Built IndiHome Smart app features with Xcode",
+        "Developed Genioo Marketplace and Sipitung apps using React Native",
+        "Managed deployments with cPanel & CodeIgniter",
+        "Integrated MySQL databases for backend services"
+      ],
+      technologies: [
+        "React Native",
+        "Xcode (Swift)",
+        "CodeIgniter",
+        "MySQL",
+        "cPanel",
+        "PHP",
+        "JavaScript"
+      ]
+    },
+    {
+      title: "Mobile Application Developer (Android)",
+      company: "PT. Multi Inti Digital Bisnis",
+      location: "Sudirman, Jakarta, Indonesia",
+      period: "Aug 2019 - Mar 2020",
+      description:
+        "Developed Android applications to support waste management and recycling programs.",
+      achievements: [
+        "Built Bank Sampah (Waste Bank) app with Android Studio (Java)",
+        "Implemented real-time user registration and tracking",
+        "Added reward system for recycling engagement"
+      ],
+      technologies: ["Java", "Android Studio", "GitHub"]
     }
   ];
 
   const education = [
     {
-      degree: "Bachelor of Science in Computer Science",
-      school: "University of Technology",
-      location: "California, CA",
-      period: "2015 - 2019",
-      achievements: [
-        "Graduated Magna Cum Laude with 3.8 GPA",
-        "President of Computer Science Club",
-        "Winner of Annual Hackathon 2018"
-      ]
+      degree: "Bachelor of Information Systems (S1)",
+      school: "Gunadarma University",
+      location: "Depok, Indonesia",
+      period: "2016 - 2020",
+      achievements: ["Focused on information systems and applied computer science projects"]
     }
   ];
 
@@ -69,7 +140,7 @@ export function Experience() {
             Professional Journey
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            A track record of delivering high-quality solutions and driving innovation across various organizations.
+            A track record of delivering secure, scalable, and innovative solutions across industries.
           </p>
         </div>
 
@@ -99,7 +170,7 @@ export function Experience() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-muted-foreground">{exp.description}</p>
-                
+
                 <div>
                   <h4 className="font-semibold mb-2">Key Achievements:</h4>
                   <ul className="list-disc list-inside space-y-1 text-muted-foreground">

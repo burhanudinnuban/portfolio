@@ -6,41 +6,52 @@ import { Progress } from "./ui/progress";
 export function Skills() {
   const skillCategories = [
     {
-      title: "Frontend Development",
+      title: "Frontend & Mobile Development",
       skills: [
-        { name: "React/Next.js", level: 95 },
-        { name: "TypeScript", level: 90 },
-        { name: "HTML/CSS", level: 95 },
-        { name: "Tailwind CSS", level: 85 },
-        { name: "Vue.js", level: 75 }
+        { name: "React / Next.js", level: 95 },
+        { name: "React Native", level: 95 },
+        { name: "Flutter", level: 70 },
+        { name: "HTML5 / CSS3 / Tailwind CSS", level: 90 },
+        { name: "JavaScript / TypeScript", level: 90 }
       ]
     },
     {
-      title: "Backend Development",
+      title: "Backend & API Development",
       skills: [
-        { name: "Node.js", level: 85 },
-        { name: "Python", level: 80 },
-        { name: "PostgreSQL", level: 75 },
-        { name: "MongoDB", level: 70 },
-        { name: "REST APIs", level: 90 }
+        { name: "Node.js / Express.js", level: 85 },
+        { name: "Laravel / CodeIgniter", level: 90 },
+        { name: ".NET Core", level: 80 },
+        { name: "Spring Boot", level: 80 },
+        { name: "RESTful APIs", level: 90 }
       ]
     },
     {
-      title: "Tools & Others",
+      title: "DevSecOps & Infrastructure",
       skills: [
-        { name: "Git/GitHub", level: 90 },
-        { name: "Docker", level: 70 },
-        { name: "AWS", level: 65 },
-        { name: "Figma", level: 85 },
-        { name: "Agile/Scrum", level: 80 }
+        { name: "Docker / Containers", level: 80 },
+        { name: "AWS (EC2, RDS, S3, ECS, ECR)", level: 75 },
+        { name: "Linux (Ubuntu, Kali)", level: 90 },
+        { name: "CI/CD (GitLab, Jenkins, Vercel, Firebase)", level: 85 },
+        { name: "Monitoring (Prometheus, Grafana, Wazuh)", level: 85 }
       ]
     }
   ];
 
   const technologies = [
-    "React", "Next.js", "TypeScript", "Node.js", "Python", "PostgreSQL", 
-    "MongoDB", "Tailwind CSS", "Docker", "AWS", "Git", "Figma", "Jest", 
-    "GraphQL", "Redis", "Webpack", "Vite", "Storybook"
+    // Frontend & Mobile
+    "ReactJS", "React Native", "Next.js", "Flutter", "Vue.js", "Tailwind CSS",
+    "HTML5", "CSS3", "JavaScript", "TypeScript",
+    // Backend
+    "Node.js", "Express.js", "Laravel", "CodeIgniter", ".NET Core", "Spring Boot",
+    "PHP", "Java", "REST APIs", "GraphQL",
+    // Databases
+    "PostgreSQL", "MySQL", "MongoDB", "NoSQL", "Redis",
+    // DevSecOps & Infra
+    "Docker", "Kubernetes", "AWS (EC2, RDS, S3, ECS, ECR)", "Firebase", "Heroku",
+    "CI/CD Pipelines", "Git / GitHub / GitLab", "Jenkins",
+    "Prometheus", "Grafana", "Wazuh", "SonarQube", "Burp Suite",
+    // Tools
+    "Linux (Ubuntu, Kali)", "Adobe Illustrator", "Figma", "Xcode", "Android Studio"
   ];
 
   return (
@@ -52,7 +63,7 @@ export function Skills() {
             Technical Skills & Proficiencies
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            A comprehensive toolkit of modern technologies and frameworks to bring ideas to life.
+            A comprehensive toolkit of modern technologies, frameworks, and DevSecOps practices to deliver secure and scalable systems.
           </p>
         </div>
 

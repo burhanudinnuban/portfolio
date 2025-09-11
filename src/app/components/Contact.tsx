@@ -8,6 +8,7 @@ import { Textarea } from "./ui/textarea";
 import { Label } from "./ui/label";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { toast } from "sonner";
+import openInNewTab from "../utils/openInNewTab";
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -20,8 +21,10 @@ export function Contact() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Mock form submission
-    toast.success("Message sent successfully! I'll get back to you soon.");
+    openInNewTab(`mailto:burhanudinnuban@gmail.com?subject=${formData.subject}&body=${formData.message}`);
+
     setFormData({ name: "", email: "", subject: "", message: "" });
+    
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
