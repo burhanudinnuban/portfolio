@@ -3,6 +3,8 @@ import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Github, Linkedin, Mail, Download } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { IMGBurhan } from "../assets/images";
+import openInNewTab from "../utils/openInNewTab";
 
 export function Hero() {
   const scrollToContact = () => {
@@ -23,11 +25,10 @@ export function Hero() {
               </Badge>
               <h1 className="text-4xl md:text-6xl font-bold leading-tight">
                 Full Stack Developer &{" "}
-                <span className="text-primary">UI Designer</span>
+                <span className="text-primary">DevSecOps Engineer</span>
               </h1>
               <p className="text-xl text-muted-foreground max-w-2xl">
-                I create exceptional digital experiences with clean code and thoughtful design. 
-                Specializing in React, Node.js, and modern web technologies.
+                Hi, my name is Burhanudin Nuban, a 27-year-old Fullstack Developer & DevSecOps Engineer with more than 6 years of hands-on experience in software engineering. I am deeply passionate about designing and implementing secure, scalable, and high-performing systems that seamlessly integrate development, security, and operations.
               </p>
             </div>
 
@@ -37,7 +38,9 @@ export function Hero() {
                 "mr-2 h-4 w-4" />
                 Get In Touch
               </Button>
-              <Button variant="outline" size="lg">
+              <Button variant="outline" size="lg" onClick={()=>openInNewTab(
+                  "https://drive.google.com/file/d/1YwqVJBH_cag6efGsUbthj730Fv0agwNU/view?usp=drive_link"
+                )}>
                 <Download className="mr-2 h-4 w-4" />
                 Download CV
               </Button>
@@ -60,8 +63,8 @@ export function Hero() {
             <div className="relative w-full max-w-md mx-auto">
               <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/60 rounded-2xl transform rotate-6"></div>
               <ImageWithFallback
-                src="https://images.unsplash.com/photo-1576558656222-ba66febe3dec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMHBvcnRyYWl0fGVufDF8fHx8MTc1NzUyOTgzMHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                alt="Professional headshot"
+                src={IMGBurhan.src} 
+                alt="Professional burhan photoshot"
                 className="relative z-10 w-full h-96 object-cover rounded-2xl shadow-2xl"
               />
             </div>
