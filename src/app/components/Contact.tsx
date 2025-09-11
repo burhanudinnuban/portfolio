@@ -56,10 +56,10 @@ export function Contact() {
         <div className="text-center mb-16">
           <Badge variant="outline" className="mb-4">Get In Touch</Badge>
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Let's Work Together
+            Lets Work Together
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            I'm always interested in new opportunities and exciting projects. 
+            Im always interested in new opportunities and exciting projects. 
             Whether you have a question or just want to say hello, feel free to reach out!
           </p>
         </div>

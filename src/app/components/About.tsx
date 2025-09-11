@@ -5,7 +5,7 @@ import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { ScrollArea } from "./ui/scroll-area";
-import { Code, Palette, Zap, Users, Lock, BookOpen } from "lucide-react";
+import { Code, Zap, Users, Lock, BookOpen } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { IMGBirthday } from "../assets/images";
 
@@ -37,26 +37,6 @@ export function About() {
 
   const shortJourney = "I started my professional career in 2019 as a Mobile Android Developer and have since evolved into a DevSecOps and Fullstack Engineer with over 6 years of experience. Currently, I work at PT. Waskita Karya (Persero) Tbk, leading vendor collaborations and ensuring security and scalability in enterprise systems.";
 
-  const fullJourney = (
-    <div className="space-y-4">
-      <p className="text-muted-foreground leading-relaxed">
-        I started my professional career in 2019 as a Mobile Android Developer at PT. Multi Digital Bisnis, where I built a waste management application using Android Studio (Java). This project, which integrated real-time registration, trash point tracking, and rewards, gave me my first hands-on experience in creating mobile solutions with real social impact.
-      </p>
-      <p className="text-muted-foreground leading-relaxed">
-        In 2020, I joined PT. Generasi Informasi Optima (GenIO) as a React Native Developer. There, I expanded into cross-platform mobile development, using React Native, Flutter, and even native iOS with Swift. I worked on projects like Genioo mobile apps and middleware systems, while also deepening my knowledge in APIs, databases, and automated testing. This role was pivotal in shaping me into a more versatile developer.
-      </p>
-      <p className="text-muted-foreground leading-relaxed">
-        By 2021, I moved to PT. Serasi Autoraya (SERA), part of the Astra Group, as a React Native Developer. I was entrusted to lead and manage mobile app projects, taking ownership of development, debugging, and feature delivery across mobile, web, and backend. My ability to deliver end-to-end solutions solidified my transition into a fullstack developer.
-      </p>
-      <p className="text-muted-foreground leading-relaxed">
-        In 2022, I took on a bigger challenge at PT. Eka Bogainti (HokBen) as a Developer Specialist. Here, I managed and enhanced over 24 enterprise applications — from HRIS and Risk Management to Internal Audit and Vendor Tender platforms. I implemented DevSecOps practices, setting up secure CI/CD pipelines, integrating Wazuh for threat detection, and monitoring with Grafana and Prometheus. This role allowed me to bridge development with security and operations, making me not just a developer, but also a DevSecOps practitioner.
-      </p>
-      <p className="text-muted-foreground leading-relaxed">
-        Today, I work at PT. Waskita Karya (Persero) Tbk, one of Indonesia's leading state-owned construction enterprises, as a DevSecOps and Fullstack Engineer. I lead vendor collaborations, oversee software quality, and ensure security and scalability in every system I touch.
-      </p>
-    </div>
-  );
-
   return (
     <section id="about" className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
@@ -87,7 +67,23 @@ export function About() {
                       <DialogTitle>My Professional Journey</DialogTitle>
                     </DialogHeader>
                     <ScrollArea className="h-[60vh] pr-4">
-                      {fullJourney}
+                      <div className="space-y-4">
+                    <p className="text-muted-foreground leading-relaxed">
+                      I started my professional career in 2019 as a Mobile Android Developer at PT. Multi Digital Bisnis, where I built a waste management application using Android Studio (Java). This project, which integrated real-time registration, trash point tracking, and rewards, gave me my first hands-on experience in creating mobile solutions with real social impact.
+                    </p>
+                    <p className="text-muted-foreground leading-relaxed">
+                      In 2020, I joined PT. Generasi Informasi Optima (GenIO) as a React Native Developer. There, I expanded into cross-platform mobile development, using React Native, Flutter, and even native iOS with Swift. I worked on projects like Genioo mobile apps and middleware systems, while also deepening my knowledge in APIs, databases, and automated testing. This role was pivotal in shaping me into a more versatile developer.
+                    </p>
+                    <p className="text-muted-foreground leading-relaxed">
+                      By 2021, I moved to PT. Serasi Autoraya (SERA), part of the Astra Group, as a React Native Developer. I was entrusted to lead and manage mobile app projects, taking ownership of development, debugging, and feature delivery across mobile, web, and backend. My ability to deliver end-to-end solutions solidified my transition into a fullstack developer.
+                    </p>
+                    <p className="text-muted-foreground leading-relaxed">
+                      In 2022, I took on a bigger challenge at PT. Eka Bogainti (HokBen) as a Developer Specialist. Here, I managed and enhanced over 24 enterprise applications — from HRIS and Risk Management to Internal Audit and Vendor Tender platforms. I implemented DevSecOps practices, setting up secure CI/CD pipelines, integrating Wazuh for threat detection, and monitoring with Grafana and Prometheus. This role allowed me to bridge development with security and operations, making me not just a developer, but also a DevSecOps practitioner.
+                    </p>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Today, I work at PT. Waskita Karya (Persero) Tbk, one of Indonesias leading state-owned construction enterprises, as a DevSecOps and Fullstack Engineer. I lead vendor collaborations, oversee software quality, and ensure security and scalability in every system I touch.
+                    </p>
+                  </div>
                     </ScrollArea>
                   </DialogContent>
                 </Dialog>
