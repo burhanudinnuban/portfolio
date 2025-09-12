@@ -20,7 +20,7 @@ export default function App() {
         <Skills />
         <Experience />
         <Projects />
-        <Certificates />
+        {/* <Certificates /> */}
         <Contact />
       </main>
       
