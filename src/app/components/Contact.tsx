@@ -1,35 +1,35 @@
-"use client";
-import { useState } from "react";
+'use client';
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
 import { Label } from "./ui/label";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
-import { toast } from "sonner";
+import { Textarea } from "./ui/textarea";
+import { Mail, MapPin, Phone, Send } from "lucide-react";
 import openInNewTab from "../utils/openInNewTab";
+import { useState } from "react";
 
 export function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
-    message: ""
+    message: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock form submission
-    openInNewTab(`mailto:burhanudinnuban@gmail.com?subject=${formData.subject}&body=${formData.message}`);
-
+    openInNewTab(
+      `mailto:burhanudinnuban@gmail.com?subject=${formData.subject}&body=${formData.message}`
+    );
     setFormData({ name: "", email: "", subject: "", message: "" });
-    
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const contactInfo = [
@@ -37,41 +37,45 @@ export function Contact() {
       icon: Mail,
       label: "Email",
       value: "burhanudinnuban@gmail.com",
-      href: "mailto:burhanudinnuban@gmail.com"
+      href: "mailto:burhanudinnuban@gmail.com",
     },
     {
       icon: Phone,
       label: "Phone",
       value: "(+62) 8211-8992-254",
-      href: "tel:+6282118992254"
+      href: "tel:+6282118992254",
     },
     {
       icon: MapPin,
       label: "Location",
       value: "Jakarta, Indonesia",
-      href: "#"
-    }
+      href: "#",
+    },
   ];
 
   return (
-    <section id="contact" className="py-20 bg-muted/30">
+    <section id="contact" className="py-20 bg-muted/30 dark:bg-zinc-950/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <Badge variant="outline" className="mb-4">Get In Touch</Badge>
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Lets Work Together
+          <Badge variant="outline" className="mb-4">
+            Get In Touch
+          </Badge>
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900 dark:text-gray-100">
+            Let's Work Together
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Im always interested in new opportunities and exciting projects. 
-            Whether you have a question or just want to say hello, feel free to reach out!
+            I'm always interested in new opportunities and exciting projects.
+            Whether you have a question or just want to say hello, feel free to
+            reach out!
           </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Information */}
           <div className="space-y-8">
             <div>
-              <h3 className="text-2xl font-semibold mb-6">Contact Information</h3>
+              <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
+                Contact Information
+              </h3>
               <div className="space-y-4">
                 {contactInfo.map((item, index) => (
                   <div key={index} className="flex items-center space-x-4">
@@ -79,9 +83,11 @@ export function Contact() {
                       <item.icon className="h-5 w-5 text-primary" />
                     </div>
                     <div>
-                      <p className="font-medium">{item.label}</p>
-                      <a 
-                        href={item.href} 
+                      <p className="font-medium text-gray-900 dark:text-gray-100">
+                        {item.label}
+                      </p>
+                      <a
+                        href={item.href}
                         className="text-muted-foreground hover:text-primary transition-colors"
                       >
                         {item.value}
@@ -93,7 +99,9 @@ export function Contact() {
             </div>
 
             <div>
-              <h3 className="text-2xl font-semibold mb-4">Why Work With Me?</h3>
+              <h3 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
+                Why Work With Me?
+              </h3>
               <div className="space-y-3 text-muted-foreground">
                 <p>✓ 5+ years of professional development experience</p>
                 <p>✓ Expertise in modern web technologies and frameworks</p>
@@ -104,7 +112,6 @@ export function Contact() {
             </div>
           </div>
 
-          {/* Contact Form */}
           <Card>
             <CardHeader>
               <CardTitle>Send me a message</CardTitle>

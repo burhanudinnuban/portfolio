@@ -33,7 +33,7 @@ export function Hero() {
             </div>
 
             <div className="flex flex-wrap gap-4">
-              <Button onClick={scrollToContact} size="lg" className="bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+              <Button variant={"secondary"} onClick={scrollToContact} size="lg" className="bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
                 <Mail className="mr-2 h-4 w-4" />
                 Get In Touch
               </Button>
