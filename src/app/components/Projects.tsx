@@ -154,12 +154,14 @@ export function Projects() {
             {featuredProjects.map((project) => (
               <CarouselItem key={project.id} className="basis-1/2 md:basis-1/3 lg:basis-1/4">
                 <div className="p-1">
-                  <Card className="h-full overflow-hidden transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-2xl bg-card">
-                    <div className="aspect-video overflow-hidden">
+                  <Card style={{ width: 530 }} className="h-full overflow-hidden transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-2xl bg-card">
+                    <div className="w-full h-64 overflow-hidden">
                       <ImageWithFallback
                         src={typeof project.image === "string" ? project.image : project.image.src}
                         alt={project.title}
                         className="w-full h-full object-cover"
+						width={400}
+						height={400}
                       />
                     </div>
                     <CardHeader>
@@ -238,12 +240,14 @@ export function Projects() {
               {otherProjects.map((project) => (
                 <CarouselItem key={project.id} className="basis-1/2 md:basis-1/3 lg:basis-1/4">
                   <div className="p-1">
-                    <Card className="h-full overflow-hidden transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-2xl bg-card">
-                      <div className="aspect-video overflow-hidden">
+                    <Card style={{ width: 530 }} className="h-full overflow-hidden transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-2xl bg-card">
+                      <div className="w-full h-64 overflow-hidden">
                         <ImageWithFallback
                           src={typeof project.image === "string" ? project.image : project.image.src}
                           alt={project.title}
                           className="w-full h-full object-cover"
+						  width={400}
+						  height={400}
                         />
                       </div>
                       <CardHeader>

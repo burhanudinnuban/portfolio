@@ -61,11 +61,13 @@ export function Certificates() {
               <CarouselItem key={certificate.id} className="basis-1/2 md:basis-1/3 lg:basis-1/4">
                 <div className="p-1">
                   <Card className="h-full overflow-hidden transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-2xl bg-card">
-                    <div className="aspect-w-16 aspect-h-9 overflow-hidden">
+                    <div className="w-full h-64 overflow-hidden">
                       <ImageWithFallback
                         src={certificate.image}
                         alt={certificate.title}
                         className="w-full h-full object-cover"
+						width={300}
+						height={300}
                       />
                     </div>
                     <CardHeader>
