@@ -24,13 +24,13 @@ export function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm border-b shadow-lg">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-            <span className="text-primary-foreground font-medium">BN</span>
+          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-md">
+            <span className="text-white font-bold">BN</span>
           </div>
-          <span className="text-lg font-medium">Burhanudin Nuban</span>
+          <span className="text-lg font-bold text-gray-800">Burhanudin Nuban</span>
         </div>
 
         {/* Desktop Navigation */}
@@ -39,9 +39,10 @@ export function Header() {
             <button
               key={item.href}
               onClick={() => scrollToSection(item.href)}
-              className="text-foreground/80 hover:text-foreground transition-colors"
+              className="group text-gray-600 hover:text-gray-900 transition-colors"
             >
               {item.label}
+              <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-purple-500"></span>
             </button>
           ))}
         </nav>
@@ -53,13 +54,13 @@ export function Header() {
               <Menu className="h-5 w-5" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-[300px]">
+          <SheetContent side="right" className="w-[300px] bg-white">
             <nav className="flex flex-col space-y-4 mt-8">
               {navItems.map((item) => (
                 <button
                   key={item.href}
                   onClick={() => scrollToSection(item.href)}
-                  className="text-left text-lg text-foreground/80 hover:text-foreground transition-colors"
+                  className="text-left text-lg text-gray-600 hover:text-gray-900 transition-colors"
                 >
                   {item.label}
                 </button>
