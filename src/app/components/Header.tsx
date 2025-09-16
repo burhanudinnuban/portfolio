@@ -1,5 +1,15 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithPopup,
+  signOut,
+  GoogleAuthProvider,
+  User,
+} from 'firebase/auth';
+import app from '../utils/firebase';
 import { Button } from './ui/button';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import { Menu } from 'lucide-react';
@@ -7,6 +17,15 @@ import { ThemeToggle } from './ThemeToggle';
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const auth = getAuth(app);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, [auth]);
 
   const navItems = [
     { href: '#about', label: 'About' },
@@ -22,6 +41,15 @@ export function Header() {
       element.scrollIntoView({ behavior: 'smooth' });
     }
     setIsOpen(false);
+  };
+
+  const handleSignIn = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider);
+  };
+
+  const handleSignOut = () => {
+    signOut(auth);
   };
 
   return (
@@ -47,8 +75,19 @@ export function Header() {
                   <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-purple-500"></span>
                 </button>
               ))}
+              {user && user.email === 'burhanudinnuban@gmail.com' && (
+                <Link href="/cms" className="group text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors">
+                  CMS
+                  <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-purple-500"></span>
+                </Link>
+              )}
             </nav>
             <ThemeToggle />
+            {user ? (
+              <Button onClick={handleSignOut}>Sign Out</Button>
+            ) : (
+              <Button onClick={handleSignIn}>Sign In</Button>
+            )}
         </div>
 
 
@@ -72,6 +111,16 @@ export function Header() {
                       {item.label}
                     </button>
                   ))}
+                  {user && user.email === 'burhanudinnuban@gmail.com' ? (
+                    <>
+                      <Link href="/cms" className="text-left text-lg text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors" onClick={() => setIsOpen(false)}>
+                        CMS
+                      </Link>
+                      <Button onClick={handleSignOut}>Sign Out</Button>
+                    </>
+                  ) : (
+                    <Button onClick={handleSignIn}>Sign In</Button>
+                  )}
                 </nav>
               </SheetContent>
             </Sheet>
