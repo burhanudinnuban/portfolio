@@ -61,10 +61,10 @@ export function Contact() {
             Get In Touch
           </Badge>
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900 dark:text-gray-100">
-            Let's Work Together
+            Lets Work Together
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            I'm always interested in new opportunities and exciting projects.
+            Im always interested in new opportunities and exciting projects.
             Whether you have a question or just want to say hello, feel free to
             reach out!
           </p>
@@ -151,7 +151,7 @@ export function Contact() {
                     name="subject"
                     value={formData.subject}
                     onChange={handleInputChange}
-                    placeholder="What's this about?"
+                    placeholder="Whats this about?"
                     required
                   />
                 </div>
