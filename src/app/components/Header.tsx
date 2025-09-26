@@ -1,23 +1,29 @@
+
 'use client';
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import {
-  getAuth,
-  onAuthStateChanged,
-  signInWithPopup,
-  signOut,
-  GoogleAuthProvider,
-  User,
-} from 'firebase/auth';
-import app from '../utils/firebase';
-import { Button } from './ui/button';
-import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
-import { Menu } from 'lucide-react';
-import { ThemeToggle } from './ThemeToggle';
+import { useState, useEffect } from "react";
+import { Button } from "./ui/button";
+import { Menu, X, BookUser } from "lucide-react";
+import { getAuth, onAuthStateChanged, User, signOut } from "firebase/auth";
+import app from "../utils/firebase";
+import Link from "next/link";
+
+interface NavItem {
+  href: string;
+  label: string;
+}
+
+interface HeaderData {
+  logo: {
+    initials: string;
+    name: string;
+  };
+  navItems: NavItem[];
+}
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [headerData, setHeaderData] = useState<HeaderData | null>(null);
   const auth = getAuth(app);
 
   useEffect(() => {
@@ -27,105 +33,77 @@ export function Header() {
     return () => unsubscribe();
   }, [auth]);
 
-  const navItems = [
-    { href: '#about', label: 'About' },
-    { href: '#skills', label: 'Skills' },
-    { href: '#experience', label: 'Experience' },
-    { href: '#projects', label: 'Projects' },
-    { href: '#contact', label: 'Contact' },
-  ];
+  useEffect(() => {
+    fetch('/api/header')
+      .then((res) => res.json())
+      .then((data) => {
+        setHeaderData(data);
+      });
+  }, []);
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Error signing out: ", error);
     }
-    setIsOpen(false);
   };
 
-  const handleSignIn = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider);
-  };
-
-  const handleSignOut = () => {
-    signOut(auth);
-  };
+  if (!headerData) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm dark:bg-zinc-950/80 border-b shadow-lg">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-md">
-            <span className="text-white font-bold">BN</span>
-          </div>
-          <span className="text-lg font-bold text-gray-800 dark:text-gray-200">Burhanudin Nuban</span>
-        </div>
+    <header className="bg-background/80 backdrop-blur-sm fixed top-0 left-0 right-0 z-50">
+      <div className="container mx-auto px-4 h-20 flex justify-between items-center">
+        <Link href="/" className="flex items-center space-x-2">
+          <BookUser className="w-8 h-8 text-primary" />
+          <span className="text-2xl font-bold">{headerData.logo.name}</span>
+        </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-8">
-            <nav className="flex items-center space-x-8">
-              {navItems.map((item) => (
-                <button
-                  key={item.href}
-                  onClick={() => scrollToSection(item.href)}
-                  className="group text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
-                >
-                  {item.label}
-                  <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-purple-500"></span>
-                </button>
-              ))}
-              {user && user.email === 'burhanudinnuban@gmail.com' && (
-                <Link href="/cms" className="group text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors">
-                  CMS
-                  <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-purple-500"></span>
-                </Link>
-              )}
-            </nav>
-            <ThemeToggle />
+        <nav className="hidden md:flex space-x-6">
+          {headerData.navItems.map((link) => (
+            <a key={link.href} href={link.href} className="text-muted-foreground hover:text-primary transition-colors">
+              {link.label}
+            </a>
+          ))}
+          {user && user.email === 'burhanudinnuban@gmail.com' && (
+            <Link href="/cms" className="text-muted-foreground hover:text-primary transition-colors">
+              CMS
+            </Link>
+          )}
+        </nav>
+
+        <div className="flex items-center space-x-4">
             {user ? (
-              <Button onClick={handleSignOut}>Sign Out</Button>
+                <Button onClick={handleSignOut}>Sign Out</Button>
             ) : (
-              <Button onClick={handleSignIn}>Sign In</Button>
-            )}
-        </div>
-
-
-        {/* Mobile Navigation */}
-        <div className="flex items-center gap-2 md:hidden">
-            <ThemeToggle />
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="sm">
-                  <Menu className="h-5 w-5" />
+                <Button asChild>
+                    <Link href="/login">Login</Link>
                 </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] bg-white dark:bg-zinc-950">
-                <nav className="flex flex-col space-y-4 mt-8">
-                  {navItems.map((item) => (
-                    <button
-                      key={item.href}
-                      onClick={() => scrollToSection(item.href)}
-                      className="text-left text-lg text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                  {user && user.email === 'burhanudinnuban@gmail.com' ? (
-                    <>
-                      <Link href="/cms" className="text-left text-lg text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors" onClick={() => setIsOpen(false)}>
-                        CMS
-                      </Link>
-                      <Button onClick={handleSignOut}>Sign Out</Button>
-                    </>
-                  ) : (
-                    <Button onClick={handleSignIn}>Sign In</Button>
-                  )}
-                </nav>
-              </SheetContent>
-            </Sheet>
+            )}
+            <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
+                {isOpen ? <X /> : <Menu />}
+            </Button>
         </div>
       </div>
+
+      {isOpen && (
+        <div className="md:hidden bg-background/90 backdrop-blur-sm">
+          <nav className="flex flex-col items-center py-4 space-y-4">
+            {headerData.navItems.map((link) => (
+              <a key={link.href} href={link.href} className="text-muted-foreground hover:text-primary transition-colors" onClick={() => setIsOpen(false)}>
+                {link.label}
+              </a>
+            ))}
+            {user && user.email === 'burhanudinnuban@gmail.com' && (
+              <Link href="/cms" className="text-muted-foreground hover:text-primary transition-colors" onClick={() => setIsOpen(false)}>
+                CMS
+              </Link>
+            )}
+          </nav>
+        </div>
+      )}
     </header>
   );
 }

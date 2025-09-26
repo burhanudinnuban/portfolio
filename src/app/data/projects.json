@@ -1,0 +1,79 @@
+{
+  "badge": "My Work",
+  "title": "Featured Projects",
+  "description": "A collection of my most recent and notable projects. Each project showcases my skills in turning ideas into functional and beautiful applications.",
+  "projects": [
+    {
+      "name": "Waskita Karya Corporate Website",
+      "description": "The official corporate website of PT Waskita Karya (Persero) Tbk. Contributed as Fullstack & DevSecOps Engineer ensuring performance, scalability, and security.",
+      "image": "/project.png",
+      "tags": ["Next.js", "React", "Laravel", "Linux", "CI/CD"],
+      "liveUrl": "https://www.waskita.co.id",
+      "sourceUrl": "#"
+    },
+    {
+      "name": "HokBen Mobile and Website Company",
+      "description": "The HokBen mobile app for Android and iOS. Contributed as a React Native Developer integrating with Spring Boot backend.",
+      "image": "/project.png",
+      "tags": ["React Native", "JavaScript", "Spring Boot"],
+      "liveUrl": "https://www.hokben.co.id",
+      "sourceUrl": "#"
+    },
+    {
+      "name": "Trac To Go Mobile",
+      "description": "Rental service mobile app (iOS & Android). Implemented CI/CD, performance improvements, new features, and bug fixes.",
+      "image": "/project.png",
+      "tags": ["React Native", "JavaScript", "CI/CD"],
+      "liveUrl": "https://www.trac.astra.co.id/",
+      "sourceUrl": "#"
+    },
+    {
+        "name": "ProSpark - Transforms Learning",
+        "description": "Learning platform mobile app for Android & iOS. Worked as a React Native Developer delivering features and improvements.",
+        "image": "/project.png",
+        "tags": ["React Native", "JavaScript"],
+        "liveUrl": "https://www.prospark.co",
+        "sourceUrl": "#"
+    },
+    {
+        "name": "Task Management Tool",
+        "description": "Mobile app for Android & iOS. Contributed as a React Native Developer building features and integrations.",
+        "image": "/project.png",
+        "tags": ["React Native", "JavaScript"],
+        "liveUrl": "https://sipitung.co.id",
+        "sourceUrl": "#"
+    },
+    {
+        "name": "IndiHome Smart",
+        "description": "iOS mobile app for smart home services. Contributed as an iOS Native Developer using Swift 5 and Xcode.",
+        "image": "/project.png",
+        "tags": ["Swift 5", "Xcode", "iOS"],
+        "liveUrl": "https://smart.indihome.co.id/smartcam-pro/",
+        "sourceUrl": "#"
+    },
+    {
+        "name": "Genioo",
+        "description": "E-commerce mobile app for Android. Worked as Fullstack Developer with React Native, CodeIgniter, and MySQL.",
+        "image": "/project.png",
+        "tags": ["React Native", "CodeIgniter", "MySQL"],
+        "liveUrl": "https://genio.co.id",
+        "sourceUrl": "#"
+    },
+    {
+        "name": "E-Recycle",
+        "description": "Mobile recycling app for Android & iOS. Developed using Android Studio and Java, focusing on eco-friendly waste management.",
+        "image": "/project.png",
+        "tags": ["Java", "Android Studio"],
+        "liveUrl": "https://erecycle.id",
+        "sourceUrl": "#"
+    },
+    {
+        "name": "Admin SiPitung Dashboard",
+        "description": "Web-based dashboard to manage users and monitor activities for SiPitung. Developed as a React JS Developer.",
+        "image": "/project.png",
+        "tags": ["React.js", "JavaScript"],
+        "liveUrl": "http://admin.sipitung.co.id",
+        "sourceUrl": "#"
+    }
+  ]
+}

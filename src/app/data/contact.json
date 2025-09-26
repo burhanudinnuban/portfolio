@@ -1,0 +1,28 @@
+{
+  "badge": "Contact Me",
+  "title": "Get in Touch",
+  "description": "I’m always open to discussing new projects, creative ideas, or opportunities to be part of your visions. Feel free to reach out to me.",
+  "form": {
+    "namePlaceholder": "Your Name",
+    "emailPlaceholder": "Your Email",
+    "messagePlaceholder": "Your Message",
+    "submitButton": "Send Message"
+  },
+  "social": {
+    "title": "Connect with me on social media",
+    "links": [
+      {
+        "name": "LinkedIn",
+        "url": "https://www.linkedin.com/in/burhanudinnuban/"
+      },
+      {
+        "name": "GitHub",
+        "url": "https://github.com/burhanudinnuban"
+      },
+      {
+        "name": "Twitter",
+        "url": "https://twitter.com/burhanudinnuban"
+      }
+    ]
+  }
+}

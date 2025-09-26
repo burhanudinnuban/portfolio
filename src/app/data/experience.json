@@ -1,0 +1,135 @@
+
+{
+  "badge": "Experience",
+  "title": "Work Experience & Education",
+  "description": "A summary of my professional journey and academic background.",
+  "experience": [
+    {
+      "title": "DevSecOps (Ahli Muda Bidang IT)",
+      "company": "PT. Waskita Karya (Persero) Tbk",
+      "period": "Sep 2024 - Present",
+      "location": "East Jakarta, Indonesia",
+      "description": "Leading and managing mobile and web application projects over 25 applications, ensuring robust DevSecOps practices and secure deployments.",
+      "achievements": [
+        "Led development of mobile and web applications",
+        "Built CI/CD pipelines with vulnerability scanning (GitLab & SonarQube)",
+        "Migrated VM and databases to new servers",
+        "Implemented Docker containerization",
+        "Developed server & DB monitoring with Prometheus and Grafana",
+        "Improved security for servers, mobile apps, and web apps",
+        "Migrated systems to automation",
+        "Solved technical issues and optimized architecture"
+      ],
+      "technologies": [
+        "React Native",
+        "React.js",
+        "Spring Boot",
+        "Laravel",
+        "CodeIgniter",
+        "ASP.NET Core",
+        "DevOps",
+        "Grafana",
+        "SonarQube",
+        "Prometheus",
+        "Git",
+        "CI/CD"
+      ]
+    },
+    {
+      "title": "Developer Specialist",
+      "company": "PT. Eka Boga Inti (HokBen)",
+      "period": "May 2022 - Sep 2024",
+      "location": "Ciracas, Jakarta, Indonesia",
+      "description": "Worked as a Specialist Developer managing multiple projects, leading teams, and improving system architecture.",
+      "achievements": [
+        "Managed projects and led development teams",
+        "Solved bugs and technical challenges",
+        "Improved technology stack and system architecture"
+      ],
+      "technologies": [
+        "MongoDB",
+        "Express.js",
+        "React.js",
+        "React Native",
+        "Node.js",
+        "Docker",
+        "AWS EC2",
+        "AWS ECS",
+        "AWS S3",
+        "AWS ECR",
+        "Firebase",
+        "Heroku",
+        "Microsoft Dynamics ERP",
+        "JavaScript"
+      ]
+    },
+    {
+      "title": "React Native Developer",
+      "company": "Indocyber Global Teknologi (SERA Astra)",
+      "period": "Aug 2021 - Jul 2022",
+      "location": "Jakarta, Indonesia",
+      "description": "Enhanced and maintained the Trac To Go app (iOS & Android) with React Native, focusing on performance and scalability.",
+      "achievements": [
+        "Implemented CI/CD pipelines",
+        "Upgraded packages to latest versions",
+        "Introduced Atomic Design for modular UI",
+        "Improved app performance and fixed bugs",
+        "Developed new features for iOS & Android"
+      ],
+      "technologies": [
+        "React Native",
+        "CI/CD",
+        "Atomic Design",
+        "JavaScript",
+        "TypeScript"
+      ]
+    },
+    {
+      "title": "Information Technology Consultant",
+      "company": "GenIO",
+      "period": "Feb 2020 - Aug 2021",
+      "location": "Jakarta, Indonesia",
+      "description": "Developed mobile and web applications for various clients, integrating features and maintaining systems.",
+      "achievements": [
+        "Built IndiHome Smart app features with Xcode",
+        "Developed Genioo Marketplace and Sipitung apps using React Native",
+        "Managed deployments with cPanel & CodeIgniter",
+        "Integrated MySQL databases for backend services"
+      ],
+      "technologies": [
+        "React Native",
+        "Xcode (Swift)",
+        "CodeIgniter",
+        "MySQL",
+        "cPanel",
+        "PHP",
+        "JavaScript"
+      ]
+    },
+    {
+      "title": "Mobile Application Developer (Android)",
+      "company": "PT. Multi Inti Digital Bisnis",
+      "period": "Aug 2019 - Mar 2020",
+      "location": "Sudirman, Jakarta, Indonesia",
+      "description": "Developed Android applications to support waste management and recycling programs.",
+      "achievements": [
+        "Built Bank Sampah (Waste Bank) app with Android Studio (Java)",
+        "Implemented real-time user registration and tracking",
+        "Added reward system for recycling engagement"
+      ],
+      "technologies": [
+        "Java",
+        "Android Studio",
+        "GitHub"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Bachelor of something",
+      "school": "some school",
+      "location": "some location",
+      "period": "some period"
+    }
+  ]
+}

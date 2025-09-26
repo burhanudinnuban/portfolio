@@ -1,103 +1,76 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getDatabase, ref, onValue, push } from 'firebase/database';
-import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, User } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
 import app from '../utils/firebase';
+import { useRouter } from 'next/navigation';
+import { HeroForm } from './HeroForm';
+import { SkillsForm } from './SkillsForm';
+import { ExperienceForm } from './ExperienceForm';
+import { ProjectsForm } from './ProjectsForm';
+import { ContactForm } from './ContactForm';
+import { FooterForm } from './FooterForm';
+import { TestimonialsForm } from './TestimonialsForm';
 
-interface Data {
-  [key: string]: string;
-}
-
-export default function CMS() {
+export default function CmsPage() {
   const [user, setUser] = useState<User | null>(null);
-  const [data, setData] = useState<Data | null>(null);
-  const [newItem, setNewItem] = useState('');
+  const [loading, setLoading] = useState(true);
   const auth = getAuth(app);
+  const router = useRouter();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser && currentUser.email === 'burhanudinnuban@gmail.com') {
+        setUser(currentUser);
+      } else {
+        router.push('/');
+      }
+      setLoading(false);
     });
-
     return () => unsubscribe();
-  }, [auth]);
+  }, [auth, router]);
 
-  useEffect(() => {
-    if (user && user.email === 'burhanudinnuban@gmail.com') {
-      const db = getDatabase(app);
-      const dbRef = ref(db, 'data');
-      onValue(dbRef, (snapshot) => {
-        setData(snapshot.val());
-      });
-    }
-  }, [user]);
-
-  const handleSignIn = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider);
-  };
-
-  const handleAddItem = () => {
-    if (newItem.trim() !== '') {
-      const db = getDatabase(app);
-      const dbRef = ref(db, 'data');
-      push(dbRef, newItem);
-      setNewItem('');
-    }
-  };
-
-  if (!user) {
-    return (
-      <div className="container mx-auto px-4 py-24">
-        <button
-          onClick={handleSignIn}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-        >
-          Sign in with Google
-        </button>
-      </div>
-    );
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
-  if (user.email !== 'burhanudinnuban@gmail.com') {
-    return <div>Access Denied</div>;
+  if (!user) {
+    return null; // or a login prompt
   }
 
   return (
     <div className="container mx-auto px-4 py-24">
-      <h1 className="text-3xl font-bold mb-8">CMS</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <h1 className="text-4xl font-bold">CMS</h1>
+      <p className="text-muted-foreground">Welcome to the Content Management System.</p>
+      
+      <div className="mt-8 space-y-8">
         <div>
-          <h2 className="text-2xl font-semibold mb-4">Add New Item</h2>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={newItem}
-              onChange={(e) => setNewItem(e.target.value)}
-              className="border rounded px-2 py-1 w-full"
-            />
-            <button
-              onClick={handleAddItem}
-              className="bg-blue-500 text-white px-4 py-1 rounded"
-            >
-              Add
-            </button>
-          </div>
+          <h2 className="text-2xl font-semibold">Hero Section</h2>
+          <HeroForm />
         </div>
         <div>
-          <h2 className="text-2xl font-semibold mb-4">Data from Firebase</h2>
-          {data ? (
-            <ul>
-              {Object.entries(data).map(([key, value]) => (
-                <li key={key} className="border-b py-2">
-                  {value}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No data found.</p>
-          )}
+          <h2 className="text-2xl font-semibold">Skills Section</h2>
+          <SkillsForm />
+        </div>
+        <div>
+          <h2 className="text-2xl font-semibold">Experience Section</h2>
+          <ExperienceForm />
+        </div>
+        <div>
+          <h2 className="text-2xl font-semibold">Projects Section</h2>
+          <ProjectsForm />
+        </div>
+        <div>
+          <h2 className="text-2xl font-semibold">Testimonials Section</h2>
+          <TestimonialsForm />
+        </div>
+        <div>
+          <h2 className="text-2xl font-semibold">Contact Section</h2>
+          <ContactForm />
+        </div>
+        <div>
+          <h2 className="text-2xl font-semibold">Footer Section</h2>
+          <FooterForm />
         </div>
       </div>
     </div>

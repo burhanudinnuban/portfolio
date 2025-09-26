@@ -1,0 +1,25 @@
+{
+  "badge": "Testimonials",
+  "title": "What My Clients Say",
+  "description": "I have had the pleasure of working with many great people. Here's what they have to say about my work.",
+  "testimonials": [
+    {
+      "author": "Ahmad Burhanudin",
+      "role": "CEO of Google",
+      "quote": "Burhanudin is a great web developer. He is a hard worker and a quick learner. I would recommend him to anyone looking for a web developer.",
+      "avatar": "/ahmad.jpg"
+    },
+    {
+      "author": "Ahmad Burhanudin",
+      "role": "CEO of Facebook",
+      "quote": "Burhanudin is a great web developer. He is a hard worker and a quick learner. I would recommend him to anyone looking for a web developer.",
+      "avatar": "/ahmad.jpg"
+    },
+    {
+      "author": "Ahmad Burhanudin",
+      "role": "CEO of Amazon",
+      "quote": "Burhanudin is a great web developer. He is a hard worker and a quick learner. I would recommend him to anyone looking for a web developer.",
+      "avatar": "/ahmad.jpg"
+    }
+  ]
+}
