@@ -1,0 +1,50 @@
+{
+  "badge": "Get In Touch",
+  "title": "Let's Work Together",
+  "description": "I'm always interested in new opportunities and exciting projects. Whether you have a question or just want to say hello, feel free to reach out!",
+  "contactInfo": {
+    "title": "Contact Information",
+    "items": [
+      {
+        "icon": "Mail",
+        "label": "Email",
+        "value": "burhanudinnuban@gmail.com",
+        "href": "mailto:burhanudinnuban@gmail.com"
+      },
+      {
+        "icon": "Phone",
+        "label": "Phone",
+        "value": "(+62) 8211-8992-254",
+        "href": "tel:+6282118992254"
+      },
+      {
+        "icon": "MapPin",
+        "label": "Location",
+        "value": "Jakarta, Indonesia",
+        "href": "#"
+      }
+    ]
+  },
+  "whyWorkWithMe": {
+    "title": "Why Work With Me?",
+    "points": [
+      "5+ years of professional development experience",
+      "Expertise in modern web technologies and frameworks",
+      "Strong focus on user experience and performance",
+      "Excellent communication and collaboration skills",
+      "Committed to delivering high-quality solutions on time"
+    ]
+  },
+  "form": {
+    "title": "Send me a message",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "emailPlaceholder": "your.email@example.com",
+    "subject": "Subject",
+    "subjectPlaceholder": "What's this about?",
+    "message": "Message",
+    "messagePlaceholder": "Tell me about your project or question...",
+    "submitButton": "Send Message"
+  }
+}

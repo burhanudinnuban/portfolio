@@ -3,17 +3,12 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { Menu } from "lucide-react";
+import headerData from "../data/header.json";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const navItems = [
-    { href: "#about", label: "About" },
-    { href: "#skills", label: "Skills" },
-    { href: "#experience", label: "Experience" },
-    { href: "#projects", label: "Projects" },
-    { href: "#contact", label: "Contact" },
-  ];
+  const { logo, navItems } = headerData;
 
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
@@ -28,9 +23,9 @@ export function Header() {
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-md">
-            <span className="text-white font-bold">BN</span>
+            <span className="text-white font-bold">{logo.initials}</span>
           </div>
-          <span className="text-lg font-bold text-gray-800">Burhanudin Nuban</span>
+          <span className="text-lg font-bold text-gray-800">{logo.name}</span>
         </div>
 
         {/* Desktop Navigation */}

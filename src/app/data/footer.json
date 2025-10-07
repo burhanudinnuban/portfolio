@@ -1,0 +1,54 @@
+{
+    "logo": {
+      "initials": "BN",
+      "name": "Burhanudin Nuban"
+    },
+    "description": "A passionate and experienced software developer specializing in web and mobile applications.",
+    "socialLinks": [
+      {
+        "icon": "Github",
+        "url": "https://github.com/burhanudinnuban"
+      },
+      {
+        "icon": "Linkedin",
+        "url": "https://www.linkedin.com/in/burhanudin-nuban-264b2a97/"
+      },
+      {
+        "icon": "Mail",
+        "url": "mailto:burhanudinnuban@gmail.com"
+      }
+    ],
+    "quickLinks": [
+      {
+        "href": "#about",
+        "label": "About"
+      },
+      {
+        "href": "#skills",
+        "label": "Skills"
+      },
+      {
+        "href": "#experience",
+        "label": "Experience"
+      },
+      {
+        "href": "#projects",
+        "label": "Projects"
+      },
+      {
+        "href": "#contact",
+        "label": "Contact"
+      }
+    ],
+    "contactInfo": {
+      "title": "Contact Me",
+      "email": "burhanudinnuban@gmail.com",
+      "phone": "(+62) 8211-8992-254",
+      "location": "Jakarta, Indonesia"
+    },
+    "copyright": {
+      "builtWith": "Next.js and Tailwind CSS",
+      "freelance": "Available for freelance opportunities"
+    }
+  }
+  

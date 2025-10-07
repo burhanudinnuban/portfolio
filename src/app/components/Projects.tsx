@@ -11,127 +11,36 @@ import {
   CarouselItem,
 } from "./ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import projectsData from "../data/project.json";
+
+const imageMap: { [key: string]: any } = {
+  IMGWaskita,
+  IMGHokben,
+  IMGTrac,
+  IMGProSpark,
+  IMGSipitung,
+  IMGIndiHome,
+  IMGGenioo,
+  IMGERecycle,
+};
 
 export function Projects() {
-  const projects = [
-    {
-      id: 0,
-      title: "Waskita Karya Corporate Website",
-      description:
-        "The official corporate website of PT Waskita Karya (Persero) Tbk. Contributed as Fullstack & DevSecOps Engineer ensuring performance, scalability, and security.",
-      image: IMGWaskita,
-      technologies: ["Next.js", "React", "Laravel", "Linux", "CI/CD"],
-      liveUrl: "https://www.waskita.co.id",
-      githubUrl: "#",
-      featured: true,
-    },
-    {
-      id: 1,
-      title: "HokBen Mobile and Website Company",
-      description:
-        "The HokBen mobile app for Android and iOS. Contributed as a React Native Developer integrating with Spring Boot backend.",
-      image: IMGHokben,
-      technologies: ["React Native", "JavaScript", "Spring Boot"],
-      liveUrl: "https://www.hokben.co.id",
-      githubUrl: "#",
-      featured: true,
-    },
-    {
-      id: 2,
-      title: "Trac To Go Mobile",
-      description:
-        "Rental service mobile app (iOS & Android). Implemented CI/CD, performance improvements, new features, and bug fixes.",
-      image: IMGTrac,
-      technologies: ["React Native", "JavaScript", "CI/CD"],
-      liveUrl: "https://www.trac.astra.co.id/",
-      githubUrl: "#",
-      featured: true,
-    },
-    {
-      id: 3,
-      title: "ProSpark - Transforms Learning",
-      description:
-        "Learning platform mobile app for Android & iOS. Worked as a React Native Developer delivering features and improvements.",
-      image: IMGProSpark,
-      technologies: ["React Native", "JavaScript"],
-      liveUrl: "https://www.prospark.co",
-      githubUrl: "#",
-      featured: false,
-    },
-    {
-      id: 4,
-      title: "Task Management Tool",
-      description:
-        "Mobile app for Android & iOS. Contributed as a React Native Developer building features and integrations.",
-      image: IMGSipitung,
-      technologies: ["React Native", "JavaScript"],
-      liveUrl: "https://sipitung.co.id",
-      githubUrl: "#",
-      featured: false,
-    },
-    {
-      id: 5,
-      title: "IndiHome Smart",
-      description:
-        "iOS mobile app for smart home services. Contributed as an iOS Native Developer using Swift 5 and Xcode.",
-      image: IMGIndiHome,
-      technologies: ["Swift 5", "Xcode", "iOS"],
-      liveUrl: "https://smart.indihome.co.id/smartcam-pro/",
-      githubUrl: "#",
-      featured: false,
-    },
-    {
-      id: 6,
-      title: "Genioo",
-      description:
-        "E-commerce mobile app for Android. Worked as Fullstack Developer with React Native, CodeIgniter, and MySQL.",
-      image: IMGGenioo,
-      technologies: ["React Native", "CodeIgniter", "MySQL"],
-      liveUrl: "https://genio.co.id",
-      githubUrl: "#",
-      featured: false,
-    },
-    {
-      id: 7,
-      title: "E-Recycle",
-      description:
-        "Mobile recycling app for Android & iOS. Developed using Android Studio and Java, focusing on eco-friendly waste management.",
-      image: IMGERecycle,
-      technologies: ["Java", "Android Studio"],
-      liveUrl: "https://erecycle.id",
-      githubUrl: "#",
-      featured: false,
-    },
-    {
-      id: 8,
-      title: "Admin SiPitung Dashboard",
-      description:
-        "Web-based dashboard to manage users and monitor activities for SiPitung. Developed as a React JS Developer.",
-      image: IMGSipitung,
-      technologies: ["React.js", "JavaScript"],
-      liveUrl: "http://admin.sipitung.co.id",
-      githubUrl: "#",
-      featured: false,
-    },
 
-  ];
-
-  const featuredProjects = projects.filter((project) => project.featured);
-  const otherProjects = projects.filter((project) => !project.featured);
+  const featuredProjects = projectsData.items.filter((project) => project.featured);
+  const otherProjects = projectsData.items.filter((project) => !project.featured);
 
   return (
     <section id="projects" className="py-20 bg-background">
     <div className="container mx-auto px-4">
       <div className="text-center mb-16">
         <Badge variant="outline" className="mb-4 text-primary border-primary">
-          Portfolio
+          {projectsData.badge}
         </Badge>
         <h2 className="text-4xl md:text-5xl font-extrabold mb-6 text-primary">
-          Featured Projects
+          {projectsData.title}
         </h2>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-          A showcase of my real-world projects, demonstrating expertise in
-          full-stack development and modern technologies.
+          {projectsData.description}
         </p>
       </div>
 
@@ -157,7 +66,7 @@ export function Projects() {
                   <Card className="h-full overflow-hidden transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-2xl bg-card">
                     <div className="aspect-video overflow-hidden">
                       <ImageWithFallback
-                        src={typeof project.image === "string" ? project.image : project.image.src}
+                        src={imageMap[project.image].src}
                         alt={project.title}
                         className="w-full h-full object-cover"
                       />
@@ -218,7 +127,7 @@ export function Projects() {
         {/* Other Projects */}
         <div>
           <h3 className="text-3xl font-bold mb-12 text-center text-primary">
-            Other Notable Projects
+            {projectsData.otherProjectsTitle}
           </h3>
           <Carousel
             opts={{
@@ -241,7 +150,7 @@ export function Projects() {
                     <Card className="h-full overflow-hidden transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-2xl bg-card">
                       <div className="aspect-video overflow-hidden">
                         <ImageWithFallback
-                          src={typeof project.image === "string" ? project.image : project.image.src}
+                          src={imageMap[project.image].src}
                           alt={project.title}
                           className="w-full h-full object-cover"
                         />

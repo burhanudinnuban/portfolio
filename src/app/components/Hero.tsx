@@ -5,6 +5,7 @@ import { Github, Linkedin, Mail, Download } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { IMGBurhan } from "../assets/images";
 import openInNewTab from "../utils/openInNewTab";
+import heroData from "../data/hero.json";
 
 export function Hero() {
   const scrollToContact = () => {
@@ -24,18 +25,18 @@ export function Hero() {
                 Available for new opportunities
               </Badge>
               <h1 className="text-4xl md:text-6xl font-bold leading-tight text-gray-800">
-                Full Stack Developer &{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">DevSecOps Engineer</span>
+                {heroData.title.split('&')[0]}&{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">{heroData.title.split('&')[1]}</span>
               </h1>
               <p className="text-xl text-gray-600 max-w-2xl">
-                Hi, my name is Burhanudin Nuban, a 27-year-old Fullstack Developer & DevSecOps Engineer with more than 6 years of hands-on experience in software engineering. I am deeply passionate about designing and implementing secure, scalable, and high-performing systems that seamlessly integrate development, security, and operations.
+                {heroData.description}
               </p>
             </div>
 
             <div className="flex flex-wrap gap-4">
               <Button onClick={scrollToContact} size="lg" className="bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
                 <Mail className="mr-2 h-4 w-4" />
-                Get In Touch
+                {heroData.callToAction}
               </Button>
               <Button variant="outline" size="lg" onClick={()=>openInNewTab(
                   "https://drive.google.com/file/d/1YwqVJBH_cag6efGsUbthj730Fv0agwNU/view?usp=drive_link"
@@ -63,7 +64,7 @@ export function Hero() {
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl transform rotate-6 animate-pulse"></div>
               <ImageWithFallback
                 src={IMGBurhan.src} 
-                alt="Professional burhan photoshot"
+                alt={`Professional ${heroData.name} photoshot`}
                 className="relative z-10 w-full h-96 object-cover rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-300"
               />
             </div>

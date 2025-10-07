@@ -1,0 +1,42 @@
+
+{
+  "badge": "About Me",
+  "title": "Passionate about creating amazing digital experiences",
+  "description": "With over 6 years of experience in mobile and web development, I specialize in building secure, scalable, and high-performing systems with expertise in ReactJS, React Native, Laravel, .NET, and Spring Boot. On the DevSecOps side, I leverage Wazuh for threat detection, Grafana/Prometheus for real-time monitoring, and BurpSuite for black-box security testing. Highly adaptive and quick to master new technologies, I thrive in dynamic environments and consistently deliver robust, secure, and efficient solutions.",
+  "journey": {
+    "title": "My Journey",
+    "short": "I started my professional career in 2019 as a Mobile Android Developer and have since evolved into a DevSecOps and Fullstack Engineer with over 6 years of experience. Currently, I work at PT. Waskita Karya (Persero) Tbk, leading vendor collaborations and ensuring security and scalability in enterprise systems.",
+    "full": [
+      "I started my professional career in 2019 as a Mobile Android Developer at PT. Multi Digital Bisnis, where I built a waste management application using Android Studio (Java). This project, which integrated real-time registration, trash point tracking, and rewards, gave me my first hands-on experience in creating mobile solutions with real social impact.",
+      "In 2020, I joined PT. Generasi Informasi Optima (GenIO) as a React Native Developer. There, I expanded into cross-platform mobile development, using React Native, Flutter, and even native iOS with Swift. I worked on projects like Genioo mobile apps and middleware systems, while also deepening my knowledge in APIs, databases, and automated testing. This role was pivotal in shaping me into a more versatile developer.",
+      "By 2021, I moved to PT. Serasi Autoraya (SERA), part of the Astra Group, as a React Native Developer. I was entrusted to lead and manage mobile app projects, taking ownership of development, debugging, and feature delivery across mobile, web, and backend. My ability to deliver end-to-end solutions solidified my transition into a fullstack developer.",
+      "In 2022, I took on a bigger challenge at PT. Eka Bogainti (HokBen) as a Developer Specialist. Here, I managed and enhanced over 24 enterprise applications — from HRIS and Risk Management to Internal Audit and Vendor Tender platforms. I implemented DevSecOps practices, setting up secure CI/CD pipelines, integrating Wazuh for threat detection, and monitoring with Grafana and Prometheus. This role allowed me to bridge development with security and operations, making me not just a developer, but also a DevSecOps practitioner.",
+      "Today, I work at PT. Waskita Karya (Persero) Tbk, one of Indonesia's leading state-owned construction enterprises, as a DevSecOps and Fullstack Engineer. I lead vendor collaborations, oversee software quality, and ensure security and scalability in every system I touch."
+    ]
+  },
+  "highlights": [
+    {
+      "icon": "Code",
+      "title": "Clean Code",
+      "description": "Writing maintainable, scalable, and efficient code"
+    },
+    {
+      "icon": "Lock",
+      "title": "Problem Solving",
+      "description": "Give the best solution for all problems"
+    },
+    {
+      "icon": "Zap",
+      "title": "Performance",
+      "description": "Optimizing applications for speed and efficiency"
+    },
+    {
+      "icon": "Users",
+      "title": "Collaboration",
+      "description": "Working effectively with cross-functional teams"
+    }
+  ],
+  "image": {
+    "alt": "My Birthday from PT.Waskita Karya"
+  }
+}

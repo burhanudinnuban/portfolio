@@ -1,0 +1,61 @@
+{
+  "badge": "Skills",
+  "title": "My Technical Proficiency",
+  "description": "A comprehensive overview of my technical skills, from frontend to backend and beyond.",
+  "skillCategories": [
+    {
+      "title": "Frontend Development",
+      "skills": [
+        { "name": "React.js / Next.js", "level": 95 },
+        { "name": "React Native", "level": 95 },
+        { "name": "TypeScript", "level": 90 },
+        { "name": "JavaScript (ES6+)", "level": 95 }
+      ]
+    },
+    {
+      "title": "Backend Development",
+      "skills": [
+        { "name": "Node.js / Express.js", "level": 90 },
+        { "name": "Spring Boot", "level": 85 },
+        { "name": "Laravel / CodeIgniter", "level": 90 },
+        { "name": "ASP.NET Core", "level": 80 }
+      ]
+    },
+    {
+      "title": "Databases & DevOps",
+      "skills": [
+        { "name": "MongoDB / MySQL", "level": 90 },
+        { "name": "Docker / CI/CD", "level": 85 },
+        { "name": "AWS / GCP", "level": 80 },
+        { "name": "Prometheus / Grafana", "level": 85 }
+      ]
+    }
+  ],
+  "technologies": [
+    "React Native",
+    "React.js",
+    "Next.js",
+    "TypeScript",
+    "JavaScript",
+    "Node.js",
+    "Spring Boot",
+    "Laravel",
+    "CodeIgniter",
+    "ASP.NET Core",
+    "MongoDB",
+    "MySQL",
+    "PostgreSQL",
+    "Firebase",
+    "Docker",
+    "AWS",
+    "GCP",
+    "Heroku",
+    "CI/CD",
+    "Git",
+    "SonarQube",
+    "Grafana",
+    "Prometheus",
+    "Linux",
+    "Figma"
+  ]
+}
