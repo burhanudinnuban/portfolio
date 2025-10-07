@@ -82,7 +82,7 @@ export function About() {
             </div>
           </div>
 
-          <div className="relative">
+          <div className="relative hover:scale-105">
             <ImageWithFallback
               src={IMGBirthday.src}
               alt={aboutData.image.alt}

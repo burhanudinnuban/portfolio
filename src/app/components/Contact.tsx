@@ -1,14 +1,14 @@
-"use client";
-import { useState } from "react";
+'use client';
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
 import { Label } from "./ui/label";
 import { Mail, Phone, MapPin, Send, LucideIcon } from "lucide-react";
 import openInNewTab from "../utils/openInNewTab";
 import contactData from "../data/contact.json";
+import { useState } from "react";
+import { Textarea } from "./ui/textarea";
 
 const iconMap: { [key: string]: LucideIcon } = {
   Mail,
@@ -21,7 +21,7 @@ export function Contact() {
     name: "",
     email: "",
     subject: "",
-    message: ""
+    message: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -30,13 +30,15 @@ export function Contact() {
     setFormData({ name: "", email: "", subject: "", message: "" });
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
-    <section id="contact" className="py-20 bg-muted/30">
+    <section id="contact" className="py-20 bg-muted/30 dark:bg-zinc-950/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <Badge variant="outline" className="mb-4">{contactData.badge}</Badge>
@@ -49,7 +51,6 @@ export function Contact() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Information */}
           <div className="space-y-8">
             <div>
               <h3 className="text-2xl font-semibold mb-6">{contactData.contactInfo.title}</h3>
@@ -62,9 +63,11 @@ export function Contact() {
                      {Icon && <Icon className="h-5 w-5 text-primary" />}
                     </div>
                     <div>
-                      <p className="font-medium">{item.label}</p>
-                      <a 
-                        href={item.href} 
+                      <p className="font-medium text-gray-900 dark:text-gray-100">
+                        {item.label}
+                      </p>
+                      <a
+                        href={item.href}
                         className="text-muted-foreground hover:text-primary transition-colors"
                       >
                         {item.value}
@@ -85,7 +88,6 @@ export function Contact() {
             </div>
           </div>
 
-          {/* Contact Form */}
           <Card>
             <CardHeader>
               <CardTitle>{contactData.form.title}</CardTitle>

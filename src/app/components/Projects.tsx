@@ -61,14 +61,16 @@ export function Projects() {
         >
           <CarouselContent>
             {featuredProjects.map((project) => (
-              <CarouselItem key={project.id} className="basis-1/2 md:basis-1/3 lg:basis-1/4">
+              <CarouselItem style={{ width: 400 }} key={project.id} className="basis-1/2 md:basis-1/3 lg:basis-1/4">
                 <div className="p-1">
-                  <Card className="h-full overflow-hidden transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-2xl bg-card">
-                    <div className="aspect-video overflow-hidden">
+                  <Card  className="h-full overflow-hidden transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-2xl bg-card">
+                    <div className="w-full h-64 overflow-hidden">
                       <ImageWithFallback
                         src={imageMap[project.image].src}
                         alt={project.title}
                         className="w-full h-full object-cover"
+						width={350}
+						height={350}
                       />
                     </div>
                     <CardHeader>
@@ -145,14 +147,16 @@ export function Projects() {
           >
             <CarouselContent>
               {otherProjects.map((project) => (
-                <CarouselItem key={project.id} className="basis-1/2 md:basis-1/3 lg:basis-1/4">
+                <CarouselItem style={{ width: 400 }} key={project.id} className="basis-1/2 md:basis-1/3 lg:basis-1/4">
                   <div className="p-1">
                     <Card className="h-full overflow-hidden transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-2xl bg-card">
-                      <div className="aspect-video overflow-hidden">
+                      <div className="w-full h-64 overflow-hidden">
                         <ImageWithFallback
                           src={imageMap[project.image].src}
                           alt={project.title}
                           className="w-full h-full object-cover"
+                          width={350}
+                          height={350}
                         />
                       </div>
                       <CardHeader>
