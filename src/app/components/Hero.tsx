@@ -1,3 +1,4 @@
+
 "use client";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
@@ -6,13 +7,20 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { IMGBurhan } from "../assets/images";
 import openInNewTab from "../utils/openInNewTab";
 import heroData from "../data/hero.json";
+import { useRouter } from 'next/navigation';
 
 export function Hero() {
+  const router = useRouter();
+
   const scrollToContact = () => {
     const element = document.querySelector("#contact");
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
+  };
+
+  const handleLoginClick = () => {
+    router.push('/cms/login');
   };
 
   return (
@@ -43,6 +51,9 @@ export function Hero() {
                 )} className="shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
                 <Download className="mr-2 h-4 w-4" />
                 Download CV
+              </Button>
+              <Button variant="outline" size="lg" onClick={handleLoginClick} className="shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                Login
               </Button>
             </div>
 
