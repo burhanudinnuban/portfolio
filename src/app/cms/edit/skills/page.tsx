@@ -3,13 +3,27 @@
 import { useState, useEffect } from "react";
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
-import { Label } from "../../../components/ui/label";
+// import { Label } from "../../../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
 
 const fileName = "skill.json";
 
+type Skill = {
+  name: string;
+  level: number;
+};
+
+type SkillCategory = {
+  title: string;
+  skills: Skill[];
+};
+
+type SkillsData = {
+  skillCategories: SkillCategory[];
+};
+
 export default function EditSkillsPage() {
-  const [skillsData, setSkillsData] = useState({} as any);
+  const [skillsData, setSkillsData] = useState<SkillsData>({ skillCategories: [] });
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -45,7 +59,11 @@ export default function EditSkillsPage() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, categoryIndex: number, skillIndex: number) => {
     const { name, value } = e.target;
     const updatedSkills = [...skillsData.skillCategories];
-    updatedSkills[categoryIndex].skills[skillIndex][name] = value;
+    if (name === "name") {
+      updatedSkills[categoryIndex].skills[skillIndex].name = value;
+    } else if (name === "level") {
+      updatedSkills[categoryIndex].skills[skillIndex].level = Number(value);
+    }
     setSkillsData({ ...skillsData, skillCategories: updatedSkills });
   };
   
@@ -60,10 +78,10 @@ export default function EditSkillsPage() {
           <CardTitle>Edit Skills Section</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          {skillsData.skillCategories && skillsData.skillCategories.map((category: any, categoryIndex: number) => (
+          {skillsData.skillCategories && skillsData.skillCategories.map((category: SkillCategory, categoryIndex: number) => (
             <div key={categoryIndex} className="space-y-2">
               <h3 className="text-lg font-semibold">{category.title}</h3>
-              {category.skills.map((skill: any, skillIndex: number) => (
+              {category.skills.map((skill: Skill, skillIndex: number) => (
                 <div key={skillIndex} className="grid grid-cols-2 gap-4 items-center">
                   <Input name="name" value={skill.name} onChange={(e) => handleChange(e, categoryIndex, skillIndex)} />
                   <Input name="level" type="number" value={skill.level} onChange={(e) => handleChange(e, categoryIndex, skillIndex)} />

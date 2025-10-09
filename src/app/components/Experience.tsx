@@ -21,7 +21,7 @@ export function Experience() {
 
         <div className="space-y-8 mb-16">
           <h3 className="text-2xl font-semibold mb-8">{experienceData.work.title}</h3>
-          {experienceData.work.items.map((exp, index) => (
+          {experienceData.work.experiences.map((exp, index) => (
             <Card key={index} className="relative">
               <CardHeader>
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">

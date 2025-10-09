@@ -17,7 +17,7 @@ export default function DashboardPage() {
       <div className="container mx-auto px-4 py-10">
         <div className="text-center mb-10">
           <h1 className="text-4xl font-bold">Content Management System</h1>
-          <p className="text-lg text-muted-foreground">Welcome to your portfolio's CMS. Select a section to edit.</p>
+          <p className="text-lg text-muted-foreground">Welcome to your portfolios CMS. Select a section to edit.</p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

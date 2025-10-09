@@ -4,7 +4,7 @@
   "description": "A track record of delivering secure, scalable, and innovative solutions across industries.",
   "work": {
     "title": "Work Experience",
-    "items": [
+    "experiences": [
       {
         "title": "DevSecOps (Ahli Muda Bidang IT)",
         "company": "PT. Waskita Karya (Persero) Tbk",
@@ -77,7 +77,13 @@
           "Improved app performance and fixed bugs",
           "Developed new features for iOS & Android"
         ],
-        "technologies": ["React Native", "CI/CD", "Atomic Design", "JavaScript", "TypeScript"]
+        "technologies": [
+          "React Native",
+          "CI/CD",
+          "Atomic Design",
+          "JavaScript",
+          "TypeScript"
+        ]
       },
       {
         "title": "Information Technology Consultant",
@@ -124,7 +130,9 @@
         "school": "Gunadarma University",
         "location": "Depok, Indonesia",
         "period": "2016 - 2020",
-        "achievements": ["Focused on information systems and applied computer science projects"]
+        "achievements": [
+          "Focused on information systems and applied computer science projects"
+        ]
       }
     ]
   }

@@ -18,15 +18,16 @@ interface ExperienceItem {
   startDate: string;
   endDate: string;
   description: string;
-}
+} 
 
 interface ExperienceData {
   title: string;
-  experiences: ExperienceItem[];
+  work:{ title: string; experiences: ExperienceItem[];};
+  
 }
 
 export default function EditExperiencePage() {
-  const [experienceData, setExperienceData] = useState<ExperienceData>({ title: '', experiences: [] });
+  const [experienceData, setExperienceData] = useState<ExperienceData>({ title: '', work: { title: '', experiences: [] } });
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const router = useRouter();
@@ -72,7 +73,7 @@ export default function EditExperiencePage() {
   };
 
   const handleExperienceChange = (index: number, field: keyof ExperienceItem, value: string) => {
-    const updatedExperiences = [...experienceData.experiences];
+    const updatedExperiences = [...experienceData.work.experiences];
     updatedExperiences[index][field] = value;
     setExperienceData(prev => ({ ...prev, experiences: updatedExperiences }));
   };
@@ -80,13 +81,13 @@ export default function EditExperiencePage() {
   const addExperience = () => {
     setExperienceData(prev => ({
       ...prev,
-      experiences: [...prev.experiences, { position: '', company: '', startDate: '', endDate: '', description: '' }]
+      experiences: [...prev.work.experiences, { position: '', company: '', startDate: '', endDate: '', description: '' }]
     }));
   };
 
   const removeExperience = (index: number) => {
-    const updatedExperiences = experienceData.experiences.filter((_, i) => i !== index);
-    setExperienceData(prev => ({ ...prev, experiences: updatedExperiences }));
+    const updatedExperiences = experienceData.work.experiences.filter((_, i) => i !== index);
+    setExperienceData(prev => ({ ...prev, work: { ...prev.work, experiences: updatedExperiences } }));
   };
 
   return (
@@ -110,7 +111,7 @@ export default function EditExperiencePage() {
                   <Input id="main-title" value={experienceData.title || ''} onChange={handleMainTitleChange} />
                 </div>
 
-                {experienceData.experiences.map((exp, index) => (
+                {experienceData.work.experiences.map((exp, index) => (
                   <div key={index} className="border p-4 rounded-lg relative bg-gray-50">
                      <Button variant="ghost" size="icon" className="absolute top-2 right-2 text-gray-500 hover:text-red-500" onClick={() => removeExperience(index)}>
                       <Trash2 className="h-4 w-4" />

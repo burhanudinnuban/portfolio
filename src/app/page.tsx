@@ -6,7 +6,7 @@ import { Experience } from "./components/Experience";
 import { Projects } from "./components/Projects";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
-import { Certificates } from "./components/Certificates";
+// import { Certificates } from "./components/Certificates";
 import { Toaster } from "./components/ui/sonner";
 
 export default function App() {

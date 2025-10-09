@@ -13,7 +13,7 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import projectsData from "../data/project.json";
 
-const imageMap: { [key: string]: any } = {
+const imageMap: { [key: string]: { src: string } } = {
   IMGWaskita,
   IMGHokben,
   IMGTrac,
