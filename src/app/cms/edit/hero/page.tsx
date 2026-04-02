@@ -13,7 +13,7 @@ import { toast } from "sonner";
 const fileName = "hero.json";
 
 export default function EditHeroPage() {
-  const [heroData, setHeroData] = useState({ name: '', title: '', description: '', callToAction: '' });
+  const [heroData, setHeroData] = useState({ name: '', title: '', description: '', callToAction: '', image: '' });
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const router = useRouter();
@@ -102,6 +102,10 @@ export default function EditHeroPage() {
                 <div className="space-y-2">
                   <Label htmlFor="callToAction" className="font-semibold text-gray-700">Call to Action</Label>
                   <Input id="callToAction" name="callToAction" value={heroData.callToAction || ''} onChange={handleChange} className="w-full" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="image" className="font-semibold text-gray-700">Image URL</Label>
+                  <Input id="image" name="image" value={heroData.image || ''} onChange={handleChange} className="w-full" />
                 </div>
                 <Button onClick={handleSave} disabled={isSaving} className="w-full">
                   {isSaving ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...</> : 'Save Changes'}

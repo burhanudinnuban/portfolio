@@ -13,7 +13,7 @@ import { toast } from "sonner";
 const fileName = "about.json";
 
 export default function EditAboutPage() {
-  const [aboutData, setAboutData] = useState({ title: '', description: '' });
+  const [aboutData, setAboutData] = useState({ title: '', description: '', image: { alt: '', src: '' } });
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const router = useRouter();
@@ -62,6 +62,11 @@ export default function EditAboutPage() {
     const { name, value } = e.target;
     setAboutData((prev) => ({ ...prev, [name]: value }));
   };
+  
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setAboutData((prev) => ({ ...prev, image: { ...prev.image, [name]: value } }));
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
@@ -88,6 +93,11 @@ export default function EditAboutPage() {
                 <div className="space-y-2">
                   <Label htmlFor="description" className="font-semibold text-gray-700">Description</Label>
                   <Textarea id="description" name="description" value={aboutData.description || ''} onChange={handleChange} className="w-full" rows={6} />
+                </div>
+                <div className="space-y-2">
+                  <Label className="font-semibold text-gray-700">Image</Label>
+                  <Input name="src" placeholder="Image URL" value={aboutData.image?.src || ''} onChange={handleImageChange} className="w-full" />
+                  <Input name="alt" placeholder="Alt Text" value={aboutData.image?.alt || ''} onChange={handleImageChange} className="w-full mt-2" />
                 </div>
                 <Button onClick={handleSave} disabled={isSaving} className="w-full">
                   {isSaving ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...</> : 'Save Changes'}

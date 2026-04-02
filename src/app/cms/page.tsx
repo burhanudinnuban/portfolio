@@ -30,6 +30,7 @@ export default function CMSDashboard() {
     { path: '/cms/edit/about', label: 'About Section', icon: User, description: 'Update your bio and skills' },
     { path: '/cms/edit/experience', label: 'Experience', icon: Briefcase, description: 'Manage your work history' },
     { path: '/cms/edit/projects', label: 'Projects', icon: Code, description: 'Showcase your work' },
+    { path: '/cms/edit/skills', label: 'Skills', icon: Code, description: 'Manage your skills' },
     { path: '/cms/edit/contact', label: 'Contact', icon: Mail, description: 'Update contact information' },
   ];
 

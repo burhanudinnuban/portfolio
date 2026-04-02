@@ -36,6 +36,7 @@
     }
   ],
   "image": {
-    "alt": "My Birthday from PT.Waskita Karya"
+    "alt": "My Birthday from PT.Waskita Karya",
+    "src": "/path/to/about/image.jpg"
   }
 }

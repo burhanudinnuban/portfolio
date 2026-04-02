@@ -75,13 +75,16 @@ export default function EditExperiencePage() {
   const handleExperienceChange = (index: number, field: keyof ExperienceItem, value: string) => {
     const updatedExperiences = [...experienceData.work.experiences];
     updatedExperiences[index][field] = value;
-    setExperienceData(prev => ({ ...prev, experiences: updatedExperiences }));
+    setExperienceData(prev => ({ ...prev, work: { ...prev.work, experiences: updatedExperiences } }));
   };
 
   const addExperience = () => {
     setExperienceData(prev => ({
       ...prev,
-      experiences: [...prev.work.experiences, { position: '', company: '', startDate: '', endDate: '', description: '' }]
+      work: {
+        ...prev.work,
+        experiences: [...prev.work.experiences, { position: '', company: '', startDate: '', endDate: '', description: '' }]
+      }
     }));
   };
 

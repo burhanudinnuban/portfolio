@@ -3,5 +3,6 @@
   "title": "Full Stack Engineer & DevSecOps Engineer",
   "description": "Hi, my name is Burhanudin Nuban, a 27-year-old Fullstack Developer & DevSecOps Engineer with more than 6 years of hands-on experience in software engineering. I am deeply passionate about designing and implementing secure, scalable, and high-performing systems that seamlessly integrate development, security, and operations.",
   "callToAction": "Get in Touch",
-  "profilePicture": "/foto-burhan.jpg"
+  "profilePicture": "/foto-burhan.jpg",
+  "image": "/path/to/hero/image.jpg" 
 }
