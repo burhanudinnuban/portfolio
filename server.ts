@@ -449,12 +449,7 @@ app.get("/api/github/repos", async (req, res) => {
     const githubUser = "burhanudinnuban";
     const githubUrl = `https://api.github.com/users/${githubUser}/repos?sort=updated&per_page=30`;
     
-    const response = await fetch(githubUrl, {
-      headers: {
-        "User-Agent": "burhanudinnuban-portfolio-servicer",
-        "Accept": "application/vnd.github.v3+json"
-      }
-    });
+    const response = await fetch(githubUrl);
 
     if (!response.ok) {
       throw new Error(`GitHub API returned status ${response.status}`);
