@@ -1,0 +1,215 @@
+{
+  "certifications": [
+    {
+      "id": "cert-1",
+      "name": "Certified Kubernetes Administrator (CKA)",
+      "issuer": "The Linux Foundation",
+      "year": "2024",
+      "icon": "Grid"
+    },
+    {
+      "id": "cert-2",
+      "name": "AWS Certified Solutions Architect",
+      "issuer": "Amazon Web Services (AWS)",
+      "year": "2023",
+      "icon": "Cloud"
+    },
+    {
+      "id": "cert-3",
+      "name": "CompTIA Security+",
+      "issuer": "CompTIA",
+      "year": "2023",
+      "icon": "ShieldAlert"
+    },
+    {
+      "id": "cert-4",
+      "name": "HashiCorp Certified: Terraform Associate",
+      "issuer": "HashiCorp",
+      "year": "2022",
+      "icon": "Terminal"
+    }
+  ],
+  "experiences": [
+    {
+      "id": "exp-1",
+      "role": "DevSecOps and Fullstack Engineer (Ahli Muda Bidang IT)",
+      "company": "PT. Waskita Karya (Persero) Tbk.",
+      "period": "Sep 2024 - Present",
+      "description": [
+        "PT Waskita Karya (Persero) Tbk is one of Indonesia's leading state-owned enterprises in the construction and infrastructure sector.",
+        "Design, develop, and maintain fullstack applications (web & API) and coordinate secure architectures.",
+        "Build and manage CI/CD pipelines for automated deployment and containerize applications using Docker and manage orchestration with Kubernetes (K3s).",
+        "Implement GitOps workflow using ArgoCD and manage private container registry and image lifecycle.",
+        "Monitor system performance, logs, and uptime in real-time, executing troubleshooting across distributed environments.",
+        "Apply security best practices (DevSecOps) across pipeline and infrastructure, hardening nodes and clusters.",
+        "Integrate AI into CI/CD pipelines (smart testing, failure prediction) and build AI-driven monitoring systems (AIOps).",
+        "Design scalable, modular, and maintainable system architectures, defining microservices architecture & service communication patterns."
+      ],
+      "skills": ["React", "ExpressJs", "Kubernetes", "Docker", "Snyk", "ArgoCD", "AI Integration", "AIOps", "DevSecOps", "OLLAMA"]
+    },
+    {
+      "id": "exp-2",
+      "role": "Developer Specialist",
+      "company": "PT. EKA BOGA INTI (HokBen)",
+      "period": "Mei 2022 - Sep 2024",
+      "description": [
+        "PT Eka Bogainti (HokBen) is a Japanese-style fast-food restaurant with application mobile and web hokben for order delivery, take-away, and dine-in across over 500 active stores.",
+        "Developed and maintained mobile app, web-based and internal enterprise applications to support business operations and digital transformation initiatives.",
+        "Designed and implemented RESTful APIs and backend services to handle business logic and data processing.",
+        "Built and enhanced frontend interfaces using modern frameworks to improve user experience and system usability.",
+        "Collaborated with cross-functional teams (business, operations, QA) to gather requirements and deliver scalable solutions.",
+        "Optimized application performance, database queries, and system responsiveness.",
+        "Implemented CI/CD pipelines to automate build, testing, and deployment processes using Docker for environment consistency.",
+        "Managed application deployment and environment configuration in Linux servers, monitoring system performance and logs.",
+        "Applied secure coding practices and participated in maintaining system security and access control."
+      ],
+      "skills": ["React Native", "ExpressJs", "Docker", "NodeJs", "RESTful APIs", "Linux Server", "CI/CD Pipeline", "SQL Query"]
+    },
+    {
+      "id": "exp-3",
+      "role": "React Native Developer",
+      "company": "PT. Serasi Autoraya (SERA) member of Astra",
+      "period": "Juli 2021 - Jun 2022",
+      "description": [
+        "SERA is a subsidiary of PT Astra International Tbk, recognized as one of the largest transportation and logistics service companies in Indonesia.",
+        "Developed and maintained mobile applications using React Native for Android and iOS platforms.",
+        "Built cross-platform features to ensure consistent performance and user experience across devices.",
+        "Integrated mobile applications with RESTful APIs for data communication and backend services.",
+        "Implemented responsive UI/UX components following business and design requirements closely.",
+        "Collaborated with backend developers, UI/UX designers, and QA teams to deliver high-quality applications.",
+        "Performed debugging, testing, and performance optimization to ensure application stability and reliability."
+      ],
+      "skills": ["React Native", "Android Studio", "XCode - Swift5", "RESTful APIs", "Figma", "UI/UX Components"]
+    },
+    {
+      "id": "exp-4",
+      "role": "React Native Developer",
+      "company": "PT. Generasi Informasi Optima (GenIO)",
+      "period": "Feb 2020 - Juli 2021",
+      "description": [
+        "PT. Generasi Informasi Optima is an IT startup focused on delivering scalable backend, frontend, and system integration services.",
+        "Designed and developed end-to-end scalable applications, covering frontend, backend, and system integration layers.",
+        "Built and maintained RESTful APIs using Express.js and Laravel, enabling seamless communication between frontend, mobile, and backend systems.",
+        "Developed modern frontend applications using ReactJS and contributed to cross-platform mobile development using React Native and Flutter.",
+        "Integrated enterprise systems using middleware solutions (Software AG) to support data exchange and business process automation across multiple services.",
+        "Implemented and optimized API communication, authentication, and data flow between systems and third-party services.",
+        "Developed and maintained mobile applications for iOS using Swift UI, enhancing cross-platform ecosystem integration.",
+        "Applied clean architecture principles and ensured code maintainability, scalability, and performance optimization."
+      ],
+      "skills": ["React", "Express.js", "Laravel", "Swift UI", "Flutter", "Software AG", "Postgresql", "Laravel", "Codeigniter"]
+    },
+    {
+      "id": "exp-5",
+      "role": "Mobile Android Developer",
+      "company": "PT. Multi Digital Bisnis",
+      "period": "Jul 2019 - Feb 2020",
+      "description": [
+        "Developed and maintained Android mobile applications using Android Studio for business and client requirements.",
+        "Designed and implemented native mobile features using Java/Kotlin, ensuring smooth performance and user experience.",
+        "Integrated mobile applications with RESTful APIs to enable real-time data interaction with backend systems.",
+        "Built user-friendly interfaces following mobile UI/UX best practices.",
+        "Performed debugging, testing, and issue fixing to improve application stability and performance."
+      ],
+      "skills": ["Android Studio", "Java/Kotlin", "RESTful APIs", "Mobile UI/UX", "Gradle", "Debugging"]
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj-1",
+      "title": "SecureCI: DevSecOps Shift-Left Pipeline Blueprint",
+      "category": "DevSecOps",
+      "description": "An automated Kubernetes deployment pipeline incorporating SAST, validation checks, and image-hardening audits before pushing workloads to Amazon EKS.",
+      "details": "Automates the entire integration workflow. It validates Dockerfiles with Hadolint, scans application libraries with Snyk, inspects built container layers with Trivy, validates cloud manifests via Kubeval, and automatically triggers ArgoCD to pull hardened revisions. It eliminates manual QA bottlenecks and guarantees that zero high-severity CVEs enter the master registry.",
+      "tech": ["GitHub Actions", "Trivy", "Snyk", "Kubernetes", "ArgoCD", "Docker", "Terraform"],
+      "githubUrl": "https://github.com/burhanudinnuban/secureci-pipeline"
+    },
+    {
+      "id": "proj-2",
+      "title": "GuardianDash: Live Cloud SIEM and Threat Tracker",
+      "category": "Cloud Infrastructure",
+      "description": "Real-time threat monitoring dashboard aggregating system-entry logs, open port profiles, and authentication anomalies.",
+      "details": "Collects system performance statistics and active network events using a custom-built daemon. It processes security authentication registries (auth.log) to intercept SSH brute-force actions, automatically sets local IP bans with Fail2ban, and sends interactive metric aggregates to a live Grafana workspace, providing instant awareness over exposed servers.",
+      "tech": ["Prometheus", "Grafana", "Go (Golang)", "Docker", "Linux Sec", "Loki"],
+      "githubUrl": "https://github.com/burhanudinnuban/guardiandash-siem"
+    },
+    {
+      "id": "proj-3",
+      "title": "AuthFlow: Enterprise RBAC Multi-tenant Boilerplate",
+      "category": "Full-Stack",
+      "description": "Extensible business template with hierarchical Role-Based Access Controls, cryptographically verified token sessions, and database clustering definitions.",
+      "details": "Solves enterprise onboarding needs securely. It is standard-compliant and provides sub-tenant partitioning, rate-limiting layers on critical login routes, bcrypt password hashing, JWT key rotation protocols, and standard SQL tables built with raw indexing, complete with dynamic dashboards and administration management control screens.",
+      "tech": ["React", "TypeScript", "Node.js", "PostgreSQL", "Tailwind CSS", "Express"],
+      "githubUrl": "https://github.com/burhanudinnuban/authflow-rbac"
+    }
+  ],
+  "skills": [
+    {
+      "title": "Full-Stack & Mobile Development",
+      "icon": "Code",
+      "items": [
+        { "name": "NodeJs & ExpressJs", "level": 94 },
+        { "name": "Java Spring Boot", "level": 88 },
+        { "name": "React & React Native", "level": 95 },
+        { "name": "FastAPI & Python", "level": 89 },
+        { "name": "Laravel & Codeigniter", "level": 85 },
+        { "name": "Flutter / Swift UI", "level": 86 }
+      ]
+    },
+    {
+      "title": "DevSecOps & Cloud Security",
+      "icon": "ShieldAlert",
+      "items": [
+        { "name": "CI/CD Pipeline Design", "level": 93 },
+        { "name": "Prometheus, Grafana, Loki", "level": 91 },
+        { "name": "Sonarqube & Wazuh (SIEM)", "level": 90 },
+        { "name": "Jenkins & ArgoCD", "level": 89 },
+        { "name": "Burp Suite & Penetration Testing", "level": 84 },
+        { "name": "OLLAMA & AI Integration", "level": 87 }
+      ]
+    },
+    {
+      "title": "Infrastructure & Orchestration",
+      "icon": "Cloud",
+      "items": [
+        { "name": "Docker & Kubernetes (K3s)", "level": 94 },
+        { "name": "AWS System Architecture", "level": 91 },
+        { "name": "Linux Servers Operations", "level": 92 },
+        { "name": "SQL Query (Postgresql, Mysql)", "level": 90 },
+        { "name": "MongoDB & NoSQL Datastores", "level": 88 },
+        { "name": "Terraform (IaC)", "level": 89 }
+      ]
+    }
+  ],
+  "vulnerableCodeExamples": [
+    {
+      "name": "Express.js SQL Injection",
+      "fileType": "javascript",
+      "code": "const express = require('express');\nconst router = express.Router();\nconst db = require('../db');\n\n// Vulnerable endpoint using dynamic raw SQL queries\nrouter.get('/search-user', (req, res) => {\n  const username = req.query.username;\n  \n  // SEC RISK: Direct concatenation is highly susceptible to SQL injection!\n  const query = \"SELECT * FROM users WHERE username = '\" + username + \"'\";\n  \n  db.query(query, (error, results) => {\n    if (error) {\n      return res.status(500).send(error);\n    }\n    res.json(results);\n  });\n});"
+    },
+    {
+      "name": "Hardcoded AWS Secrets & Keys",
+      "fileType": "javascript",
+      "code": "// AWS S3 Storage handler module\nconst AWS = require('aws-sdk');\n\n// SEC RISK: Storing credentials inside plaintext code is a huge violation!\nconst s3 = new AWS.S3({\n  accessKeyId: \"AKIAIOSFODNN7EXAMPLE\",\n  secretAccessKey: \"wJalrXUtnFEMI/KPLENG/bPxRfiCYEXAMPLEKEY\",\n  region: \"us-east-1\"\n});\n\nfunction listBucketObjects() {\n  return s3.listObjectsV2({ Bucket: 'production-assets-bucket' }).promise();\n}"
+    },
+    {
+      "name": "Python Flask OS Command Execution",
+      "fileType": "python",
+      "code": "import os\nfrom flask import Flask, request, jsonify\napp = Flask(__name__)\n\n# SEC RISK: Dynamic shell commands allow malicious root injection\n@app.route('/api/v1/ping', methods=['GET'])\ndef ping_server():\n    target_ip = request.args.get('ip')\n    \n    # Executes straight shell parsing, allowing an attacker to chain commands: 8.8.8.8; cat /etc/passwd\n    cmdStatus = os.system(f\"ping -c 3 {target_ip}\")\n    \n    return jsonify({\n        \"status\": \"executed\",\n        \"code\": cmdStatus\n    })"
+    },
+    {
+      "name": "Sanitized & Secure Implementation (Clean Code)",
+      "fileType": "javascript",
+      "code": "const express = require('express');\nconst router = express.Router();\nconst db = require('../db');\n\n// Secure route using parameterized prepared queries\nrouter.get('/search-user', (req, res) => {\n  const username = req.query.username;\n  \n  if (!username || typeof username !== 'string') {\n    return res.status(400).json({ error: 'Valid username parameter is required.' });\n  }\n\n  // Prepared statement fully sanitizes inputs\n  const selectQuery = 'SELECT id, username, email, role FROM users WHERE username = ?';\n  \n  db.execute(selectQuery, [username], (error, results) => {\n    if (error) {\n      console.error('Database query error securely logged.');\n      return res.status(500).json({ error: 'An unexpected backend database error occurred.' });\n    }\n    res.json(results);\n  });\n});"
+    }
+  ],
+  "sidebar": {
+    "username": "burhanudinnuban",
+    "bio": "A highly capable Fullstack Engineer specializing in DevSecOps & AI integration. Designing high-performance distributed systems, AIOps, and intelligent automated security workflows.",
+    "bullets": [
+      "Software Architect",
+      "DevSecOps Engineer",
+      "AI Integration Engineer"
+    ],
+    "cvUrl": "https://github.com/burhanudinnuban"
+  }
+}
