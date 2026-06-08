@@ -434,36 +434,71 @@ app.post("/api/cms/inbox/delete", (req, res) => {
 });
 
 // Cache variable for GitHub Repositories
-let githubCache: { data: any[]; timestamp: number } | null = null;
+let githubCache: { data: any[]; timestamp: number; offline?: boolean } | null = null;
 const CACHE_DURATION_MS = 1000 * 60 * 60; // Cache for 1 hour
 
 // D. Fetch public GitHub projects directly on behalf of user
 app.get("/api/github/repos", async (req, res) => {
+  const offlineFilePath = path.join(process.cwd(), "src", "github_repos_offline.json");
+  let repos: any[] = [];
+  let isOfflineFallback = false;
+  const now = Date.now();
+
   try {
-    const now = Date.now();
     if (githubCache && (now - githubCache.timestamp < CACHE_DURATION_MS)) {
-      res.json({ success: true, projects: githubCache.data, cached: true });
+      res.json({ success: true, projects: githubCache.data, cached: true, offline: githubCache.offline || false });
       return;
     }
 
     const githubUser = "burhanudinnuban";
     const githubUrl = `https://api.github.com/users/${githubUser}/repos?sort=updated&per_page=30`;
     
-    const response = await fetch(githubUrl);
+    const response = await fetch(githubUrl, {
+      headers: {
+        "User-Agent": "burhanudinnuban-portfolio-servicer",
+        "Accept": "application/vnd.github.v3+json"
+      }
+    });
 
     if (!response.ok) {
       throw new Error(`GitHub API returned status ${response.status}`);
     }
 
-    const repos = await response.json();
+    repos = await response.json();
     if (!Array.isArray(repos)) {
-      throw new Error("Invalid response format from GitHub API");
+      throw new Error("Invalid response format received from GitHub API");
     }
 
+    // Capture response and save to offline cache file to ensure it's always ready for offline use
+    if (repos.length > 0) {
+      fs.writeFileSync(offlineFilePath, JSON.stringify(repos, null, 2), "utf8");
+    }
+  } catch (error: any) {
+    console.warn("GitHub live request unresolved. Deploying secure offline API cached assets:", error.message);
+    isOfflineFallback = true;
+    
+    // Check if offline JSON file can be read
+    if (fs.existsSync(offlineFilePath)) {
+      try {
+        const rawOffline = fs.readFileSync(offlineFilePath, "utf8");
+        repos = JSON.parse(rawOffline);
+      } catch (parseErr) {
+        console.error("Failed to parse local offline repository cache document:", parseErr);
+      }
+    }
+  }
+
+  // Final validation block & structural mapping
+  if (!repos || !Array.isArray(repos) || repos.length === 0) {
+    res.json({ success: false, error: "Repository databases offline and static local fallback empty.", projects: [] });
+    return;
+  }
+
+  try {
     const mappedProjects = repos
-      .filter((repo: any) => !repo.fork) // prioritize original repositories
+      .filter((repo: any) => repo && !repo.fork) // prioritize original repositories
       .map((repo: any) => {
-        const name = repo.name || "";
+        const name = repo.name || "unnamed";
         const desc = repo.description || "A public repository representing secure design, automated systems, or full-stack software development.";
         const language = repo.language;
         const topics = repo.topics || [];
@@ -519,7 +554,7 @@ app.get("/api/github/repos", async (req, res) => {
           title: name.split(/[-_]+/).map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(" "),
           category,
           description: desc,
-          details: `Language: ${language || "Markdown/Text"} | Stars: ${repo.stargazers_count} | Default branch: ${repo.default_branch || "main"}`,
+          details: `Language: ${language || "Markdown/Text"} | Stars: ${repo.stargazers_count || 0} | Default branch: ${repo.default_branch || "main"}`,
           tech,
           githubUrl: repo.html_url,
           liveUrl: repo.homepage || repo.html_url,
@@ -527,12 +562,11 @@ app.get("/api/github/repos", async (req, res) => {
         };
       });
 
-    githubCache = { data: mappedProjects, timestamp: now };
-    res.json({ success: true, projects: mappedProjects, cached: false });
-  } catch (error: any) {
-    console.error("Failed to fetch public GitHub repositories:", error);
-    // Silent fall back to empty list so caller can fall back to local assets
-    res.json({ success: false, error: error.message, projects: [] });
+    githubCache = { data: mappedProjects, timestamp: now, offline: isOfflineFallback };
+    res.json({ success: true, projects: mappedProjects, cached: false, offline: isOfflineFallback });
+  } catch (mapError: any) {
+    console.error("Mapping repositories error:", mapError);
+    res.status(500).json({ success: false, error: "Failed to compile repositories." });
   }
 });
 

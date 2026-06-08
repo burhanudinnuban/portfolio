@@ -14,7 +14,7 @@ export default function AIAgent() {
 
   const [inputMessage, setInputMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatScrollContainerRef = useRef<HTMLDivElement>(null);
 
   const presetQuestions = [
     "What is your overall tech stack?",
@@ -24,8 +24,9 @@ export default function AIAgent() {
   ];
 
   useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    if (chatScrollContainerRef.current) {
+      const container = chatScrollContainerRef.current;
+      container.scrollTop = container.scrollHeight;
     }
   }, [messages, loading]);
 
@@ -141,7 +142,7 @@ export default function AIAgent() {
         </div>
 
         {/* Message Thread Scroll Area */}
-        <div id="chat-scroller" className="flex-1 p-5 overflow-y-auto space-y-4 bg-zinc-950/30">
+        <div ref={chatScrollContainerRef} id="chat-scroller" className="flex-1 p-5 overflow-y-auto space-y-4 bg-zinc-950/30">
           {messages.map((m, idx) => {
             const isModel = m.role === "model";
             return (
@@ -189,7 +190,6 @@ export default function AIAgent() {
               </div>
             </div>
           )}
-          <div ref={messagesEndRef} />
         </div>
 
         {/* Input Control Deck */}

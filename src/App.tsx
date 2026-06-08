@@ -230,8 +230,8 @@ ${senderName}`
               <span id="branding-badge" className="text-[10px] font-mono uppercase bg-cyan-950/50 text-cyan-400 px-2.5 py-0.5 rounded border border-cyan-900/30 font-bold leading-none">
                 Active CV Node
               </span>
-              <span id="branding-status" className="text-[10px] font-mono uppercase bg-emerald-950/40 text-emerald-200 px-2.5 py-0.5 rounded border border-emerald-900/30 tracking-wide font-semibold flex items-center gap-1.5 leading-none">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-900 animate-pulse" />
+              <span id="branding-status" className="text-[10px] font-mono uppercase bg-emerald-950/40 text-emerald-400 px-2.5 py-0.5 rounded border border-emerald-900/30 tracking-wide font-semibold flex items-center gap-1.5 leading-none">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 Available for Roles
               </span>
             </div>
@@ -341,7 +341,7 @@ ${senderName}`
             </div>
 
             {/* Premium Interactive CMS Access Gateway Control */}
-            {/* <div id="cms-access-flow-card" className="p-5 rounded-2xl border border-slate-900 bg-slate-950/40 space-y-3.5 relative overflow-hidden">
+            <div id="cms-access-flow-card" className="p-5 rounded-2xl border border-slate-900 bg-slate-950/40 space-y-3.5 relative overflow-hidden">
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(6,182,212,0.05),transparent_60%)] pointer-events-none" />
               
               <div className="flex items-center justify-between pb-2 border-b border-slate-900/60">
@@ -397,7 +397,7 @@ ${senderName}`
                   </button>
                 </div>
               )}
-            </div> */}
+            </div>
 
             {/* Quick Contact Message Card */}
             <div id="contact-form-card" className="p-5 rounded-2xl border border-slate-900 bg-slate-950/10 space-y-4 relative">
@@ -545,7 +545,7 @@ ${senderName}`
                 )}
               </button>
 
-              {/* <button
+              <button
                 id="tab-btn-chat"
                 onClick={() => setActiveTab("chat")}
                 className={`relative flex-1 px-4 py-2 text-xs font-medium rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-2 bg-transparent ${
@@ -559,7 +559,7 @@ ${senderName}`
                 {activeTab === "chat" && (
                   <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-cyan-400 rounded-full" />
                 )}
-              </button> */}
+              </button>
 
               <button
                 id="tab-btn-cms"

@@ -45,18 +45,7 @@
         "Integrate AI into CI/CD pipelines (smart testing, failure prediction) and build AI-driven monitoring systems (AIOps).",
         "Design scalable, modular, and maintainable system architectures, defining microservices architecture & service communication patterns."
       ],
-      "skills": [
-        "React",
-        "ExpressJs",
-        "Kubernetes",
-        "Docker",
-        "Snyk",
-        "ArgoCD",
-        "AI Integration",
-        "AIOps",
-        "DevSecOps",
-        "OLLAMA"
-      ]
+      "skills": ["React", "ExpressJs", "Kubernetes", "Docker", "Snyk", "ArgoCD", "AI Integration", "AIOps", "DevSecOps", "OLLAMA"]
     },
     {
       "id": "exp-2",
@@ -74,16 +63,7 @@
         "Managed application deployment and environment configuration in Linux servers, monitoring system performance and logs.",
         "Applied secure coding practices and participated in maintaining system security and access control."
       ],
-      "skills": [
-        "React Native",
-        "ExpressJs",
-        "Docker",
-        "NodeJs",
-        "RESTful APIs",
-        "Linux Server",
-        "CI/CD Pipeline",
-        "SQL Query"
-      ]
+      "skills": ["React Native", "ExpressJs", "Docker", "NodeJs", "RESTful APIs", "Linux Server", "CI/CD Pipeline", "SQL Query"]
     },
     {
       "id": "exp-3",
@@ -99,14 +79,7 @@
         "Collaborated with backend developers, UI/UX designers, and QA teams to deliver high-quality applications.",
         "Performed debugging, testing, and performance optimization to ensure application stability and reliability."
       ],
-      "skills": [
-        "React Native",
-        "Android Studio",
-        "XCode - Swift5",
-        "RESTful APIs",
-        "Figma",
-        "UI/UX Components"
-      ]
+      "skills": ["React Native", "Android Studio", "XCode - Swift5", "RESTful APIs", "Figma", "UI/UX Components"]
     },
     {
       "id": "exp-4",
@@ -123,17 +96,7 @@
         "Developed and maintained mobile applications for iOS using Swift UI, enhancing cross-platform ecosystem integration.",
         "Applied clean architecture principles and ensured code maintainability, scalability, and performance optimization."
       ],
-      "skills": [
-        "React",
-        "Express.js",
-        "Laravel",
-        "Swift UI",
-        "Flutter",
-        "Software AG",
-        "Postgresql",
-        "Laravel",
-        "Codeigniter"
-      ]
+      "skills": ["React", "Express.js", "Laravel", "Swift UI", "Flutter", "Software AG", "Postgresql", "Laravel", "Codeigniter"]
     },
     {
       "id": "exp-5",
@@ -147,14 +110,7 @@
         "Built user-friendly interfaces following mobile UI/UX best practices.",
         "Performed debugging, testing, and issue fixing to improve application stability and performance."
       ],
-      "skills": [
-        "Android Studio",
-        "Java/Kotlin",
-        "RESTful APIs",
-        "Mobile UI/UX",
-        "Gradle",
-        "Debugging"
-      ]
+      "skills": ["Android Studio", "Java/Kotlin", "RESTful APIs", "Mobile UI/UX", "Gradle", "Debugging"]
     }
   ],
   "projects": [
@@ -164,15 +120,7 @@
       "category": "DevSecOps",
       "description": "An automated Kubernetes deployment pipeline incorporating SAST, validation checks, and image-hardening audits before pushing workloads to Amazon EKS.",
       "details": "Automates the entire integration workflow. It validates Dockerfiles with Hadolint, scans application libraries with Snyk, inspects built container layers with Trivy, validates cloud manifests via Kubeval, and automatically triggers ArgoCD to pull hardened revisions. It eliminates manual QA bottlenecks and guarantees that zero high-severity CVEs enter the master registry.",
-      "tech": [
-        "GitHub Actions",
-        "Trivy",
-        "Snyk",
-        "Kubernetes",
-        "ArgoCD",
-        "Docker",
-        "Terraform"
-      ],
+      "tech": ["GitHub Actions", "Trivy", "Snyk", "Kubernetes", "ArgoCD", "Docker", "Terraform"],
       "githubUrl": "https://github.com/burhanudinnuban/secureci-pipeline"
     },
     {
@@ -181,14 +129,7 @@
       "category": "Cloud Infrastructure",
       "description": "Real-time threat monitoring dashboard aggregating system-entry logs, open port profiles, and authentication anomalies.",
       "details": "Collects system performance statistics and active network events using a custom-built daemon. It processes security authentication registries (auth.log) to intercept SSH brute-force actions, automatically sets local IP bans with Fail2ban, and sends interactive metric aggregates to a live Grafana workspace, providing instant awareness over exposed servers.",
-      "tech": [
-        "Prometheus",
-        "Grafana",
-        "Go (Golang)",
-        "Docker",
-        "Linux Sec",
-        "Loki"
-      ],
+      "tech": ["Prometheus", "Grafana", "Go (Golang)", "Docker", "Linux Sec", "Loki"],
       "githubUrl": "https://github.com/burhanudinnuban/guardiandash-siem"
     },
     {
@@ -197,14 +138,7 @@
       "category": "Full-Stack",
       "description": "Extensible business template with hierarchical Role-Based Access Controls, cryptographically verified token sessions, and database clustering definitions.",
       "details": "Solves enterprise onboarding needs securely. It is standard-compliant and provides sub-tenant partitioning, rate-limiting layers on critical login routes, bcrypt password hashing, JWT key rotation protocols, and standard SQL tables built with raw indexing, complete with dynamic dashboards and administration management control screens.",
-      "tech": [
-        "React",
-        "TypeScript",
-        "Node.js",
-        "PostgreSQL",
-        "Tailwind CSS",
-        "Express"
-      ],
+      "tech": ["React", "TypeScript", "Node.js", "PostgreSQL", "Tailwind CSS", "Express"],
       "githubUrl": "https://github.com/burhanudinnuban/authflow-rbac"
     }
   ],
@@ -276,6 +210,6 @@
       "DevSecOps Engineer",
       "AI Integration Engineer"
     ],
-    "cvUrl": "https://drive.google.com/file/d/13RAuHQl-QLMUIZeqKw1FefO8BLa7B2dy/view?usp=drive_link"
+    "cvUrl": "https://github.com/burhanudinnuban"
   }
 }

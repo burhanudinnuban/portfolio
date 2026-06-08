@@ -7,7 +7,7 @@ export default function PipelineSimulator() {
   const [currentStageIndex, setCurrentStageIndex] = useState<number>(-1);
   const [pipelinePassed, setPipelinePassed] = useState<boolean | null>(null);
   const [autoScroll, setAutoScroll] = useState<boolean>(true);
-  const terminalEndRef = useRef<HTMLDivElement>(null);
+  const terminalScrollContainerRef = useRef<HTMLDivElement>(null);
 
   const [stages, setStages] = useState<PipelineStage[]>([
     {
@@ -103,8 +103,9 @@ export default function PipelineSimulator() {
 
   // Hook to handle active log scrolling
   useEffect(() => {
-    if (pipelineActive && autoScroll && terminalEndRef.current) {
-      terminalEndRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    if (pipelineActive && autoScroll && terminalScrollContainerRef.current) {
+      const container = terminalScrollContainerRef.current;
+      container.scrollTop = container.scrollHeight;
     }
   }, [activeConsoleLogs, autoScroll, pipelineActive]);
 
@@ -311,7 +312,7 @@ export default function PipelineSimulator() {
         </div>
 
         {/* Live Terminal Log Stream Container */}
-        <div id="terminal-log-stream" className="flex-1 p-5 overflow-y-auto font-mono text-xs text-emerald-400 space-y-1.5 bg-[rgba(3,3,3,0.95)] shadow-inner scrollbar-thin scrollbar-thumb-zinc-900">
+        <div ref={terminalScrollContainerRef} id="terminal-log-stream" className="flex-1 p-5 overflow-y-auto font-mono text-xs text-emerald-400 space-y-1.5 bg-[rgba(3,3,3,0.95)] shadow-inner scrollbar-thin scrollbar-thumb-zinc-900">
           {activeConsoleLogs.map((log, lIdx) => {
             const isWarn = log.includes("[WARN]");
             const isPass = log.includes("[PASS]") || log.includes("[SUCCESS]") || log.includes("✔");
@@ -335,8 +336,6 @@ export default function PipelineSimulator() {
               <span className="w-2 h-4 bg-cyan-400" />
             </div>
           )}
-
-          <div ref={terminalEndRef} />
         </div>
 
         {/* Top-level Success Seal Overlay */}
