@@ -341,7 +341,7 @@ ${senderName}`
             </div>
 
             {/* Premium Interactive CMS Access Gateway Control */}
-            <div id="cms-access-flow-card" className="p-5 rounded-2xl border border-slate-900 bg-slate-950/40 space-y-3.5 relative overflow-hidden">
+            {/* <div id="cms-access-flow-card" className="p-5 rounded-2xl border border-slate-900 bg-slate-950/40 space-y-3.5 relative overflow-hidden">
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(6,182,212,0.05),transparent_60%)] pointer-events-none" />
               
               <div className="flex items-center justify-between pb-2 border-b border-slate-900/60">
@@ -397,7 +397,7 @@ ${senderName}`
                   </button>
                 </div>
               )}
-            </div>
+            </div> */}
 
             {/* Quick Contact Message Card */}
             <div id="contact-form-card" className="p-5 rounded-2xl border border-slate-900 bg-slate-950/10 space-y-4 relative">
@@ -545,7 +545,7 @@ ${senderName}`
                 )}
               </button>
 
-              <button
+              {/* <button
                 id="tab-btn-chat"
                 onClick={() => setActiveTab("chat")}
                 className={`relative flex-1 px-4 py-2 text-xs font-medium rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-2 bg-transparent ${
@@ -559,7 +559,7 @@ ${senderName}`
                 {activeTab === "chat" && (
                   <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-cyan-400 rounded-full" />
                 )}
-              </button>
+              </button> */}
 
               <button
                 id="tab-btn-cms"
