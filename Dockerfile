@@ -1,7 +1,7 @@
 # ═══════════════════════════════════════════
 # STAGE 1: Build
 # ═══════════════════════════════════════════
-FROM node:22-alpine AS builder  # ← Upgrade from 20 to 22
+FROM node:20-alpine AS builder  # ← Upgrade from 20 to 22
 
 WORKDIR /app
 COPY package*.json ./
@@ -12,7 +12,7 @@ RUN npm run build
 # ═══════════════════════════════════════════
 # STAGE 2: Production
 # ═══════════════════════════════════════════
-FROM node:22-alpine AS production  # ← Upgrade here too
+FROM node:20-alpine AS production  # ← Upgrade here too
 
 WORKDIR /app
 
