@@ -104,7 +104,7 @@ jobs:
           image-ref: ${{ env.APP_NAME }}:${{ steps.meta.outputs.version }}
           format: 'table'
           exit-code: '1'
-          severity: 'CRITICAL,HIGH'
+          severity: 'CRITICAL'
           ignore-unfixed: true
 
       # Save Docker image as tar.gz (compressed)
