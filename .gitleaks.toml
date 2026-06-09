@@ -1,0 +1,9 @@
+title = "Gitleaks Config"
+
+[allowlist]
+  description = "Allowed patterns"
+  paths = [
+    '''package-lock\.json''',
+    '''\.github/workflows/.*\.yml''',
+    '''dist/'''
+  ]

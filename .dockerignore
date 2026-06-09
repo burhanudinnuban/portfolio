@@ -1,0 +1,12 @@
+node_modules
+dist
+.git
+.github
+.env
+.env.*
+*.md
+.gitleaks.toml
+sonar-project.properties
+.vscode
+.idea
+coverage
