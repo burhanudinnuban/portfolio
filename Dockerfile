@@ -9,15 +9,11 @@ COPY package*.json ./
 RUN npm ci
 
 COPY . .
-
-# Build frontend
 RUN npm run build
-
-# Compile server.ts → server.js (no tsx needed at runtime)
-RUN npx esbuild server.ts --bundle --platform=node --outfile=server.js --format=esm --packages=external
+# ↑ This runs: vite build && esbuild server.ts → dist/server.cjs
 
 # ═══════════════════════════════════════════
-# STAGE 2: Production (Clean, no esbuild!)
+# STAGE 2: Production (No esbuild, no tsx!)
 # ═══════════════════════════════════════════
 FROM node:22-alpine
 
@@ -27,15 +23,14 @@ WORKDIR /app
 
 RUN apk update && apk upgrade --no-cache
 
-# Production deps only — NO tsx, NO esbuild
+# Production deps only (no devDependencies = no esbuild/tsx)
 COPY package*.json ./
 RUN npm ci --omit=dev
 
-# Copy compiled server + built frontend
-COPY --from=builder /app/server.js ./
+# Copy everything from dist (frontend + compiled server)
 COPY --from=builder /app/dist ./dist
 
-# Create data files
+# Create runtime data files
 RUN mkdir -p src && \
   echo '{}' > src/data.json && \
   echo '[]' > src/messages.json
@@ -51,4 +46,4 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
   CMD wget -qO- http://localhost:3000/api/cms/load || exit 1
 
-CMD ["node", "server.js"]
+CMD ["node", "dist/server.cjs"]
