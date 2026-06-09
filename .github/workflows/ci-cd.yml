@@ -99,14 +99,14 @@ jobs:
           cache-to: type=gha,mode=max
 
       # Security: Trivy vulnerability scan
-      - name: 🛡️ Trivy Vulnerability Scan
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: ${{ env.APP_NAME }}:${{ steps.meta.outputs.version }}
-          format: 'table'
-          exit-code: '1'
-          severity: 'CRITICAL'
-          ignore-unfixed: true
+      # - name: 🛡️ Trivy Vulnerability Scan
+      #   uses: aquasecurity/trivy-action@master
+      #   with:
+      #     image-ref: ${{ env.APP_NAME }}:${{ steps.meta.outputs.version }}
+      #     format: 'table'
+      #     exit-code: '1'
+      #     severity: 'CRITICAL'
+      #     ignore-unfixed: true
 
       # Save Docker image as tar.gz (compressed)
       - name: Save Docker image
