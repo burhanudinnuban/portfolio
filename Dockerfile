@@ -1,7 +1,7 @@
 # ═══════════════════════════════════════════
 # STAGE 1: Build Vite App
 # ═══════════════════════════════════════════
-FROM node:20-alpine AS builder
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
@@ -14,7 +14,7 @@ RUN npm run build
 # ═══════════════════════════════════════════
 # STAGE 2: Production Server (Express API + Static)
 # ═══════════════════════════════════════════
-FROM node:20-alpine
+FROM node:22-alpine
 
 LABEL org.opencontainers.image.source="https://github.com/burhanudinnuban/portfolio"
 
