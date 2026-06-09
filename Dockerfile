@@ -5,40 +5,44 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Install dependencies first (cache layer)
 COPY package*.json ./
 RUN npm ci
 
-# Copy source and build
 COPY . .
 RUN npm run build
 
 # ═══════════════════════════════════════════
-# STAGE 2: Serve with Nginx (ultra lightweight)
+# STAGE 2: Production Server (Express + Vite)
 # ═══════════════════════════════════════════
-FROM nginx:stable-alpine
+FROM node:20-alpine AS production
 
-LABEL org.opencontainers.image.source="https://github.com/burhanudinnuban/portfolio"
+WORKDIR /app
 
-# Remove default nginx config
-RUN rm /etc/nginx/conf.d/default.conf
+# Install only production dependencies
+COPY package*.json ./
+RUN npm ci --omit=dev
 
-# Copy custom nginx config (SPA routing)
-COPY nginx/default.conf /etc/nginx/conf.d/
+# Copy built frontend
+COPY --from=builder /app/dist ./dist
 
-# Copy built files from builder
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Copy server & source files needed at runtime
+COPY server.ts ./
+COPY tsconfig.json ./
+COPY src/data.json ./src/data.json
+COPY src/messages.json ./src/messages.json
 
-# Security: non-root (nginx alpine supports this)
-RUN chown -R nginx:nginx /usr/share/nginx/html && \
-  chown -R nginx:nginx /var/cache/nginx && \
-  chown -R nginx:nginx /var/log/nginx && \
-  touch /var/run/nginx.pid && \
-  chown -R nginx:nginx /var/run/nginx.pid
+# Install tsx for running TypeScript directly
+RUN npx tsx --version || npm install -g tsx
 
+# Security: create non-root user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+RUN chown -R appuser:appgroup /app
+USER appuser
+
+ENV NODE_ENV=production
 EXPOSE 3000
 
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD wget -qO- http://localhost:3000/health || exit 1
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+  CMD wget -qO- http://localhost:3000/api/cms/load || exit 1
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npx", "tsx", "server.ts"]
