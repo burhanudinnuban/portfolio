@@ -10,10 +10,21 @@ RUN npm ci
 
 COPY . .
 RUN npm run build
-# ↑ This runs: vite build && esbuild server.ts → dist/server.cjs
 
 # ═══════════════════════════════════════════
-# STAGE 2: Production (No esbuild, no tsx!)
+# STAGE 2: Production Dependencies Only
+# ═══════════════════════════════════════════
+FROM node:22-alpine AS deps
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci --omit=dev && \
+  npm cache clean --force && \
+  rm -rf /tmp/* ~/.npm
+
+# ═══════════════════════════════════════════
+# STAGE 3: Final Production Image (minimal)
 # ═══════════════════════════════════════════
 FROM node:22-alpine
 
@@ -21,14 +32,17 @@ LABEL org.opencontainers.image.source="https://github.com/burhanudinnuban/portfo
 
 WORKDIR /app
 
-RUN apk update && apk upgrade --no-cache
+# Security updates (no leftover cache)
+RUN apk --no-cache upgrade
 
-# Production deps only (no devDependencies = no esbuild/tsx)
-COPY package*.json ./
-RUN npm ci --omit=dev
+# Copy ONLY production node_modules from deps stage
+COPY --from=deps /app/node_modules ./node_modules
 
-# Copy everything from dist (frontend + compiled server)
+# Copy built files from builder
 COPY --from=builder /app/dist ./dist
+
+# Copy package.json (for node to resolve modules)
+COPY package.json ./
 
 # Create runtime data files
 RUN mkdir -p src && \
