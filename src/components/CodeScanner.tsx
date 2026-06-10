@@ -1,330 +1,450 @@
-import { useState } from "react";
-import { VULNERABLE_CODE_EXAMPLES } from "../data";
-import { ScanResult } from "../types";
-import { Play, ShieldAlert, ShieldCheck, Terminal, HelpCircle, Check, AlertTriangle, AlertCircle, Copy, Info } from "lucide-react";
-import { motion } from "motion/react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { ChatMessage } from "../types";
+import {
+  PlayCircle,
+  Terminal,
+  Send,
+  Loader2,
+  RotateCcw,
+  Sparkles,
+} from "lucide-react";
 
-export default function CodeScanner() {
-  const [selectedExampleIndex, setSelectedExampleIndex] = useState<number>(0);
-  const [customCode, setCustomCode] = useState<string>(VULNERABLE_CODE_EXAMPLES[0].code);
+function renderFormattedText(text: string) {
+  return text.split("\n").map((line, lineIdx, arr) => {
+    const parts = line.split(/(\*\*[^*]+\*\*)/g);
+    const rendered = parts.map((part, partIdx) => {
+      if (part.startsWith("**") && part.endsWith("**")) {
+        return (
+          <strong key={partIdx} className="text-cyan-400 font-semibold">
+            {part.slice(2, -2)}
+          </strong>
+        );
+      }
+      if (/^[🔹✅🔐🔍🛡️📋☁️📦🔄🏢📂🔗📧💼🎓📖📈💰🐳☸️📝💡🎂📍💻🏅]/.test(part.trim())) {
+        return <span key={partIdx} className="block pl-1">{part}</span>;
+      }
+      return <span key={partIdx}>{part}</span>;
+    });
 
-  const [scanning, setScanning] = useState<boolean>(false);
-  const [hasScanned, setHasScanned] = useState<boolean>(false);
-  const [scanReport, setScanReport] = useState<ScanResult[]>([]);
-  const [activeReportId, setActiveReportId] = useState<string | null>(null);
-  const [copied, setCopied] = useState<boolean>(false);
+    return (
+      <span key={lineIdx} className="block">
+        {rendered}
+        {lineIdx < arr.length - 1 && line === "" && <span className="block h-1" />}
+      </span>
+    );
+  });
+}
 
-  // Toggle pre-made example snippets
-  const handleSelectExample = (idx: number) => {
-    setSelectedExampleIndex(idx);
-    setCustomCode(VULNERABLE_CODE_EXAMPLES[idx].code);
-    // Reset scanner outcomes for fresh interactions
-    setHasScanned(false);
-    setScanReport([]);
-    setActiveReportId(null);
-  };
+const PRESET_QUESTIONS = [
+  "skills", "experience", "devops", "projects",
+  "certifications", "hire", "contact", "about",
+];
 
-  // Run audit against server
-  const handleRunScan = async () => {
-    if (scanning) return;
-    setScanning(true);
-    setHasScanned(false);
-    setScanReport([]);
-    setActiveReportId(null);
+const PRESET_LABELS: Record<string, string> = {
+  skills: "🛠️ Tech Stack & Skills",
+  experience: "💼 Work Experience",
+  devops: "🔒 DevSecOps Expertise",
+  projects: "🚀 Portfolio & Projects",
+  certifications: "🏅 Certifications",
+  hire: "🌟 Why Hire Burhanudin?",
+  contact: "📬 Contact Information",
+  about: "🧑‍💻 About Burhanudin",
+};
+
+export default function AIAgent() {
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [inputMessage, setInputMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [isOnline, setIsOnline] = useState(true);
+
+  const chatScrollContainerRef = useRef<HTMLDivElement>(null);
+  const lastBotRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const chatColRef = useRef<HTMLDivElement>(null);
+  const hasInitialized = useRef(false);
+  const shouldScrollRef = useRef(false);
+
+  const now = () =>
+    new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+  // ─────────────────────────────────────────
+  // Scroll new bot response to TOP of chat
+  // Only runs when shouldScrollRef is true
+  // Waits until loading is done (response rendered)
+  // ─────────────────────────────────────────
+  useEffect(() => {
+    if (!shouldScrollRef.current || loading) return;
+
+    const timer = setTimeout(() => {
+      const container = chatScrollContainerRef.current;
+      const target = lastBotRef.current;
+
+      if (container && target) {
+        container.scrollTo({
+          top: target.offsetTop - 12,
+          behavior: "smooth",
+        });
+      }
+
+      shouldScrollRef.current = false;
+    }, 120);
+
+    return () => clearTimeout(timer);
+  }, [messages, loading]);
+
+  // ─────────────────────────────────────────
+  // Auto-focus input after bot responds
+  // ─────────────────────────────────────────
+  useEffect(() => {
+    if (!loading) inputRef.current?.focus();
+  }, [loading]);
+
+  // ─────────────────────────────────────────
+  // Fetch welcome on mount
+  // ─────────────────────────────────────────
+  useEffect(() => {
+    if (hasInitialized.current) return;
+    hasInitialized.current = true;
+
+    (async () => {
+      setLoading(true);
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: "hi", history: [] }),
+        });
+
+        if (!res.ok) throw new Error("Failed");
+        const data = await res.json();
+
+        setMessages([{ role: "model", text: data.reply, timestamp: now() }]);
+        if (data.suggestions) setSuggestions(data.suggestions);
+        setIsOnline(true);
+      } catch {
+        setMessages([
+          {
+            role: "model",
+            text: "👋 Welcome! I'm Burhanudin's Career Assistant. Type **menu** to see what I can help you with!",
+            timestamp: now(),
+          },
+        ]);
+        setSuggestions(["menu", "skills", "experience", "contact"]);
+        setIsOnline(false);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  const focusChatPanel = useCallback(() => {
+    chatColRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, []);
+
+  // ─────────────────────────────────────────
+  // Send message
+  // ─────────────────────────────────────────
+  const sendMessage = useCallback(
+    async (messageText: string) => {
+      if (!messageText.trim() || loading) return;
+
+      focusChatPanel();
+
+      const userMsg: ChatMessage = {
+        role: "user",
+        text: messageText,
+        timestamp: now(),
+      };
+
+      setMessages((prev) => [...prev, userMsg]);
+      setSuggestions([]);
+      setInputMessage("");
+      shouldScrollRef.current = true;
+      setLoading(true);
+
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message: messageText,
+            history: messages.slice(-10).map((m) => ({ role: m.role, text: m.text })),
+          }),
+        });
+
+        if (!res.ok) throw new Error("Chat fetch failed");
+        const data = await res.json();
+
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "model",
+            text: data.reply || "Contact Burhanudin at burhanudinnuban@gmail.com!",
+            timestamp: now(),
+          },
+        ]);
+        if (data.suggestions) setSuggestions(data.suggestions);
+        setIsOnline(true);
+      } catch {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "model",
+            text: "Connection issue. Reach Burhanudin at **burhanudinnuban@gmail.com**!",
+            timestamp: now(),
+          },
+        ]);
+        setSuggestions(["menu", "contact"]);
+        setIsOnline(false);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [loading, messages, focusChatPanel]
+  );
+
+  // ─────────────────────────────────────────
+  // Reset
+  // ─────────────────────────────────────────
+  const resetChat = useCallback(async () => {
+    setMessages([]);
+    setSuggestions([]);
+    setLoading(true);
+    shouldScrollRef.current = false;
 
     try {
-      const response = await fetch("/api/scan", {
+      const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          code: customCode,
-          fileType: VULNERABLE_CODE_EXAMPLES[selectedExampleIndex].fileType
-        })
+        body: JSON.stringify({ message: "hi", history: [] }),
       });
 
-      if (!response.ok) {
-        throw new Error("Scan request failed");
-      }
+      if (!res.ok) throw new Error("Reset failed");
+      const data = await res.json();
 
-      const data = await response.json();
-      const report: ScanResult[] = data.report || [];
-      setScanReport(report);
-      setHasScanned(true);
-      if (report.length > 0) {
-        setActiveReportId(report[0].id);
-      }
-    } catch (e) {
-      console.error(e);
-      // Fallback
-      setScanReport([
-        {
-          id: "SCAN-FAIL",
-          name: "Connection Interrupted",
-          severity: "MEDIUM",
-          line: 0,
-          description: "Could not safely contact the live server scan worker. Please check the network context or environment secrets config.",
-          recommendation: "Ensure server is properly listening on port 3000.",
-          fixedCode: "// Connection to live analyzer failed."
-        }
+      setMessages([{ role: "model", text: data.reply, timestamp: now() }]);
+      if (data.suggestions) setSuggestions(data.suggestions);
+    } catch {
+      setMessages([
+        { role: "model", text: "👋 Welcome back! Type **menu** to explore.", timestamp: now() },
       ]);
-      setHasScanned(true);
-      setActiveReportId("SCAN-FAIL");
+      setSuggestions(["menu", "skills", "experience", "contact"]);
     } finally {
-      setScanning(false);
+      setLoading(false);
+      setTimeout(() => {
+        chatScrollContainerRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+      }, 50);
+      inputRef.current?.focus();
     }
-  };
+  }, []);
 
-  const getSeverityBadge = (severity: string) => {
-    switch (severity) {
-      case "CRITICAL":
-        return "bg-rose-955 text-rose-450 border-rose-950/70";
-      case "HIGH":
-        return "bg-orange-955 text-orange-450 border-orange-950/70";
-      case "MEDIUM":
-        return "bg-amber-955 text-amber-450 border-amber-950/70";
-      default:
-        return "bg-emerald-955 text-emerald-450 border-emerald-950/70";
+  // Last bot message index
+  const lastBotIdx = (() => {
+    for (let i = messages.length - 1; i >= 0; i--) {
+      if (messages[i].role === "model") return i;
     }
-  };
-
-  const getSeverityIcon = (severity: string) => {
-    switch (severity) {
-      case "CRITICAL":
-        return <AlertCircle className="w-4 h-4 text-rose-400" />;
-      case "HIGH":
-        return <AlertTriangle className="w-4 h-4 text-orange-400" />;
-      case "MEDIUM":
-        return <Info className="w-4 h-4 text-amber-400" />;
-      default:
-        return <ShieldCheck className="w-4 h-4 text-emerald-400" />;
-    }
-  };
-
-  const handleCopyCode = (text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const activeReport = scanReport.find(r => r.id === activeReportId);
+    return -1;
+  })();
 
   return (
-    <div id="scanner-container" className="grid grid-cols-1 xl:grid-cols-12 gap-8 text-slate-100">
-      {/* Code Editor & Snippet Select Column (Left) */}
-      <div id="scanner-editor-col" className="xl:col-span-7 flex flex-col gap-5">
-        <div id="scanner-header-selectors" className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-slate-100 h-[520px]">
+
+      {/* LEFT PANEL */}
+      <div className="lg:col-span-4 flex flex-col justify-between gap-5 border border-slate-900 bg-slate-950/20 p-5 rounded-2xl">
+        <div className="space-y-4">
           <div>
-            <h3 id="scanner-title" className="text-sm font-semibold tracking-wide text-slate-400 uppercase font-mono">
-              Vulnerability Sandbox
-            </h3>
-            <p id="scanner-sub" className="text-xs text-slate-500">Paste code to run active security compliance checks</p>
+            <h3 className="text-sm font-semibold tracking-wide text-slate-400 uppercase font-mono">Quick Topics</h3>
+            <p className="text-xs text-slate-500">Click to start a conversation</p>
           </div>
 
-          <div id="example-buttons-grid" className="flex flex-wrap gap-1.5">
-            {VULNERABLE_CODE_EXAMPLES.map((ex, idx) => (
+          <div className="space-y-2">
+            {PRESET_QUESTIONS.map((q, idx) => (
               <button
                 key={idx}
-                id={`example-btn-${idx}`}
-                onClick={() => handleSelectExample(idx)}
-                className={`px-3 py-1 text-[11px] font-mono rounded-full border transition-all ${
-                  selectedExampleIndex === idx
-                    ? "bg-cyan-950/40 border-cyan-500/50 text-cyan-400 font-bold"
-                    : "bg-slate-950/30 border-slate-900 text-slate-400 hover:border-slate-800 hover:text-slate-300"
-                }`}
+                onClick={() => sendMessage(q)}
+                disabled={loading}
+                className="w-full text-left p-2.5 text-xs rounded-xl border border-slate-900
+                           bg-slate-950/40 text-slate-300
+                           hover:border-cyan-500/30 hover:text-cyan-400 hover:bg-slate-900/10
+                           active:scale-[0.98] active:bg-cyan-950/20
+                           cursor-pointer disabled:opacity-50 transition-all
+                           flex items-center gap-2 group"
               >
-                {ex.name}
+                <PlayCircle className="w-4 h-4 text-slate-500 group-hover:text-cyan-400 group-hover:scale-105 transition-all shrink-0" />
+                <span className="truncate">{PRESET_LABELS[q] || q}</span>
               </button>
             ))}
           </div>
         </div>
 
-        {/* Pseudo Code Editor Window */}
-        <div id="editor-wrapper" className="relative flex-1 flex flex-col rounded-2xl border border-slate-900 bg-[#070708] overflow-hidden group shadow-xl">
-          {/* Editor Header Bar */}
-          <div id="editor-header" className="px-4 py-2 bg-zinc-950/80 border-b border-slate-900/90 flex justify-between items-center select-none">
-            <div id="editor-file-info" className="flex items-center gap-2">
-              <Terminal className="w-4 h-4 text-cyan-400" />
-              <span id="editor-filename" className="text-xs font-mono text-slate-400">
-                vulnerable_source.{VULNERABLE_CODE_EXAMPLES[selectedExampleIndex].fileType === "python" ? "py" : "js"}
-              </span>
-            </div>
-            <span id="editor-mode" className="text-[10px] font-mono text-slate-500 uppercase">
-              {VULNERABLE_CODE_EXAMPLES[selectedExampleIndex].fileType || "javascript"} input mode
-            </span>
+        <div className="p-4 rounded-xl border border-slate-900 bg-black/40 flex items-center gap-3">
+          <div className="relative flex h-3 w-3 shrink-0">
+            <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isOnline ? "bg-cyan-400" : "bg-amber-400"}`} />
+            <span className={`relative inline-flex rounded-full h-3 w-3 ${isOnline ? "bg-cyan-500" : "bg-amber-500"}`} />
           </div>
-
-          {/* Interactive Textarea area with slide glow lines when scanning */}
-          <div id="editor-interior-relative" className="relative flex-1 flex flex-col">
-            <textarea
-              id="raw-code-pasted"
-              value={customCode}
-              onChange={(e) => setCustomCode(e.target.value)}
-              className="w-full flex-1 min-h-[300px] p-5 font-mono text-xs text-cyan-350 bg-transparent focus:outline-none resize-none leading-relaxed select-text"
-              placeholder="// Paste your program source code blocks here for evaluation..."
-            />
-
-            {/* Sweep Scanner line when scanning */}
-            {scanning && (
-              <motion.div
-                id="scanner-glow-line"
-                initial={{ top: "0%" }}
-                animate={{ top: "100%" }}
-                transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
-                className="absolute left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-500 via-cyan-400 to-blue-500 shadow-[0_0_15px_rgba(6,182,212,0.8)] opacity-70 pointer-events-none"
-              />
-            )}
-          </div>
-
-          {/* Editor Foot Action Button */}
-          <div id="editor-footer-trigger" className="px-4 py-3 bg-zinc-950/60 border-t border-slate-900/60 flex items-center justify-between">
-            <span id="editor-helper" className="text-[10px] text-slate-500 tracking-normal leading-none font-medium flex items-center gap-1.5">
-              <HelpCircle className="w-3.5 h-3.5 text-slate-500" />
-              Tweak our sample payloads above to test different scan audits.
+          <div>
+            <span className="text-[10px] font-mono uppercase font-bold text-slate-400 block leading-none">
+              {isOnline ? "Career Assistant Active" : "Reconnecting..."}
             </span>
-
-            <button
-              id="editor-btn-audit"
-              onClick={handleRunScan}
-              disabled={scanning}
-              className={`flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-red-650 to-rose-650 hover:from-red-550 hover:to-rose-550 text-xs font-semibold text-white rounded-xl transition-all shadow-[0_0_15px_rgba(239,68,68,0.25)] ${
-                scanning ? "opacity-60 cursor-wait animate-pulse" : ""
-              }`}
-            >
-              <Play className="w-3.5 h-3.5 fill-current" />
-              {scanning ? "Sweeping Workload..." : "Execute Static Scan"}
-            </button>
+            <p className="text-[9px] text-slate-500 mt-0.5 font-medium">
+              {isOnline ? "Interactive mode • type or click to explore" : "Fallback mode"}
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Security Report Output details (Right) */}
-      <div id="scanner-out-col" className="xl:col-span-5 flex flex-col gap-4">
-        <h3 id="report-title" className="text-sm font-semibold tracking-wide text-slate-400 uppercase font-mono">
-          Security Findings
-        </h3>
+      {/* RIGHT PANEL */}
+      <div
+        ref={chatColRef}
+        className="lg:col-span-8 flex flex-col h-full rounded-2xl border border-slate-900 bg-slate-950/30 overflow-hidden shadow-xl"
+      >
+        {/* Header */}
+        <div className="px-5 py-3.5 bg-zinc-950/80 border-b border-slate-900/90 flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-2.5">
+            <div className="p-1 rounded bg-cyan-950/40 border border-cyan-800/40 text-cyan-400">
+              <Terminal className="w-4 h-4" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-slate-100">Nuban Career Assistant</h4>
+              <span className="text-[9px] text-slate-500 font-mono">v2.0.0 • interactive mode</span>
+            </div>
+          </div>
 
-        {!hasScanned && !scanning ? (
-          <div id="no-report-state" className="flex-1 flex flex-col items-center justify-center p-8 text-center rounded-2xl border border-slate-900 bg-slate-950/15 min-h-[350px]">
-            <div id="no-report-shield-wrapper" className="p-4 rounded-full bg-slate-900/40 border border-slate-80</20 text-slate-600 mb-4">
-              <ShieldCheck className="w-10 h-10" />
-            </div>
-            <h4 id="no-report-h4" className="text-[13px] font-semibold text-slate-400">Scanner is Currently Standby</h4>
-            <p id="no-report-p" className="text-xs text-slate-500 max-w-xs mt-1.5 leading-relaxed">
-              Initiate a <strong>Static security scan (SAST)</strong> on the workspace editor to scan components using the Gemini audit engine.
-            </p>
-          </div>
-        ) : scanning ? (
-          <div id="scanning-loader-state" className="flex-1 flex flex-col items-center justify-center p-8 text-center rounded-2xl border border-slate-900 bg-slate-950/15 min-h-[350px]">
-            <div id="scanning-wheel" className="w-10 h-10 rounded-full border-2 border-red-500/25 border-t-red-500 animate-spin mb-4" />
-            <span id="scanning-text" className="text-xs font-mono text-rose-500 animate-pulse tracking-wide uppercase font-bold">
-              De-assembling code AST structures...
+          <div className="flex items-center gap-3">
+            <button
+              onClick={resetChat}
+              disabled={loading || messages.length <= 1}
+              className="flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-mono font-semibold
+                         rounded-lg border border-slate-800 text-slate-400
+                         hover:border-cyan-500/30 hover:text-cyan-400 hover:bg-slate-900/30
+                         active:scale-95 transition-all cursor-pointer
+                         disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              <RotateCcw className="w-3 h-3" />
+              New Chat
+            </button>
+
+            <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1.5 font-bold">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              READY
             </span>
-            <p id="scanning-desc" className="text-[11px] text-slate-500 max-w-xs mt-2 leading-relaxed">
-              Querying structural models via isolated developer sandboxes to compile safe secure recommendations.
-            </p>
           </div>
-        ) : scanReport.length === 0 ? (
-          <div id="clear-report-state" className="flex-1 flex flex-col items-center justify-center p-8 text-center rounded-2xl border border-emerald-950/20 bg-emerald-950/5 min-h-[350px]">
-            <div id="clear-shield-wrapper" className="p-4 rounded-full bg-emerald-950/35 border border-emerald-900/30 text-emerald-400 mb-4">
-              <ShieldCheck className="w-10 h-10" />
-            </div>
-            <h4 id="clear-h4" className="text-sm font-semibold text-emerald-400">0 Vulnerabilities Found</h4>
-            <p id="clear-p" className="text-xs text-emerald-500/80 max-w-xs mt-1.5 leading-relaxed">
-              Excellent! No high-density OWASP security gaps or API credential exposures caught. Code is structurally safe.
-            </p>
-          </div>
-        ) : (
-          <div id="vulnerabilities-list-panel" className="flex-1 flex flex-col gap-4">
-            {/* List entries */}
-            <div id="vuln-badges-grid" className="max-h-[145px] overflow-y-auto space-y-2 pr-1.5 scrollbar-thin">
-              {scanReport.map((v) => {
-                const isActive = activeReportId === v.id;
-                return (
+        </div>
+
+        {/* ── Messages (scroll focus to first line of response) ── */}
+        <div
+          ref={chatScrollContainerRef}
+          className="flex-1 p-5 overflow-y-auto space-y-4 bg-zinc-950/30"
+        >
+          {messages.map((m, idx) => {
+            const isModel = m.role === "model";
+            const isLastBot = isModel && idx === lastBotIdx;
+
+            return (
+              <div
+                key={idx}
+                ref={isLastBot ? lastBotRef : null}
+                className={`flex gap-3 max-w-[85%] animate-[fadeSlideIn_0.3s_ease-out] ${
+                  isModel ? "mr-auto" : "ml-auto flex-row-reverse"
+                }`}
+              >
+                <div
+                  className={`p-2 rounded-xl border shrink-0 h-fit ${
+                    isModel
+                      ? "bg-cyan-950/40 border-cyan-900/30 text-cyan-400"
+                      : "bg-slate-900 border-slate-800 text-slate-300"
+                  }`}
+                >
+                  {isModel ? <Sparkles className="w-3.5 h-3.5" /> : <Terminal className="w-3.5 h-3.5" />}
+                </div>
+
+                <div className="space-y-1 min-w-0">
                   <div
-                    key={v.id}
-                    id={`vuln-badge-${v.id}`}
-                    onClick={() => setActiveReportId(v.id)}
-                    className={`p-2.5 rounded-xl border cursor-pointer transition-all flex items-center justify-between ${
-                      isActive
-                        ? "bg-slate-900 border-rose-500/50 shadow-[0_0_15px_rgba(239,68,68,0.06)]"
-                        : "bg-slate-950/40 border-slate-900 hover:border-slate-800"
+                    className={`p-4 rounded-2xl border text-xs leading-relaxed font-sans select-text whitespace-pre-line ${
+                      isModel
+                        ? "bg-slate-950/90 border-slate-900 text-slate-200 shadow-sm"
+                        : "bg-gradient-to-br from-cyan-950/40 to-slate-900 border-cyan-900/30 text-cyan-100"
                     }`}
                   >
-                    <div id={`vuln-meta-row-${v.id}`} className="flex items-center gap-2.5">
-                      {getSeverityIcon(v.severity)}
-                      <div>
-                        <span id={`vuln-name-${v.id}`} className="text-xs font-bold text-slate-200 block md:max-w-xs truncate">
-                          {v.name}
-                        </span>
-                        <p id={`vuln-line-${v.id}`} className="text-[9px] font-mono text-slate-500 mt-0.5 uppercase">
-                          Location: line {v.line || 'General Scope'}
-                        </p>
-                      </div>
-                    </div>
-
-                    <span id={`vuln-severity-${v.id}`} className={`text-[8px] font-mono font-bold uppercase py-0.5 px-2 rounded-full border ${getSeverityBadge(v.severity)}`}>
-                      {v.severity}
-                    </span>
+                    {isModel ? renderFormattedText(m.text) : m.text}
                   </div>
-                );
-              })}
-            </div>
-
-            {/* Analysis details details expanded */}
-            {activeReport && (
-              <div id="vuln-analysis-details" className="flex-1 p-5 rounded-2xl border border-slate-900 bg-slate-950/30 flex flex-col justify-between gap-5 animate-fadeIn min-h-[220px]">
-                <div id="vuln-expanded-body" className="space-y-4">
-                  <div id="vuln-expanded-header" className="flex justify-between items-start gap-3">
-                    <h4 id="vuln-header-name" className="text-xs font-bold font-mono text-slate-400 uppercase tracking-wider leading-none">
-                      Audit finding report
-                    </h4>
-                    <span id="vuln-header-id" className="text-[10px] font-mono text-rose-500 font-bold bg-rose-950/20 px-2 py-0.5 rounded border border-rose-900/30">
-                      {activeReport.id}
-                    </span>
-                  </div>
-
-                  <div id="vuln-expanded-desc" className="space-y-2 text-xs">
-                    <p id="vuln-desc-text" className="text-slate-300 leading-relaxed">
-                      <span className="text-rose-400 font-semibold font-mono">Risk description:</span> {activeReport.description}
-                    </p>
-                    <p id="vuln-remed-text" className="text-emerald-400/90 leading-relaxed font-sans">
-                      <span className="text-emerald-400 font-semibold font-mono">Proposed Clean Fix:</span> {activeReport.recommendation}
-                    </p>
-                  </div>
-                </div>
-
-                {/* COMPARATIVE FIXED CODE PREVIEW */}
-                <div id="vuln-remediation-box" className="space-y-2">
-                  <div id="remediation-box-header" className="flex justify-between items-center bg-zinc-950/80 px-3 py-1.5 rounded-t-xl border-t border-x border-slate-900 select-none">
-                    <div id="remediation-icon-col" className="flex items-center gap-1.5">
-                      <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                      <span id="remediation-lbl" className="text-[10px] font-mono font-bold text-slate-450 uppercase">
-                        Remediation Safe Snippet
-                      </span>
-                    </div>
-
-                    <button
-                      id="remediation-btn-copy"
-                      onClick={() => handleCopyCode(activeReport.fixedCode)}
-                      className="text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
-                      title="Copy clean code snippet"
-                    >
-                      {copied ? (
-                        <Check className="w-3.5 h-3.5 text-emerald-400" />
-                      ) : (
-                        <Copy className="w-3.5 h-3.5" />
-                      )}
-                    </button>
-                  </div>
-
-                  <pre id="remediation-code-scroller" className="p-3 bg-zinc-950 border-b border-x border-slate-900 text-[11px] font-mono text-emerald-400 rounded-b-xl overflow-x-auto whitespace-pre leading-relaxed max-h-[140px] scrollbar-thin">
-                    {activeReport.fixedCode}
-                  </pre>
+                  <span className={`text-[9px] text-slate-500 font-mono block ${isModel ? "pl-1" : "text-right pr-1"}`}>
+                    {m.timestamp}
+                  </span>
                 </div>
               </div>
-            )}
+            );
+          })}
+
+          {loading && (
+            <div className="flex gap-3 mr-auto max-w-[85%] animate-[fadeSlideIn_0.2s_ease-out]">
+              <div className="p-2 rounded-xl border shrink-0 bg-cyan-950/40 border-cyan-900/30 text-cyan-400">
+                <Sparkles className="w-3.5 h-3.5" />
+              </div>
+              <div className="p-4 rounded-2xl border border-slate-900 bg-slate-950/20 text-xs text-slate-400 flex items-center gap-2 font-mono">
+                <Loader2 className="w-3.5 h-3.5 animate-spin text-cyan-400" />
+                Compiling response...
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Floating Suggestions */}
+        {!loading && suggestions.length > 0 && (
+          <div className="px-4 py-2.5 bg-zinc-950/60 border-t border-slate-900/50 shrink-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-[9px] text-slate-500 font-mono shrink-0">💡 Topics:</span>
+              {suggestions.map((s) => (
+                <button
+                  key={s}
+                  onClick={() => sendMessage(s)}
+                  disabled={loading}
+                  className="px-3 py-1 text-[10px] font-mono font-semibold rounded-full
+                             border border-cyan-500/20 text-cyan-400
+                             bg-cyan-950/20 hover:bg-cyan-500/10
+                             hover:border-cyan-400/40 hover:text-cyan-300
+                             active:scale-95 active:bg-cyan-500/20
+                             transition-all cursor-pointer disabled:opacity-50"
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
           </div>
         )}
+
+        {/* Input Bar */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            sendMessage(inputMessage);
+          }}
+          className="p-3 bg-zinc-950/80 border-t border-slate-900 flex items-center gap-2.5 shrink-0"
+        >
+          <input
+            ref={inputRef}
+            type="text"
+            value={inputMessage}
+            onChange={(e) => setInputMessage(e.target.value)}
+            disabled={loading}
+            placeholder="Type skills, experience, devops, hire... or anything!"
+            className="flex-1 px-4 py-2.5 bg-slate-950/80 border border-slate-900 text-xs text-slate-200
+                       focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/20
+                       rounded-xl transition-all font-sans placeholder:text-slate-600"
+          />
+
+          <button
+            type="submit"
+            disabled={loading || !inputMessage.trim()}
+            className={`p-2.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl transition-all
+                        cursor-pointer shadow-[0_0_12px_rgba(6,182,212,0.2)] active:scale-95 ${
+              loading || !inputMessage.trim() ? "opacity-30 cursor-not-allowed shadow-none" : ""
+            }`}
+          >
+            <Send className="w-4 h-4" />
+          </button>
+        </form>
       </div>
     </div>
   );

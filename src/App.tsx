@@ -539,13 +539,13 @@ ${senderName}`
                 }`}
               >
                 <Activity className="w-3.5 h-3.5" />
-                <span>CI/CD Deployer</span>
+                <span>My CI/CD Deployer</span>
                 {activeTab === "pipeline" && (
                   <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-cyan-400 rounded-full" />
                 )}
               </button>
 
-              {/* <button
+              <button
                 id="tab-btn-chat"
                 onClick={() => setActiveTab("chat")}
                 className={`relative flex-1 px-4 py-2 text-xs font-medium rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-2 bg-transparent ${
@@ -555,11 +555,11 @@ ${senderName}`
                 }`}
               >
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>Ask Gemini</span>
+                <span>Ask About Me</span>
                 {activeTab === "chat" && (
                   <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-cyan-400 rounded-full" />
                 )}
-              </button> */}
+              </button>
 
               <button
                 id="tab-btn-cms"

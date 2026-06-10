@@ -148,10 +148,33 @@ jobs:
             docker compose up -d --force-recreate --remove-orphans
 
             echo "═══════════════════════════════════════"
-            echo "🧹 Step 5: Cleanup"
+            echo "🧹 Step 5: Cleanup (Auto — keep only current)"
             echo "═══════════════════════════════════════"
             rm -f image.tar.gz
+
+            # Get current image ID (the one we just deployed)
+            CURRENT_ID=$(docker inspect my-app --format='{{.Image}}' 2>/dev/null | cut -d: -f2 | cut -c1-12)
+            echo "Current image ID: ${CURRENT_ID}"
+
+            # Remove ALL my-app images EXCEPT the current one
+            docker images --format '{{.Repository}}:{{.Tag}} {{.ID}}' | \
+              grep 'my-app' | \
+              grep -v "${CURRENT_ID}" | \
+              awk '{print $1}' | \
+              xargs -r docker rmi 2>/dev/null || true
+
+            # Clean dangling images
             docker image prune -f 2>/dev/null || true
+
+            # Registry garbage collection (free disk from old layers)
+            docker exec docker-registry bin/registry garbage-collect /etc/docker/registry/config.yml --delete-untagged 2>/dev/null || true
+
+            echo ""
+            echo "📊 Disk usage:"
+            df -h / | tail -1
+            echo ""
+            echo "🐳 Docker disk:"
+            docker system df 2>/dev/null || true
 
             echo "═══════════════════════════════════════"
             echo "✅ Step 6: Health Check"
@@ -166,6 +189,8 @@ jobs:
                 docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
                 echo ""
                 curl -s http://localhost:5000/v2/my-app/tags/list 2>/dev/null || true
+                echo ""
+                echo "🔍 Current image: ${CURRENT_ID}"
                 break
               fi
               echo "⏳ Retry $i..."

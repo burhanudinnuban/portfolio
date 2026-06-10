@@ -1,6 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
-
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
@@ -126,7 +135,9 @@
 #app-theme-host.light-theme #vuln-analysis-details {
   background-color: #ffffff !important;
   border-color: #cbd5e1 !important; /* Crisp border slate-300 */
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03) !important;
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.05),
+    0 1px 2px 0 rgba(0, 0, 0, 0.03) !important;
 }
 
 /* Child inner sections backgrounds overrides */
@@ -148,7 +159,9 @@
 }
 
 /* Highlighted items selector rules */
-#app-theme-host.light-theme #timeline-container .relative.p-5.border-cyan-500\/50,
+#app-theme-host.light-theme
+  #timeline-container
+  .relative.p-5.border-cyan-500\/50,
 #app-theme-host.light-theme div[id^="project-card-"].border-cyan-500\/50,
 #app-theme-host.light-theme div[id^="pipe-stage-card-"].border-cyan-500\/50 {
   border-color: #06b6d4 !important;
