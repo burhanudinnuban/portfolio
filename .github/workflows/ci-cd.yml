@@ -116,8 +116,7 @@ jobs:
         env:
           IMAGE_TAG: ${{ needs.build-scan-transfer.outputs.image_tag }}
         run: |
-          ssh -i ~/.ssh/ec2_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'DEPLOY_SCRIPT'
-            set -e
+          ssh -i ~/.ssh/ec2_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} 'bash -s' << 'DEPLOY_SCRIPT'
             cd ~/app
 
             echo "═══════════════════════════════════════"
@@ -140,51 +139,43 @@ jobs:
             docker push localhost:5000/my-app:latest
 
             echo "═══════════════════════════════════════"
-            echo "🚀 Step 4: Stop old container"
+            echo "🚀 Step 4: Stop old + Force recreate"
             echo "═══════════════════════════════════════"
-            docker compose down --remove-orphans || true
-
-            # ✅ FIX 2: Remove old container + image cache completely
+            docker compose down --remove-orphans 2>/dev/null || true
             docker rm -f my-app 2>/dev/null || true
-            docker rmi localhost:5000/my-app:previous 2>/dev/null || true
 
-            echo "═══════════════════════════════════════"
-            echo "🚀 Step 5: Pull fresh + Force recreate"
-            echo "═══════════════════════════════════════"
-            # ✅ FIX 3: Force pull + force recreate (IMPORTANT!)
-            docker compose pull --ignore-pull-failures
+            docker compose pull 2>/dev/null || true
             docker compose up -d --force-recreate --remove-orphans
 
             echo "═══════════════════════════════════════"
-            echo "🧹 Step 6: Cleanup"
+            echo "🧹 Step 5: Cleanup"
             echo "═══════════════════════════════════════"
             rm -f image.tar.gz
-            docker image prune -f
+            docker image prune -f 2>/dev/null || true
 
             echo "═══════════════════════════════════════"
-            echo "✅ Step 7: Health Check"
+            echo "✅ Step 6: Health Check"
             echo "═══════════════════════════════════════"
+            DEPLOY_OK=false
             for i in 1 2 3 4 5; do
               sleep 3
               if curl -sf http://localhost:3000/health > /dev/null 2>&1; then
+                DEPLOY_OK=true
                 echo "✅ Deploy SUCCESS! (attempt $i)"
                 echo ""
-                echo "📊 Running containers:"
                 docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
                 echo ""
-                echo "📦 Registry catalog:"
-                curl -s http://localhost:5000/v2/_catalog | python3 -m json.tool
-                echo ""
-                echo "🏷️ Image tags:"
-                curl -s http://localhost:5000/v2/my-app/tags/list | python3 -m json.tool
-                echo ""
-                echo "🔍 Current image ID:"
-                docker inspect my-app --format='{{.Image}}' | cut -c8-19
-                exit 0
+                curl -s http://localhost:5000/v2/my-app/tags/list 2>/dev/null || true
+                break
               fi
               echo "⏳ Retry $i..."
             done
-            echo "❌ Deploy FAILED!"
-            docker logs my-app --tail 20
-            exit 1
+
+            if [ "$DEPLOY_OK" = false ]; then
+              echo "❌ Deploy FAILED!"
+              docker logs my-app --tail 20 2>/dev/null || true
+              exit 1
+            fi
           DEPLOY_SCRIPT
+
+          echo "🏁 Deploy step completed"
