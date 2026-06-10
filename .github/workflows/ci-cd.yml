@@ -5,11 +5,11 @@ on:
     branches: ["2026"]
   pull_request:
     branches: ["2026"]
-  workflow_dispatch:         # ← allows manual trigger
+  workflow_dispatch:
+
 env:
   APP_NAME: my-app
   REGISTRY: localhost:5000
-  # FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 permissions:
   contents: read
@@ -24,44 +24,14 @@ jobs:
     name: 🔐 Secret Scan (Gitleaks)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Gitleaks Scan
-        uses: gitleaks/gitleaks-action@v3
+        uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  # ═══════════════════════════════════════════
-  # STAGE 2: CODE QUALITY + SAST
-  # ═══════════════════════════════════════════
-  # code-quality:
-  #   name: 🔍 Code Quality (SonarCloud)
-  #   runs-on: ubuntu-latest
-  #   needs: [secret-scan]
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #       with:
-  #         fetch-depth: 0
-
-  #     - name: Setup Node.js
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: '20'
-  #         cache: 'npm'
-
-  #     - name: Install dependencies
-  #       run: npm ci
-
-  #     - name: Run Lint
-  #       run: npm run lint --if-present
-
-  #     - name: SonarCloud Scan
-  #       uses: sonarsource/sonarcloud-github-action@v3
-  #       env:
-  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # ═══════════════════════════════════════════
   # STAGE 3: BUILD + TRIVY SCAN + TRANSFER
@@ -69,7 +39,6 @@ jobs:
   build-scan-transfer:
     name: 🐳 Build, Scan & Transfer to EC2
     runs-on: ubuntu-latest
-    # needs: [secret-scan, code-quality]
     needs: [secret-scan]
     outputs:
       image_tag: ${{ steps.meta.outputs.version }}
@@ -77,16 +46,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Generate image tag (short SHA)
       - name: Generate image tag
         id: meta
         run: echo "version=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_OUTPUT
 
-      # Setup buildx for cache
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # Build Docker image
       - name: Build Docker image
         uses: docker/build-push-action@v6
         with:
@@ -98,23 +64,15 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      # Security: Trivy vulnerability scan
-      # - name: 🛡️ Trivy Vulnerability Scan
-      #   uses: aquasecurity/trivy-action@master
-      #   with:
-      #     image-ref: ${{ env.APP_NAME }}:${{ steps.meta.outputs.version }}
-      #     format: 'table'
-      #     exit-code: '1'
-      #     severity: 'CRITICAL'
-      #     ignore-unfixed: true
-
-      # Save Docker image as tar.gz (compressed)
+      # Save BOTH tags in tar
       - name: Save Docker image
         run: |
-          docker save ${{ env.APP_NAME }}:${{ steps.meta.outputs.version }} | gzip > image.tar.gz
+          docker save \
+            ${{ env.APP_NAME }}:${{ steps.meta.outputs.version }} \
+            ${{ env.APP_NAME }}:latest \
+            | gzip > image.tar.gz
           ls -lh image.tar.gz
 
-      # Setup SSH
       - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
@@ -122,14 +80,12 @@ jobs:
           chmod 600 ~/.ssh/ec2_key.pem
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
-      # Transfer image to EC2
       - name: 📦 Transfer image to EC2
         run: |
           scp -i ~/.ssh/ec2_key.pem \
             image.tar.gz \
             ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/app/image.tar.gz
 
-      # Copy docker-compose to EC2
       - name: Copy docker-compose to EC2
         run: |
           scp -i ~/.ssh/ec2_key.pem \
@@ -137,13 +93,16 @@ jobs:
             ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/app/docker-compose.yml
 
   # ═══════════════════════════════════════════
-  # STAGE 4: DEPLOY (Load → Push to Registry → Run)
+  # STAGE 4: DEPLOY
   # ═══════════════════════════════════════════
   deploy:
     name: 🚀 Deploy to EC2
     runs-on: ubuntu-latest
     needs: [build-scan-transfer]
-    if: github.ref == 'refs/heads/2026' && github.event_name == 'push'
+    # ✅ FIX 1: Allow deploy on push AND workflow_dispatch
+    if: |
+      (github.ref == 'refs/heads/2026' && github.event_name == 'push') ||
+      github.event_name == 'workflow_dispatch'
 
     steps:
       - name: Setup SSH Key
@@ -181,21 +140,29 @@ jobs:
             docker push localhost:5000/my-app:latest
 
             echo "═══════════════════════════════════════"
-            echo "🚀 Step 4: Deploy with Docker Compose"
+            echo "🚀 Step 4: Stop old container"
             echo "═══════════════════════════════════════"
             docker compose down --remove-orphans || true
-            docker compose pull
-            docker compose up -d
+
+            # ✅ FIX 2: Remove old container + image cache completely
+            docker rm -f my-app 2>/dev/null || true
+            docker rmi localhost:5000/my-app:previous 2>/dev/null || true
 
             echo "═══════════════════════════════════════"
-            echo "🧹 Step 5: Cleanup"
+            echo "🚀 Step 5: Pull fresh + Force recreate"
+            echo "═══════════════════════════════════════"
+            # ✅ FIX 3: Force pull + force recreate (IMPORTANT!)
+            docker compose pull --ignore-pull-failures
+            docker compose up -d --force-recreate --remove-orphans
+
+            echo "═══════════════════════════════════════"
+            echo "🧹 Step 6: Cleanup"
             echo "═══════════════════════════════════════"
             rm -f image.tar.gz
-            # Remove dangling images (save disk on t2.micro)
             docker image prune -f
 
             echo "═══════════════════════════════════════"
-            echo "✅ Step 6: Health Check"
+            echo "✅ Step 7: Health Check"
             echo "═══════════════════════════════════════"
             for i in 1 2 3 4 5; do
               sleep 3
@@ -205,11 +172,14 @@ jobs:
                 echo "📊 Running containers:"
                 docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
                 echo ""
-                echo "📦 Registry images:"
+                echo "📦 Registry catalog:"
                 curl -s http://localhost:5000/v2/_catalog | python3 -m json.tool
                 echo ""
                 echo "🏷️ Image tags:"
                 curl -s http://localhost:5000/v2/my-app/tags/list | python3 -m json.tool
+                echo ""
+                echo "🔍 Current image ID:"
+                docker inspect my-app --format='{{.Image}}' | cut -c8-19
                 exit 0
               fi
               echo "⏳ Retry $i..."
