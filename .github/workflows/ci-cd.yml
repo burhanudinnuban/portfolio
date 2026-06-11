@@ -118,7 +118,8 @@ jobs:
       github.event_name == 'workflow_dispatch'
 
     steps:
-      # ✅ SAME SSH METHOD
+      - uses: actions/checkout@v4
+
       - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
@@ -126,26 +127,33 @@ jobs:
           chmod 600 ~/.ssh/ec2_key.pem
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
 
-      - name: Deploy to K3s
+      - name: 📋 Transfer K8s manifests
+        run: |
+          ssh -i ~/.ssh/ec2_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} 'mkdir -p ~/app/k8s'
+          scp -i ~/.ssh/ec2_key.pem \
+            k8s/deployment.yaml k8s/service.yaml \
+            ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/app/k8s/
+
+      - name: 🚀 Deploy to K3s
         env:
           IMAGE_TAG: ${{ needs.build-scan-transfer.outputs.image_tag }}
         run: |
           ssh -i ~/.ssh/ec2_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} 'bash -s' << 'DEPLOY_SCRIPT'
             cd ~/app
-            export KUBECONFIG=~/.kube/config
+            export KUBECONFIG=/home/devops/.kube/config
             IMAGE_TAG="${{ needs.build-scan-transfer.outputs.image_tag }}"
 
             echo "═══════════════════════════════════════"
-            echo "📦 Step 1: Load Docker image"
+            echo "📦 Step 1: Load image into Docker"
             echo "═══════════════════════════════════════"
             docker load < image.tar.gz
 
+            echo ""
             echo "═══════════════════════════════════════"
-            echo "🏷️  Step 2: Tag & Push to local registry"
+            echo "🏷️  Step 2: Tag & Push to registry"
             echo "═══════════════════════════════════════"
             docker tag my-app:${IMAGE_TAG} localhost:5000/my-app:${IMAGE_TAG}
             docker push localhost:5000/my-app:${IMAGE_TAG}
-
             echo "✅ Registry:"
             curl -s http://localhost:5000/v2/my-app/tags/list
 
@@ -159,11 +167,12 @@ jobs:
 
             echo ""
             echo "═══════════════════════════════════════"
-            echo "📝 Step 4: Update manifest with SPECIFIC tag"
+            echo "📝 Step 4: Update manifest with tag"
             echo "═══════════════════════════════════════"
             sed -i "s|image:.*my-app.*|image: localhost:5000/my-app:${IMAGE_TAG}|g" k8s/deployment.yaml
+            sed -i "s|imagePullPolicy:.*|imagePullPolicy: IfNotPresent|g" k8s/deployment.yaml
             echo "Updated:"
-            grep "image:" k8s/deployment.yaml
+            grep -E "image:|imagePullPolicy:" k8s/deployment.yaml
 
             echo ""
             echo "═══════════════════════════════════════"
@@ -195,7 +204,6 @@ jobs:
               echo "❌ Deploy FAILED! Rolling back..."
               kubectl rollout undo deployment/my-app
               kubectl rollout status deployment/my-app --timeout=60s
-              echo "🔍 Pod logs:"
               kubectl logs -l app=my-app --tail=20 2>/dev/null || true
               exit 1
             fi
@@ -213,18 +221,14 @@ jobs:
             echo "🧹 Step 8: Cleanup"
             echo "═══════════════════════════════════════"
             rm -f image.tar.gz
-
             docker images --format '{{.Repository}}:{{.Tag}} {{.ID}}' | \
-              grep 'my-app' | \
-              grep -v ":${IMAGE_TAG}" | \
-              awk '{print $1}' | \
-              xargs -r docker rmi 2>/dev/null || true
-
+              grep 'my-app' | grep -v ":${IMAGE_TAG}" | \
+              awk '{print $1}' | xargs -r docker rmi 2>/dev/null || true
             docker image prune -f 2>/dev/null || true
             docker exec docker-registry bin/registry garbage-collect \
               /etc/docker/registry/config.yml --delete-untagged 2>/dev/null || true
-
             echo "✅ Done"
+            df -h / | tail -1
           DEPLOY_SCRIPT
 
           echo "🏁 Pipeline completed"
