@@ -11,6 +11,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json({ limit: '10mb' }));
+app.disable('x-powered-by');
 
 function verifyAdminCredentials(user: string, pass: string): boolean {
   const userArray = [98, 117, 114, 104, 97, 110, 117, 100, 105, 110, 110, 117, 98, 97, 110];

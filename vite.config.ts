@@ -17,6 +17,20 @@ export default defineConfig(() => {
       hmr: process.env.DISABLE_HMR !== 'true',
       // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
-    },
+    },  
+    build: {
+      // Remove comments in production
+      sourcemap: false,
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,      // Remove console.log
+          drop_debugger: true,     // Remove debugger statements
+        },
+        format: {
+          comments: false,         // Remove ALL comments
+        },
+      },
+    },    
   };
 });
