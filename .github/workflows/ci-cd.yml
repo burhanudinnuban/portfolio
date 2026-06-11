@@ -88,7 +88,11 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/ec2_key.pem
           chmod 600 ~/.ssh/ec2_key.pem
-          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
+          echo "✅ SSH setup done"
+          ls -la ~/.ssh/
+          head -1 ~/.ssh/ec2_key.pem
+          wc -l ~/.ssh/ec2_key.pem
 
       - name: 📦 Transfer image to EC2
         run: |
@@ -120,7 +124,11 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/ec2_key.pem
           chmod 600 ~/.ssh/ec2_key.pem
-          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
+          echo "✅ SSH setup done"
+          ls -la ~/.ssh/
+          head -1 ~/.ssh/ec2_key.pem
+          wc -l ~/.ssh/ec2_key.pem
 
       - name: Deploy to K3s
         env:
