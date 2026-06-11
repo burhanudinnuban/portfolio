@@ -1,4 +1,4 @@
-name: 🔒 DevSecOps CI/CD Pipeline (Local Registry)
+name: 🔒 DevSecOps CI/CD Pipeline (K3s)
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 env:
   APP_NAME: my-app
-  REGISTRY: localhost:5000
+  NAMESPACE: default
 
 permissions:
   contents: read
@@ -34,10 +34,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # ═══════════════════════════════════════════
-  # STAGE 3: BUILD + TRIVY SCAN + TRANSFER
+  # STAGE 2: BUILD + SCAN + TRANSFER
   # ═══════════════════════════════════════════
   build-scan-transfer:
-    name: 🐳 Build, Scan & Transfer to EC2
+    name: 🐳 Build, Scan & Transfer
     runs-on: ubuntu-latest
     needs: [secret-scan]
     outputs:
@@ -64,7 +64,16 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      # Save BOTH tags in tar
+      # ── Trivy Scan ──
+      - name: 🔍 Trivy Vulnerability Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ env.APP_NAME }}:${{ steps.meta.outputs.version }}
+          format: 'table'
+          exit-code: '1'
+          severity: 'CRITICAL'
+          ignore-unfixed: true
+
       - name: Save Docker image
         run: |
           docker save \
@@ -73,7 +82,7 @@ jobs:
             | gzip > image.tar.gz
           ls -lh image.tar.gz
 
-      - name: Setup SSH Key
+      - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/ec2_key.pem
@@ -86,121 +95,145 @@ jobs:
             image.tar.gz \
             ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/app/image.tar.gz
 
-      - name: Copy docker-compose to EC2
+      - name: 📋 Transfer K8s manifests to EC2
         run: |
-          scp -i ~/.ssh/ec2_key.pem \
-            docker-compose.prod.yml \
-            ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/app/docker-compose.yml
+          scp -i ~/.ssh/ec2_key.pem -r \
+            k8s/ \
+            ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/app/k8s/
 
   # ═══════════════════════════════════════════
-  # STAGE 4: DEPLOY
+  # STAGE 3: DEPLOY TO K3s
   # ═══════════════════════════════════════════
   deploy:
-    name: 🚀 Deploy to EC2
+    name: 🚀 Deploy to K3s
     runs-on: ubuntu-latest
     needs: [build-scan-transfer]
-    # ✅ FIX 1: Allow deploy on push AND workflow_dispatch
     if: |
       (github.ref == 'refs/heads/2026' && github.event_name == 'push') ||
       github.event_name == 'workflow_dispatch'
 
     steps:
-      - name: Setup SSH Key
+      - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/ec2_key.pem
           chmod 600 ~/.ssh/ec2_key.pem
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Deploy on EC2
+      - name: Deploy to K3s
         env:
           IMAGE_TAG: ${{ needs.build-scan-transfer.outputs.image_tag }}
         run: |
           ssh -i ~/.ssh/ec2_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} 'bash -s' << 'DEPLOY_SCRIPT'
+            set -e
             cd ~/app
+            IMAGE_TAG="${{ needs.build-scan-transfer.outputs.image_tag }}"
+            export KUBECONFIG=~/.kube/config
 
             echo "═══════════════════════════════════════"
-            echo "📦 Step 1: Load Docker image"
+            echo "📦 Step 1: Load image into Docker"
             echo "═══════════════════════════════════════"
             docker load < image.tar.gz
 
-            IMAGE_TAG="${{ needs.build-scan-transfer.outputs.image_tag }}"
-
+            echo ""
             echo "═══════════════════════════════════════"
-            echo "🏷️ Step 2: Tag for local registry"
+            echo "🏷️  Step 2: Tag & Push to local registry"
             echo "═══════════════════════════════════════"
             docker tag my-app:${IMAGE_TAG} localhost:5000/my-app:${IMAGE_TAG}
             docker tag my-app:${IMAGE_TAG} localhost:5000/my-app:latest
 
-            echo "═══════════════════════════════════════"
-            echo "📤 Step 3: Push to local registry"
-            echo "═══════════════════════════════════════"
             docker push localhost:5000/my-app:${IMAGE_TAG}
             docker push localhost:5000/my-app:latest
 
-            echo "═══════════════════════════════════════"
-            echo "🚀 Step 4: Stop old + Force recreate"
-            echo "═══════════════════════════════════════"
-            docker compose down --remove-orphans 2>/dev/null || true
-            docker rm -f my-app 2>/dev/null || true
-
-            docker compose pull 2>/dev/null || true
-            docker compose up -d --force-recreate --remove-orphans
-
-            echo "═══════════════════════════════════════"
-            echo "🧹 Step 5: Cleanup (Auto — keep only current)"
-            echo "═══════════════════════════════════════"
-            rm -f image.tar.gz
-
-            # Get current image ID (the one we just deployed)
-            CURRENT_ID=$(docker inspect my-app --format='{{.Image}}' 2>/dev/null | cut -d: -f2 | cut -c1-12)
-            echo "Current image ID: ${CURRENT_ID}"
-
-            # Remove ALL my-app images EXCEPT the current one
-            docker images --format '{{.Repository}}:{{.Tag}} {{.ID}}' | \
-              grep 'my-app' | \
-              grep -v "${CURRENT_ID}" | \
-              awk '{print $1}' | \
-              xargs -r docker rmi 2>/dev/null || true
-
-            # Clean dangling images
-            docker image prune -f 2>/dev/null || true
-
-            # Registry garbage collection (free disk from old layers)
-            docker exec docker-registry bin/registry garbage-collect /etc/docker/registry/config.yml --delete-untagged 2>/dev/null || true
+            echo "✅ Pushed to registry:"
+            curl -s http://localhost:5000/v2/my-app/tags/list
 
             echo ""
-            echo "📊 Disk usage:"
-            df -h / | tail -1
-            echo ""
-            echo "🐳 Docker disk:"
-            docker system df 2>/dev/null || true
-
             echo "═══════════════════════════════════════"
-            echo "✅ Step 6: Health Check"
+            echo "📝 Step 3: Update K8s manifest"
+            echo "═══════════════════════════════════════"
+            sed -i "s|image:.*my-app.*|image: localhost:5000/my-app:${IMAGE_TAG}|g" k8s/deployment.yaml
+            echo "Updated image:"
+            grep "image:" k8s/deployment.yaml
+
+            echo ""
+            echo "═══════════════════════════════════════"
+            echo "☸️  Step 4: Apply & Rolling Update"
+            echo "═══════════════════════════════════════"
+            kubectl apply -f k8s/deployment.yaml
+            kubectl apply -f k8s/service.yaml
+            kubectl rollout restart deployment/my-app
+            kubectl rollout status deployment/my-app --timeout=120s
+
+            echo ""
+            echo "═══════════════════════════════════════"
+            echo "✅ Step 5: Health Check"
             echo "═══════════════════════════════════════"
             DEPLOY_OK=false
-            for i in 1 2 3 4 5; do
-              sleep 3
-              if curl -sf http://localhost:3000/health > /dev/null 2>&1; then
-                DEPLOY_OK=true
-                echo "✅ Deploy SUCCESS! (attempt $i)"
-                echo ""
-                docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
-                echo ""
-                curl -s http://localhost:5000/v2/my-app/tags/list 2>/dev/null || true
-                echo ""
-                echo "🔍 Current image: ${CURRENT_ID}"
-                break
+            for i in 1 2 3 4 5 6; do
+              sleep 5
+              READY=$(kubectl get pods -l app=my-app -o jsonpath='{.items[*].status.containerStatuses[0].ready}' 2>/dev/null)
+              if echo "$READY" | grep -q "true"; then
+                if curl -sf http://localhost:30080 > /dev/null 2>&1; then
+                  DEPLOY_OK=true
+                  echo "✅ Deploy SUCCESS! (attempt $i)"
+                  break
+                fi
               fi
               echo "⏳ Retry $i..."
             done
 
             if [ "$DEPLOY_OK" = false ]; then
-              echo "❌ Deploy FAILED!"
-              docker logs my-app --tail 20 2>/dev/null || true
+              echo "❌ Deploy FAILED! Rolling back..."
+              kubectl rollout undo deployment/my-app
+              kubectl rollout status deployment/my-app --timeout=60s
+              echo "🔍 Pod logs:"
+              kubectl logs -l app=my-app --tail=20 2>/dev/null || true
+              echo "🔍 Pod events:"
+              kubectl describe pods -l app=my-app | tail -20
               exit 1
             fi
+
+            echo ""
+            echo "═══════════════════════════════════════"
+            echo "📊 Step 6: Status Report"
+            echo "═══════════════════════════════════════"
+            echo ""
+            echo "🏷️  Image: localhost:5000/my-app:${IMAGE_TAG}"
+            echo ""
+            echo "📋 Pods:"
+            kubectl get pods -l app=my-app -o wide
+            echo ""
+            echo "🌐 Service:"
+            kubectl get svc my-app-svc
+            echo ""
+            echo "🐳 Registry tags:"
+            curl -s http://localhost:5000/v2/my-app/tags/list
+            echo ""
+            echo "💾 Disk:"
+            df -h / | tail -1
+
+            echo ""
+            echo "═══════════════════════════════════════"
+            echo "🧹 Step 7: Cleanup"
+            echo "═══════════════════════════════════════"
+            rm -f image.tar.gz
+
+            # Clean old Docker images (keep current tag + latest)
+            docker images --format '{{.Repository}}:{{.Tag}} {{.ID}}' | \
+              grep 'my-app' | \
+              grep -v ":${IMAGE_TAG}" | \
+              grep -v ":latest" | \
+              awk '{print $1}' | \
+              xargs -r docker rmi 2>/dev/null || true
+
+            docker image prune -f 2>/dev/null || true
+
+            # Registry garbage collect
+            docker exec docker-registry bin/registry garbage-collect \
+              /etc/docker/registry/config.yml --delete-untagged 2>/dev/null || true
+
+            echo "✅ Cleanup done"
           DEPLOY_SCRIPT
 
-          echo "🏁 Deploy step completed"
+          echo "🏁 Pipeline completed"
