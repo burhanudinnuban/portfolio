@@ -16,7 +16,6 @@ permissions:
   security-events: write
 
 jobs:
-
   # ═══════════════════════════════════════════
   # STAGE 1: SECRET SCANNING
   # ═══════════════════════════════════════════
@@ -68,9 +67,9 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ env.APP_NAME }}:${{ steps.meta.outputs.version }}
-          format: 'table'
-          exit-code: '1'
-          severity: 'CRITICAL'
+          format: "table"
+          exit-code: "1"
+          severity: "CRITICAL"
           ignore-unfixed: true
 
       # Save BOTH tags in tar
@@ -145,33 +144,33 @@ jobs:
             echo "🏷️  Step 2: Tag & Push to local registry"
             echo "═══════════════════════════════════════"
             docker tag my-app:${IMAGE_TAG} localhost:5000/my-app:${IMAGE_TAG}
-            docker tag my-app:${IMAGE_TAG} localhost:5000/my-app:latest
             docker push localhost:5000/my-app:${IMAGE_TAG}
-            docker push localhost:5000/my-app:latest
 
-            echo "✅ Registry tags:"
+            echo "✅ Registry:"
             curl -s http://localhost:5000/v2/my-app/tags/list
 
             echo ""
             echo "═══════════════════════════════════════"
-            echo "📝 Step 3: Update K8s manifest with new tag"
+            echo "🔄 Step 3: Import to K3s containerd"
+            echo "═══════════════════════════════════════"
+            docker save localhost:5000/my-app:${IMAGE_TAG} | sudo k3s ctr images import -
+            echo "✅ K3s images:"
+            sudo k3s crictl images | grep my-app
+
+            echo ""
+            echo "═══════════════════════════════════════"
+            echo "📝 Step 4: Update manifest with SPECIFIC tag"
             echo "═══════════════════════════════════════"
             sed -i "s|image:.*my-app.*|image: localhost:5000/my-app:${IMAGE_TAG}|g" k8s/deployment.yaml
-            echo "Updated image:"
+            echo "Updated:"
             grep "image:" k8s/deployment.yaml
 
             echo ""
             echo "═══════════════════════════════════════"
-            echo "☸️  Step 4: Apply K8s manifests"
+            echo "☸️  Step 5: Apply & Deploy"
             echo "═══════════════════════════════════════"
             kubectl apply -f k8s/deployment.yaml
             kubectl apply -f k8s/service.yaml
-
-            echo ""
-            echo "═══════════════════════════════════════"
-            echo "🔄 Step 5: Rolling Update"
-            echo "═══════════════════════════════════════"
-            kubectl rollout restart deployment/my-app
             kubectl rollout status deployment/my-app --timeout=120s
 
             echo ""
@@ -196,30 +195,18 @@ jobs:
               echo "❌ Deploy FAILED! Rolling back..."
               kubectl rollout undo deployment/my-app
               kubectl rollout status deployment/my-app --timeout=60s
-              echo ""
               echo "🔍 Pod logs:"
               kubectl logs -l app=my-app --tail=20 2>/dev/null || true
-              echo "🔍 Pod events:"
-              kubectl describe pods -l app=my-app | tail -20
               exit 1
             fi
 
             echo ""
             echo "═══════════════════════════════════════"
-            echo "📊 Step 7: Status Report"
+            echo "📊 Step 7: Status"
             echo "═══════════════════════════════════════"
-            echo ""
             echo "🏷️  Image: localhost:5000/my-app:${IMAGE_TAG}"
-            echo ""
-            echo "📋 Pods:"
             kubectl get pods -l app=my-app -o wide
-            echo ""
-            echo "🌐 Service:"
             kubectl get svc my-app-svc
-            echo ""
-            echo "🐳 Registry:"
-            curl -s http://localhost:5000/v2/my-app/tags/list
-            echo ""
 
             echo ""
             echo "═══════════════════════════════════════"
@@ -227,28 +214,17 @@ jobs:
             echo "═══════════════════════════════════════"
             rm -f image.tar.gz
 
-            # Clean old Docker images (keep current + latest)
             docker images --format '{{.Repository}}:{{.Tag}} {{.ID}}' | \
               grep 'my-app' | \
               grep -v ":${IMAGE_TAG}" | \
-              grep -v ":latest" | \
               awk '{print $1}' | \
               xargs -r docker rmi 2>/dev/null || true
 
             docker image prune -f 2>/dev/null || true
-
-            # Registry garbage collect
             docker exec docker-registry bin/registry garbage-collect \
               /etc/docker/registry/config.yml --delete-untagged 2>/dev/null || true
 
-            echo ""
-            echo "📊 Disk:"
-            df -h / | tail -1
-            echo ""
-            echo "🐳 Docker disk:"
-            docker system df 2>/dev/null || true
-            echo ""
-            echo "✅ Cleanup done"
+            echo "✅ Done"
           DEPLOY_SCRIPT
 
           echo "🏁 Pipeline completed"

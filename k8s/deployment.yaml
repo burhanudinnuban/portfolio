@@ -22,8 +22,8 @@ spec:
     spec:
       containers:
       - name: my-app
-        image: localhost:5000/my-app:latest
-        imagePullPolicy: Always
+        image: localhost:5000/my-app:IMAGE_TAG
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
         resources:
